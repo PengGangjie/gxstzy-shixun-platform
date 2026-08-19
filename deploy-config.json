@@ -1,0 +1,11 @@
+{
+  "repo_url": "https://github.com/PengGangjie/gxstzy-shixun-platform",
+  "service_name": "gxstzy-shixun",
+  "branch": "main",
+  "env_vars": {
+    "APP_MODE": "demo",
+    "LOG_LEVEL": "info",
+    "AUTH_REQUIRED": "true",
+    "PUBLIC_BASE_URL": "https://gxstzy-shixun.ai-builders.space"
+  }
+}

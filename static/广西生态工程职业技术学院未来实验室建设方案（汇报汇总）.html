@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广西生态工程职业技术学院未来实验室建设方案 — 汇报汇总</title>
+<style>
+/* ── 官网布局 token（gxstzy.cn/index.htm） ── */
+:root {
+  --primary: #008742;
+  --primary-dark: #006B35;
+  --primary-light: #008842;
+  --teal: #218483;
+  --bg-page: #f4f4f4;
+  --bg-light: #f1fff3;
+  --text: #323232;
+  --muted: #666666;
+  --border: #e5e5e5;
+  --web-w: 1200px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "SimHei", "宋体", sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.75;
+  background: var(--bg-page);
+}
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-light); }
+.clearfix::after { content: ""; display: table; clear: both; }
+.web { max-width: var(--web-w); margin: 0 auto; padding: 0 15px; }
+
+/* 顶部工具条（仿官网 .title） */
+.link-top {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #2d2d2d;
+}
+.link-top .web {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.link-top ul { list-style: none; display: flex; gap: 4px 0; flex-wrap: wrap; align-items: center; }
+.link-top li {
+  padding: 0 16px;
+  line-height: 48px;
+  font-size: 14px;
+  color: #2d2d2d;
+  position: relative;
+}
+.link-top li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 14px;
+  background: #ddd;
+}
+.link-top li:first-child { padding-left: 0; }
+.link-top a { color: #2d2d2d; font-size: 14px; }
+.link-top a:hover { color: var(--primary-light); }
+
+/* Logo 区（仿官网 div.logo + logo_bg.png） */
+.site-logo {
+  padding: 42px 0 36px;
+  background-color: var(--primary);
+  background-image: url("assets/logo_bg.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+}
+.site-logo .web {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.site-logo a.logo {
+  display: block;
+  flex: 1 1 520px;
+  min-width: 0;
+}
+.site-logo a.logo img {
+  display: block;
+  width: 100%;
+  max-width: 864px;
+  height: auto;
+}
+.site-logo .searchbox {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+.site-logo .searchbox .search-inner {
+  background: #fff;
+  width: 274px;
+  max-width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.site-logo .searchbox .text {
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  line-height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+  min-width: 0;
+}
+.site-logo .searchbox .submit {
+  width: 44px;
+  height: 40px;
+  flex-shrink: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: url("assets/search.png") no-repeat center center;
+  background-size: 18px 18px;
+}
+.doc-subbar {
+  background: rgba(0, 0, 0, .12);
+  border-top: 1px solid rgba(255, 255, 255, .15);
+}
+.doc-subbar .web {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  min-height: 44px;
+  color: #fff;
+  font-size: 14px;
+}
+.doc-subbar strong {
+  font-size: 16px;
+  font-weight: normal;
+  letter-spacing: .02em;
+}
+.doc-subbar span { opacity: .92; }
+
+/* 主导航 .navbar（仿官网 #005c2d） */
+.navbar {
+  background: #005c2d;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+.navbar .web { padding: 0 15px; }
+.navbar ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.navbar li a {
+  display: block;
+  padding: 0 14px;
+  height: 60px;
+  line-height: 60px;
+  color: #fff;
+  font-size: 15px;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.navbar li a:hover,
+.navbar li a.active {
+  background: #1b8650;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 内容区 .list_con */
+.list-con { padding: 24px 0 40px; }
+
+/* 面包屑 .dqwz */
+.breadcrumb {
+  background: #fff;
+  height: 56px;
+  line-height: 56px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #292929;
+  border-bottom: 1px solid var(--border);
+}
+.breadcrumb a { color: #292929; }
+.breadcrumb a:hover { color: var(--primary); }
+.breadcrumb span { color: var(--muted); margin: 0 6px; }
+
+/* 双栏：左导航 + 右正文（仿内页列表） */
+.layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.list-left {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.list-left .side-title {
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+  line-height: 48px;
+  font-size: 17px;
+}
+.list-left ul { list-style: none; }
+.list-left li a {
+  display: block;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text);
+  border-bottom: 1px dashed #eee;
+  border-left: 3px solid transparent;
+}
+.list-left li a:hover,
+.list-left li a.active {
+  color: var(--primary-light);
+  background: var(--bg-light);
+  border-left-color: var(--primary-light);
+  text-decoration: none;
+}
+.list-left li.side-group-title {
+  padding: 10px 16px 6px;
+  font-size: 12px;
+  color: var(--muted);
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+  letter-spacing: .05em;
+}
+.list-left li.side-group-title:not(:first-child) {
+  margin-top: 6px;
+  border-top: 2px solid var(--primary);
+}
+
+.future-lab-banner {
+  margin: 0 0 28px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
+  border: 1px solid #c8e6d0;
+  border-left: 5px solid var(--primary);
+  border-radius: 6px;
+}
+.future-lab-banner h2 {
+  font-size: 22px;
+  color: var(--primary);
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+.future-lab-banner p { margin: 0; color: var(--muted); font-size: 15px; }
+.future-lab-mini-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.future-lab-mini-nav a {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid #b8e6c8;
+  border-radius: 16px;
+  font-size: 13px;
+  background: #fff;
+}
+.future-lab-mini-nav a:hover {
+  background: var(--primary);
+  color: #fff !important;
+  border-color: var(--primary);
+}
+
+.college-index-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0 16px;
+  padding: 12px 14px;
+  background: var(--bg-light);
+  border: 1px solid #c8e6d0;
+  border-radius: 6px;
+}
+.college-index-toolbar input[type="search"] {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+}
+.college-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px;
+}
+.college-jump a {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.college-jump a:hover {
+  border-color: var(--primary);
+  background: var(--bg-light);
+}
+.college-block {
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.college-block > summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  background: #fafafa;
+  font-size: 15px;
+  color: #302f2e;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.college-block > summary::-webkit-details-marker { display: none; }
+.college-block > summary::after {
+  content: "+";
+  color: var(--primary);
+  font-size: 18px;
+  line-height: 1;
+}
+.college-block[open] > summary {
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border);
+}
+.college-block[open] > summary::after { content: "−"; }
+.college-block .college-meta {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: normal;
+}
+.college-block .college-body {
+  padding: 0;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.college-block table { margin: 0; font-size: 13px; }
+.college-block tr:hover { background: var(--bg-light); }
+.open-link {
+  display: inline-block;
+  padding: 2px 10px;
+  background: var(--primary);
+  color: #fff !important;
+  border-radius: 3px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.open-link:hover { background: var(--primary-dark); color: #fff !important; }
+.ext-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  background: #eee;
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.index-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 14px; }
+
+.list-right {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  padding: 24px 28px 32px;
+  border: 1px solid var(--border);
+}
+
+/* 文章标题区 */
+.article-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+.article-head h1 {
+  font-size: 26px;
+  color: #302f2e;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.article-meta {
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.article-meta .tag {
+  display: inline-block;
+  padding: 2px 10px;
+  background: var(--bg-light);
+  color: var(--primary);
+  border: 1px solid #b8e6c8;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* 章节：仿 .tab_bar 绿色下划线标题 */
+.section {
+  margin-bottom: 36px;
+  scroll-margin-top: 70px;
+}
+.section-title {
+  font-size: 20px;
+  color: var(--primary-light);
+  font-weight: normal;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  border-bottom: 4px solid var(--primary-light);
+}
+.section h3 {
+  font-size: 16px;
+  color: #302f2e;
+  margin: 18px 0 8px;
+  font-weight: bold;
+}
+.section p { text-align: justify; margin-bottom: 10px; }
+.section ul, .section ol { margin: 8px 0 12px 20px; }
+.section li {
+  margin-bottom: 6px;
+  padding: 4px 0;
+  list-style: disc;
+}
+.section ul.news-list { list-style: none; margin-left: 0; }
+.section ul.news-list li {
+  padding: 8px 0 8px 15px;
+  border-bottom: 1px dashed #eee;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='3' cy='3' r='3' fill='%23008742'/%3E%3C/svg%3E") no-repeat 0 16px;
+  list-style: none;
+}
+.section ul.news-list li:hover { color: var(--primary-light); }
+
+.highlight-box {
+  background: var(--bg-light);
+  border: 1px solid #c8e6d0;
+  border-left: 4px solid var(--primary);
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.grid-card {
+  border: 1px solid var(--border);
+  padding: 14px;
+  background: #fafafa;
+  border-radius: 4px;
+}
+.grid-card h4 {
+  color: var(--primary-light);
+  font-size: 15px;
+  margin-bottom: 6px;
+  font-weight: normal;
+}
+.grid-card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+figure { margin: 20px 0; text-align: center; }
+figure img {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+th { background: #f0f0f0; color: #302f2e; font-weight: normal; }
+tr:nth-child(even) { background: #fafafa; }
+td.num { text-align: center; color: var(--primary-light); font-weight: bold; white-space: nowrap; }
+
+.file-list { list-style: none; margin: 0; }
+.file-list li {
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.file-list .fname { font-weight: bold; min-width: 200px; color: #302f2e; }
+.file-list .desc { color: var(--muted); font-size: 14px; flex: 1; }
+
+/* 基线数据卡片 */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 16px 0 8px;
+}
+.stat-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 14px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.stat-card.primary { border-top: 3px solid var(--primary); background: var(--bg-light); }
+.stat-card.accent { border-top: 3px solid #d51917; }
+.stat-num { font-size: 28px; color: var(--primary-light); font-weight: bold; line-height: 1.2; }
+.stat-card.accent .stat-num { color: #d51917; }
+.stat-split { font-size: 18px; color: var(--muted); margin: 0 2px; }
+.stat-label { font-size: 14px; color: #302f2e; margin-top: 6px; }
+.stat-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.stat-note { font-size: 14px; color: var(--muted); margin: 8px 0 16px; }
+
+/* 资料检索门户 */
+.portal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0 16px;
+  padding: 14px;
+  background: var(--bg-light);
+  border: 1px solid #c8e6d0;
+  border-radius: 6px;
+}
+.portal-toolbar input[type="search"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+}
+.portal-toolbar select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 140px;
+}
+.portal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.portal-tabs button {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+}
+.portal-tabs button.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+.portal-meta { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.portal-results { max-height: 520px; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; }
+.portal-results table { margin: 0; font-size: 13px; }
+.portal-results tr:hover { background: var(--bg-light); }
+.portal-results .open-link {
+  display: inline-block;
+  padding: 2px 10px;
+  background: var(--primary);
+  color: #fff !important;
+  border-radius: 3px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.portal-results .open-link:hover { background: var(--primary-dark); color: #fff !important; }
+.portal-results .ext-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  background: #eee;
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.portal-empty { padding: 24px; text-align: center; color: var(--muted); }
+
+/* 底部 .foot + .bq */
+.foot {
+  background: var(--teal);
+  color: #fff;
+  padding: 28px 0;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.foot .web {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+.foot img { max-height: 50px; opacity: .95; }
+.foot p { margin: 0; opacity: .92; }
+.bq {
+  background: #1a1a1a;
+  color: #999;
+  font-size: 13px;
+  padding: 14px 0;
+}
+.bq .web {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .list-left { width: 100%; }
+  .list-left ul { display: flex; flex-wrap: wrap; }
+  .list-left li { flex: 1 1 45%; }
+  .navbar ul { overflow-x: auto; flex-wrap: nowrap; }
+  .site-logo { padding: 24px 0 20px; }
+  .site-logo .web { flex-direction: column; align-items: flex-start; }
+  .site-logo .searchbox { width: 100%; }
+  .site-logo .searchbox .search-inner { width: 100%; }
+  .doc-subbar .web { flex-direction: column; align-items: flex-start; padding: 10px 0; }
+}
+@media print {
+  .navbar, .list-left, .link-top { display: none; }
+  .list-right { border: none; padding: 0; }
+  .section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div id="file-proto-hint" hidden style="display:none;background:#fff3cd;color:#664d03;border-bottom:1px solid #ffecb5;padding:10px 16px;font-size:14px;line-height:1.5;text-align:center">
+  当前为 <code>file://</code> 本地打开，部分浏览器会白屏或无法加载模块数据。
+  请双击同目录 <strong>打开平台.bat</strong>（推荐），经本地 HTTP 访问。
+</div>
+<script>
+(function(){
+  if(location.protocol!=='file:') return;
+  var el=document.getElementById('file-proto-hint');
+  if(el){el.hidden=false;el.style.display='block';}
+})();
+</script>
+<div class="body" id="top">
+
+  <!-- 顶部工具条 -->
+  <div class="link-top title">
+    <div class="web clearfix">
+      <ul>
+        <li><a href="https://www.gxstzy.cn/index.htm" target="_blank" rel="noopener">学校首页</a></li>
+        <li><a href="http://www.gxstzy.cn/jwc" target="_blank" rel="noopener">教务处</a></li>
+        <li>校训：树木树人，知行合一</li>
+        <li>学校精神：咬定青山不放松</li>
+      </ul>
+      <ul>
+        <li>汇报单位：教务处</li>
+        <li>2026年7月</li>
+        <li>校长办公会汇报稿</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Logo Banner（仿官网 gxstzy.cn） -->
+  <div class="site-logo logo">
+    <div class="web">
+      <a href="https://www.gxstzy.cn/index.htm" class="logo" target="_blank" rel="noopener" title="广西生态工程职业技术学院">
+        <img src="assets/logo.png" width="864" height="74" alt="广西生态工程职业技术学院">
+      </a>
+      <div class="searchbox">
+        <form id="banner-search-form" action="#yishi-index">
+          <div class="search-inner">
+            <input type="search" id="banner-search" class="text" placeholder="请输入关键字" autocomplete="off">
+            <button type="submit" class="submit" aria-label="搜索"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="doc-subbar">
+      <div class="web">
+        <strong>广西生态工程职业技术学院未来实验室建设方案</strong>
+        <span>未来实验室 · 智慧管理平台建设方案 · 2026年7月 · 页面版本 v2.1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主导航 -->
+  <nav class="navbar">
+    <div class="web">
+      <ul class="clearfix"><li><a href="#summary" data-section="summary">摘要</a></li><li><a href="#baseline" data-section="baseline">实训室基线</a></li><li><a href="#yishi-index" data-section="yishi-index">一室一表</a></li><li><a href="#docs-index" data-section="docs-index">迎检文件</a></li><li><a href="#future-lab" data-section="future-lab">方案总览</a></li><li><a href="#background" data-section="background">建设背景</a></li><li><a href="#idea" data-section="idea">总体思路</a></li><li><a href="#arch" data-section="arch">系统架构</a></li><li><a href="#content" data-section="content">建设内容</a></li><li><a href="#plan" data-section="plan">实施计划</a></li><li><a href="#budget" data-section="budget">投资估算</a></li><li><a href="#effect" data-section="effect">预期成效</a></li><li><a href="#files" data-section="files">交付归档</a></li></ul>
+    </div>
+  </nav>
+
+  <!-- 主内容 -->
+  <div class="list-con">
+    <div class="web">
+      <div class="breadcrumb">
+        <a href="https://www.gxstzy.cn/index.htm">首页</a><span>/</span>
+        <a href="#">教务处</a><span>/</span>
+        未来实验室建设方案
+      </div>
+
+      <div class="layout">
+        <aside class="list-left">
+          <div class="side-title">方案导航</div>
+          <ul><li class="side-group-title">迎检资料</li><li><a href="#summary" data-section="summary">摘要</a></li><li><a href="#baseline" data-section="baseline">实训室基线</a></li><li><a href="#yishi-index" data-section="yishi-index">一室一表</a></li><li><a href="#docs-index" data-section="docs-index">迎检文件</a></li><li class="side-group-title">未来实训室</li><li><a href="#future-lab" data-section="future-lab">方案总览</a></li><li><a href="#background" data-section="background">建设背景</a></li><li><a href="#idea" data-section="idea">总体思路</a></li><li><a href="#arch" data-section="arch">系统架构</a></li><li><a href="#content" data-section="content">建设内容</a></li><li><a href="#plan" data-section="plan">实施计划</a></li><li><a href="#budget" data-section="budget">投资估算</a></li><li><a href="#effect" data-section="effect">预期成效</a></li><li><a href="#files" data-section="files">交付归档</a></li></ul>
+        </aside>
+
+        <main class="list-right">
+          <header class="article-head">
+            <h1>广西生态工程职业技术学院未来实验室建设方案</h1>
+            <div class="article-meta">
+              <span>编制单位：教务处</span>
+              <span>编制日期：2026年7月</span>
+              <span class="tag">自主建设</span>
+              <span class="tag">730—1020 万</span>
+            </div>
+          </header>
+
+          <article class="section" id="summary">
+            <h2 class="section-title">摘要</h2>
+            <p>为落实国家职业教育数字化战略和广西高职办学能力评价要求，广西生态工程职业技术学院拟<strong>自主建设</strong>未来实验室智慧治理体系。本项目以「树木树人，知行合一」校训精神为引领，构建校级实训室智慧管理统一平台，配套物联终端、HSE 安全实操中心及虚拟仿真接口，实现实训室<strong>场所可管、过程可视、安全可控、成效可评</strong>。</p>
+            <div class="highlight-box">
+              <strong>建设路径：</strong>校级平台由学校自主组织建设；博思特、润尼尔等市场方案<strong>仅作功能参考</strong>。分四阶段（2026—2029），三年总投资 <strong>730—1020 万元</strong>。
+            </div>
+            <p>
+              <span class="tag">一平台</span>
+              <span class="tag">两中心</span>
+              <span class="tag">三联动</span>
+              <span class="tag">四可</span>
+            </p>
+          </article>
+
+          <article class="section" id="baseline">
+            <h2 class="section-title">实训室基线数据（2026年7月迎检）</h2>
+            
+    <div class="stat-grid">
+      <div class="stat-card primary"><div class="stat-num">354</div><div class="stat-label">台账实训室（间）</div><div class="stat-sub">10 个二级学院</div></div>
+      <div class="stat-card"><div class="stat-num">283<span class="stat-split">/</span>71</div><div class="stat-label">西校区 / 东校区</div><div class="stat-sub">西密东疏</div></div>
+      <div class="stat-card"><div class="stat-num">293</div><div class="stat-label">一室一表建档</div><div class="stat-sub">迎检逐室档案</div></div>
+      <div class="stat-card accent"><div class="stat-num">8</div><div class="stat-label">Ⅰ—Ⅱ级风险室</div><div class="stat-sub">优先物联/准入</div></div>
+    </div>
+    <p class="stat-note">学院数量前三：<strong>汽信66 · 建工48 · 经贸45</strong>。数据来源：2026年7月迎检台账与一室一表汇总。</p>
+    <figure>
+      <img src="assets/fig_college_labs.png" alt="各学院实训室分布">
+      <figcaption>图0 各二级学院实训室数量分布（2026年7月台账）</figcaption>
+    </figure>
+    
+            <div class="highlight-box">
+              <strong>数据出处：</strong>《学校实训室分级分类管理台账-合并》·《00713教务处打印上交材料》·《一室一表汇总》·《实验室安全检查迎检工作汇报 v4.0》
+            </div>
+            <p><a href="#yishi-index">↓ 按学院浏览「一室一表」</a> · <a href="#docs-index">按学院浏览迎检文件</a></p>
+          </article>
+
+          <article class="section" id="yishi-index">
+            <h2 class="section-title">一室一表（按学院索引）</h2>
+            <p>2026年7月迎检「一室一表汇总」共 <strong>293</strong> 间，按学院顺序（1林→10通识）分组展示，点击文件名可直接打开 PDF/Word 原件。</p>
+            <div class="college-index-toolbar">
+              <input type="search" id="yishi-q" placeholder="筛选房间号、实训室名称…" autocomplete="off">
+              <span class="ext-tag" id="yishi-meta">加载中…</span>
+            </div>
+            <nav class="college-jump" id="yishi-jump" aria-label="一室一表学院快捷跳转"></nav>
+            <div id="yishi-college-index"></div>
+          </article>
+
+          <article class="section" id="docs-index">
+            <h2 class="section-title">迎检文件（按学院索引）</h2>
+            <p>规章制度、学院迎检汇编、台账与汇报材料。校级/教务处文件置顶，其后按 10 个二级学院顺序排列。</p>
+            <div class="college-index-toolbar">
+              <input type="search" id="docs-q" placeholder="筛选文件名、分类…" autocomplete="off">
+              <span class="ext-tag" id="docs-meta">加载中…</span>
+            </div>
+            <nav class="college-jump" id="docs-jump" aria-label="迎检文件学院快捷跳转"></nav>
+            <div id="docs-college-index"></div>
+          </article>
+
+          <article class="section" id="future-lab">
+            <div class="future-lab-banner">
+              <h2>未来实训室 · 智慧管理平台建设方案</h2>
+              <p>校级自主建设方案（2026—2029），以下各章为校长办公会汇报正文：建设背景、总体思路、系统架构、建设内容、实施计划、投资估算与预期成效。</p>
+              <div class="future-lab-mini-nav">
+                <a href="#background">建设背景</a>
+                <a href="#idea">总体思路</a>
+                <a href="#arch">系统架构</a>
+                <a href="#content">建设内容</a>
+                <a href="#plan">实施计划</a>
+                <a href="#budget">投资估算</a>
+                <a href="#effect">预期成效</a>
+                <a href="#files">交付归档</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="section" id="background">
+            <h2 class="section-title">一、建设背景与现状问题</h2>
+            <h3>1.1 政策驱动</h3>
+            <ul class="news-list">
+              <li>广西高职办学能力评价（2025—2030）：工农林类生均设备值≥4000元/生</li>
+              <li>2026年7月自治区教育厅实验室安全实地检查迎检（11项自查）</li>
+              <li>教育部《高等学校实验室安全规范》及本校《实训室安全管理总则》（2026）</li>
+              <li>6205 电工共享实训室、虚拟仿真中心等重点项目同步推进</li>
+            </ul>
+            <h3>1.2 现状与痛点</h3>
+            <ul class="news-list">
+              <li>354 间实训室已纳入分级台账，但检查/领用/整改多靠 Excel 汇总</li>
+              <li>缺乏校级统一平台与「一室一码」在线检索</li>
+              <li>293 间一室一表档案分散于文件夹，检索不便</li>
+              <li>监测指标靠人工统计，决策支撑不足</li>
+            </ul>
+          </article>
+
+          <article class="section" id="idea">
+            <h2 class="section-title">二、总体思路与建设目标</h2>
+            <div class="grid4">
+              <div class="grid-card"><h4>一平台</h4><p>校级智慧管理统一平台（自主建设）</p></div>
+              <div class="grid-card"><h4>两中心</h4><p>业务管理 + 数据决策</p></div>
+              <div class="grid-card"><h4>三联动</h4><p>教务/国资 · 物联 · HSE</p></div>
+              <div class="grid-card"><h4>四可</h4><p>可管 · 可视 · 可控 · 可评</p></div>
+            </div>
+            <h3>里程碑（2026—2029）</h3>
+            <ul class="news-list">
+              <li><strong>2027.06</strong> — 平台底座上线，2 个试点学院，替纸≥80%</li>
+              <li><strong>2027.12</strong> — 推广≥60% 实训室，共享室开放预约</li>
+              <li><strong>2028.06</strong> — HSE 中心启用，物联≥25 间</li>
+              <li><strong>2029.06</strong> — 全校覆盖，监测自动汇总</li>
+            </ul>
+          </article>
+
+          <article class="section" id="arch">
+            <h2 class="section-title">三、系统架构</h2>
+            <figure>
+              <img src="assets/fig_business.png" alt="总体业务架构图">
+              <figcaption>图1 总体业务架构</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/fig_architecture.png" alt="系统逻辑架构图">
+              <figcaption>图2 系统逻辑架构（自主建设）</figcaption>
+            </figure>
+            <p>M1 基础数据 · M2 实践教学 · M3 开放预约 · M4 设备维护 · M5 耗材危化 · M6 安全检查 · M7 安全准入 · M8 对外服务 · M9 数据报表 · M10 物联/仿真接口</p>
+          </article>
+
+          <article class="section" id="content">
+            <h2 class="section-title">四、主要建设内容</h2>
+            <h3>4.1 校级智慧管理平台</h3>
+            <ul class="news-list">
+              <li>基础数据：学校—学院—楼栋—房间—工位—设备—危险源，一室一码</li>
+              <li>实践教学：开课/结课、课表同步、过程监管</li>
+              <li>安全检查：15 项日检电子化，校院双确认闭环</li>
+              <li>安全准入：在线学习/考试/发证，与门禁联动</li>
+            </ul>
+            <h3>4.2 物联与 HSE 中心</h3>
+            <ul class="news-list">
+              <li>智能门禁、电子门牌、环境传感（约 25 间高风险室）</li>
+              <li>HSE 安全实操中心（120—200㎡）</li>
+            </ul>
+          </article>
+
+          <article class="section" id="plan">
+            <h2 class="section-title">五、实施路径</h2>
+            <figure>
+              <img src="assets/fig_gantt.png" alt="甘特图">
+              <figcaption>图3 四阶段实施进度（2026—2029）</figcaption>
+            </figure>
+            <ul class="news-list">
+              <li><strong>阶段0</strong> 2026.Q3 立项摸底</li>
+              <li><strong>阶段1</strong> 2026.Q4—2027.Q2 平台底座+安全闭环</li>
+              <li><strong>阶段2</strong> 2027.Q3—Q4 教学+开放共享</li>
+              <li><strong>阶段3</strong> 2028.Q1—Q2 物联+HSE 中心</li>
+              <li><strong>阶段4</strong> 2028.Q3—2029.Q2 仿真+驾驶舱</li>
+            </ul>
+          </article>
+
+          <article class="section" id="budget">
+            <h2 class="section-title">六、投资估算（万元）</h2>
+            <h3>分阶段</h3>
+            <table>
+              <thead><tr><th>阶段</th><th>投资区间</th></tr></thead>
+              <tbody><tr><td>第一阶段（2026.Q3—2027.Q2）平台底座与安全闭环</td><td class='num'>280—380</td></tr>
+<tr><td>第二阶段（2027.Q3—2027.Q4）教学业务与开放共享</td><td class='num'>120—160</td></tr>
+<tr><td>第三阶段（2028.Q1—2028.Q2）物联接入与 HSE 中心</td><td class='num'>180—260</td></tr>
+<tr><td>第四阶段（2028.Q3—2029.Q2）虚实融合与决策驾驶舱</td><td class='num'>150—220</td></tr>
+<tr><td>三年建设合计</td><td class='num'>730—1020</td></tr>
+<tr><td>建成后年度运维（软件+硬件+人员）</td><td class='num'>35—50/年</td></tr></tbody>
+            </table>
+            <h3>分项结构</h3>
+            <table>
+              <thead><tr><th>项目</th><th>区间</th><th>说明</th></tr></thead>
+              <tbody><tr><td>一、软件平台（自主建设）</td><td class='num'>320—450</td><td>含需求、设计、研发、测试、部署、等保测评</td></tr>
+<tr><td>  1.1 基础数据与门户模块</td><td class='num'>35—50</td><td>组织架构、实训室台账、一室一码、权限体系</td></tr>
+<tr><td>  1.2 实践教学管理模块</td><td class='num'>45—65</td><td>开课/结课、课表同步、过程监管、日志成绩</td></tr>
+<tr><td>  1.3 开放预约与考勤模块</td><td class='num'>30—45</td><td>时段规则、工位预约、签到、使用率统计</td></tr>
+<tr><td>  1.4 设备维护与耗材模块</td><td class='num'>40—55</td><td>报修维保、领用审批、危化品全周期</td></tr>
+<tr><td>  1.5 安全检查与整改闭环</td><td class='num'>35—50</td><td>日/周/月检电子化、隐患销号、校院双确认</td></tr>
+<tr><td>  1.6 安全准入与培训模块</td><td class='num'>25—40</td><td>在线学习/考试/发证、与门禁联动</td></tr>
+<tr><td>  1.7 数据报表与驾驶舱</td><td class='num'>30—45</td><td>教育部基表、监测指标、可视化大屏</td></tr>
+<tr><td>  1.8 系统集成（教务/国资/一卡通）</td><td class='num'>25—40</td><td>统一身份认证、数据交换中间件</td></tr>
+<tr><td>  1.9 移动端（微信/小程序）</td><td class='num'>20—30</td><td>预约、签到、报修、通知</td></tr>
+<tr><td>  1.10 服务器与网络安全</td><td class='num'>25—40</td><td>私有云/校内服务器、备份、等保二级</td></tr>
+<tr><td>  1.11 实施培训与项目管理</td><td class='num'>20—30</td><td>驻场实施、全员培训、文档交付</td></tr>
+<tr><td>二、物联与智能终端</td><td class='num'>180—280</td><td>分批次建设，非一次性全覆盖</td></tr>
+<tr><td>  2.1 智能门禁（约25间高风险室）</td><td class='num'>50—75</td><td>人脸/刷卡/二维码，与课表预约联动</td></tr>
+<tr><td>  2.2 电子门牌/智慧班牌（约20间）</td><td class='num'>40—60</td><td>课表、安全信息、预约状态展示</td></tr>
+<tr><td>  2.3 环境传感与告警（约15间）</td><td class='num'>25—40</td><td>温湿度、烟雾、可燃气体</td></tr>
+<tr><td>  2.4 视频监控接入与存储</td><td class='num'>30—45</td><td>重点实训室、过程留痕接口</td></tr>
+<tr><td>  2.5 智能控电（约10间计算机/电工类）</td><td class='num'>20—35</td><td>工位电源、预约联动</td></tr>
+<tr><td>  2.6 网络与弱电改造</td><td class='num'>15—25</td><td>信息点、交换机、机房</td></tr>
+<tr><td>三、HSE 安全实操中心</td><td class='num'>100—180</td><td>化学/PPE/应急实操线下载体</td></tr>
+<tr><td>  3.1 场地改造与装修</td><td class='num'>30—50</td><td>约120—200㎡，含通风、给排水、消防</td></tr>
+<tr><td>  3.2 家具与示范设备</td><td class='num'>25—45</td><td>通风柜示范、洗眼喷淋、PPE 训练区</td></tr>
+<tr><td>  3.3 应急与培训器材</td><td class='num'>15—30</td><td>消防、危化应急、食品卫生示范</td></tr>
+<tr><td>  3.4 课程资源与运营</td><td class='num'>10—20</td><td>安全课程体系、年度培训计划</td></tr>
+<tr><td>  3.5 平台对接与信息化</td><td class='num'>20—35</td><td>与准入考试、巡检模块深度集成</td></tr>
+<tr><td>四、虚拟仿真与虚实融合（分期）</td><td class='num'>130—210</td><td>参考行业方案，按专业包采购/共建</td></tr>
+<tr><td>  4.1 平台接口与账号互通</td><td class='num'>15—25</td><td>仿真学时计入实训档案</td></tr>
+<tr><td>  4.2 电工电子/智能制造仿真资源包</td><td class='num'>50—80</td><td>6205 共享实训室等</td></tr>
+<tr><td>  4.3 林业/生态特色仿真资源</td><td class='num'>40—60</td><td>本校优势专业定制</td></tr>
+<tr><td>  4.4 AR/远程指导试点（可选）</td><td class='num'>25—45</td><td>1—2 个专业试点</td></tr>
+<tr><td>五、不可预见费（约5%）</td><td class='num'>35—55</td><td>政策调整、需求变更、物价波动</td></tr>
+<tr><td>建设总投资（三年）</td><td class='num'>730—1020</td><td>分年度预算，以立项批复为准</td></tr></tbody>
+            </table>
+          </article>
+
+          <article class="section" id="effect">
+            <h2 class="section-title">七、预期成效与下一步</h2>
+            <ul class="news-list">
+              <li>安全：检查整改闭环 100%</li>
+              <li>教学：实训过程 100% 可追溯</li>
+              <li>数据：基表填报工时减少 ≥60%</li>
+            </ul>
+            <h3>下一步建议</h3>
+            <ol>
+              <li>审议方案，批准立项与第一阶段预算</li>
+              <li>成立建设项目组，信通中心技术牵头</li>
+              <li>6205 电工室施工预留信息化点位</li>
+              <li>2026.Q4 启动平台开发招标</li>
+            </ol>
+          </article>
+
+          <article class="section" id="files">
+            <h2 class="section-title">交付文件归档</h2>
+            <p>完整清单见 <a href="README.md">README.md</a> · 资料索引 <a href="lab_docs_index.json">lab_docs_index.json</a></p>
+            <ul class="file-list">
+              <li><span class="fname">完整正文.docx</span><span class="desc">九章正文 + 迎检基线 + 附表</span></li>
+              <li><span class="fname">汇报PPT-品牌化.pptx</span><span class="desc">校长办公会现场汇报</span></li>
+              <li><span class="fname">汇报汇总.html</span><span class="desc">本页面（基线 + 一室一表/迎检文件学院索引 + 未来实训室方案）</span></li>
+              <li><span class="fname">单间实训室SOP.docx</span><span class="desc">标准操作规程</span></li>
+            </ul>
+          </article>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="foot">
+    <div class="web clearfix">
+      <div>
+        <img src="assets/foot_logo.png" alt="校徽">
+      </div>
+      <div>
+        <p>广西生态工程职业技术学院 · 教务处</p>
+        <p>校训：树木树人，知行合一</p>
+        <p>学校办公室：0772-2725030</p>
+      </div>
+    </div>
+  </footer>
+  <div class="bq">
+    <div class="web clearfix">
+      <p>版权所有 © 广西生态工程职业技术学院</p>
+      <p>2026年7月 · 未来实验室建设方案汇报汇总</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('[data-section]');
+  const sections = [...links].map(a => document.getElementById(a.dataset.section)).filter(Boolean);
+  function setActive(id) {
+    links.forEach(a => a.classList.toggle('active', a.dataset.section === id));
+  }
+  links.forEach(a => a.addEventListener('click', () => setActive(a.dataset.section)));
+  const obs = new IntersectionObserver(entries => {
+    entries.filter(e => e.isIntersecting).forEach(e => setActive(e.target.id));
+  }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+  if (sections.length) setActive(sections[0].id);
+})();
+
+(function() {
+  const dataEl = document.getElementById('lab-docs-data');
+  if (!dataEl) return;
+  let DATA;
+  try { DATA = JSON.parse(dataEl.textContent); } catch (e) { return; }
+
+  const COLLEGE_ORDER = DATA.college_order || ["林学院", "经贸学院", "园林学院", "设计学院", "旅游学院", "汽信学院", "建工学院", "环保学院", "智造学院", "通识学院"];
+
+  function fileLink(f, label) {
+    const text = label || `${f.doc_type || f.title || '打开'}.${f.ext || ''}`.replace(/\.\.$/, '.');
+    return `<a class="open-link" href="${f.href}" target="_blank" rel="noopener" title="${f.path || ''}">${text}</a>`;
+  }
+
+  function fileLinks(files, label) {
+    if (!files || !files.length) return '<span class="ext-tag">无附件</span>';
+    return files.map(f => fileLink(f, label)).join(' ');
+  }
+
+  function buildJump(containerId, prefix, colleges) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = colleges.map((c, i) =>
+      `<a href="#${prefix}-${i + 1}">${i + 1}.${c.replace('学院', '')}</a>`
+    ).join('');
+  }
+
+  function renderYishiIndex() {
+    const root = document.getElementById('yishi-college-index');
+    const meta = document.getElementById('yishi-meta');
+    const qEl = document.getElementById('yishi-q');
+    if (!root) return;
+
+    const q = () => (qEl && qEl.value || '').trim().toLowerCase();
+    const folders = DATA.yishi_folders || [];
+
+    function render() {
+      const kw = q();
+      root.innerHTML = '';
+      let totalShown = 0;
+      let blockCount = 0;
+
+      COLLEGE_ORDER.forEach((college, idx) => {
+        let rooms = folders.filter(r => r.college === college);
+        rooms.sort((a, b) => (a.room_no || '9999').localeCompare(b.room_no || '9999') || (a.name || '').localeCompare(b.name || ''));
+        if (kw) {
+          rooms = rooms.filter(r => [r.name, r.room_no, r.folder, college].join(' ').toLowerCase().includes(kw));
+        }
+        if (!rooms.length) return;
+        blockCount += 1;
+        totalShown += rooms.length;
+
+        const details = document.createElement('details');
+        details.className = 'college-block';
+        details.id = `yishi-${idx + 1}`;
+        if (idx < 2 && !kw) details.open = true;
+
+        const summary = document.createElement('summary');
+        summary.innerHTML = `<span>${idx + 1}. ${college}</span><span class="college-meta">${rooms.length} 间</span>`;
+        details.appendChild(summary);
+
+        const body = document.createElement('div');
+        body.className = 'college-body';
+        const table = document.createElement('table');
+        table.innerHTML = '<thead><tr><th style="width:12%">房间号</th><th>实训室名称</th><th style="width:18%">附件</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+        rooms.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${r.room_no || '—'}</td><td>${r.name || r.folder || ''}</td><td>${fileLinks(r.files)}</td>`;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        body.appendChild(table);
+        details.appendChild(body);
+        root.appendChild(details);
+      });
+
+      if (!blockCount) {
+        root.innerHTML = '<div class="index-empty">无匹配的一室一表记录</div>';
+      }
+      if (meta) meta.textContent = `显示 ${totalShown} 间 · ${blockCount} 个学院`;
+    }
+
+    if (qEl) qEl.addEventListener('input', render);
+    buildJump('yishi-jump', 'yishi', COLLEGE_ORDER.filter(c => folders.some(r => r.college === c)));
+    render();
+  }
+
+  function renderDocsIndex() {
+    const root = document.getElementById('docs-college-index');
+    const meta = document.getElementById('docs-meta');
+    const qEl = document.getElementById('docs-q');
+    if (!root) return;
+
+    const regs = DATA.regulations || [];
+    const q = () => (qEl && qEl.value || '').trim().toLowerCase();
+
+    function groups() {
+      const byCollege = {};
+      const school = [];
+      regs.forEach(r => {
+        const c = r.college || '全校/教务处';
+        if (COLLEGE_ORDER.includes(c)) {
+          (byCollege[c] = byCollege[c] || []).push(r);
+        } else {
+          school.push(r);
+        }
+      });
+      return { byCollege, school };
+    }
+
+    function render() {
+      const kw = q();
+      const { byCollege, school } = groups();
+      root.innerHTML = '';
+      let totalShown = 0;
+      let blockCount = 0;
+
+      function addBlock(id, title, items, openDefault) {
+        let list = items.slice();
+        if (kw) {
+          list = list.filter(r => [r.title, r.category, r.college, r.source].join(' ').toLowerCase().includes(kw));
+        }
+        if (!list.length) return;
+        blockCount += 1;
+        totalShown += list.length;
+
+        const details = document.createElement('details');
+        details.className = 'college-block';
+        details.id = id;
+        if (openDefault && !kw) details.open = true;
+
+        const summary = document.createElement('summary');
+        summary.innerHTML = `<span>${title}</span><span class="college-meta">${list.length} 份</span>`;
+        details.appendChild(summary);
+
+        const body = document.createElement('div');
+        body.className = 'college-body';
+        const table = document.createElement('table');
+        table.innerHTML = '<thead><tr><th style="width:42%">文件名</th><th style="width:18%">分类</th><th style="width:14%">格式</th><th>打开</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+        list.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${r.title}</td><td>${r.category || ''}</td><td><span class="ext-tag">${(r.ext || '').toUpperCase()}</span></td><td>${fileLink(r, '打开')}</td>`;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        body.appendChild(table);
+        details.appendChild(body);
+        root.appendChild(details);
+      }
+
+      addBlock('docs-0', '全校 / 教务处', school, true);
+
+      COLLEGE_ORDER.forEach((college, idx) => {
+        addBlock(`docs-${idx + 1}`, `${idx + 1}. ${college}`, byCollege[college] || [], idx === 0 && !school.length);
+      });
+
+      if (!blockCount) {
+        root.innerHTML = '<div class="index-empty">无匹配的迎检文件</div>';
+      }
+      if (meta) meta.textContent = `显示 ${totalShown} 份 · ${blockCount} 组`;
+    }
+
+    if (qEl) qEl.addEventListener('input', render);
+    const activeColleges = COLLEGE_ORDER.filter(c => regs.some(r => r.college === c));
+    const jump = document.getElementById('docs-jump');
+    if (jump) {
+      let html = '<a href="#docs-0">校</a>';
+      activeColleges.forEach((c, i) => {
+        const idx = COLLEGE_ORDER.indexOf(c) + 1;
+        html += `<a href="#docs-${idx}">${idx}.${c.replace('学院', '')}</a>`;
+      });
+      jump.innerHTML = html;
+    }
+    render();
+  }
+
+  renderYishiIndex();
+  renderDocsIndex();
+
+  const bannerForm = document.getElementById('banner-search-form');
+  const bannerInput = document.getElementById('banner-search');
+  if (bannerForm && bannerInput) {
+    bannerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = bannerInput.value.trim();
+      const yishiQ = document.getElementById('yishi-q');
+      const docsQ = document.getElementById('docs-q');
+      if (yishiQ) {
+        yishiQ.value = q;
+        yishiQ.dispatchEvent(new Event('input'));
+      }
+      if (docsQ) {
+        docsQ.value = q;
+        docsQ.dispatchEvent(new Event('input'));
+      }
+      const target = document.getElementById('yishi-index');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+})();
+</script>
+</body>
+</html>

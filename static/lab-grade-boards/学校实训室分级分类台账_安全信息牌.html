@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>学校实训室分级分类管理台账 · 安全信息牌</title>
+<style>
+:root{
+  --school:#008742; --deep:#006B35; --soft:#f1fff3;
+  --bg:#f4f4f4; --card:#fff; --ink:#1a1a1a; --muted:#666;
+  --red:#c62828; --orange:#ef6c00; --yellow:#f9a825; --blue:#1565c0; --line:#e5e5e5;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--school),var(--deep));color:#fff;padding:16px 20px;position:sticky;top:0;z-index:30}
+header h1{margin:0;font-size:1.2rem}
+header p{margin:4px 0 0;opacity:.92;font-size:.82rem}
+.tabs{display:flex;gap:8px;padding:12px 16px 0;max-width:1600px;margin:0 auto}
+.tabs button{border:0;background:#fff;padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;font:inherit;color:var(--muted);box-shadow:0 -1px 0 var(--line) inset}
+.tabs button.active{background:var(--soft);color:var(--deep);font-weight:700}
+.main{max-width:1600px;margin:0 auto;padding:0 16px 24px}
+.panel{background:var(--card);border-radius:0 12px 12px 12px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:16px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.stat{background:var(--soft);border:1px solid #d5ecd9;border-radius:10px;padding:10px 14px;min-width:110px}
+.stat b{display:block;font-size:1.35rem;color:var(--deep)}
+.stat span{font-size:.75rem;color:var(--muted)}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;margin-bottom:12px}
+@media(max-width:900px){.filters{grid-template-columns:1fr 1fr}}
+input,select,textarea,button.btn{font:inherit}
+input[type=search],input[type=text],input[type=tel],select,textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:#fff
+}
+textarea{min-height:72px;resize:vertical}
+button.btn{border:0;border-radius:8px;padding:9px 14px;cursor:pointer}
+.btn-primary{background:var(--school);color:#fff}
+.btn-secondary{background:#eee}
+.btn-danger{background:var(--red);color:#fff}
+.table-wrap{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:10px}
+table.ledger{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem;table-layout:fixed;min-width:1100px}
+table.ledger th,table.ledger td{
+  border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+table.ledger th{background:#f7faf8;position:sticky;top:0;z-index:2;font-weight:700;color:#333;white-space:nowrap}
+table.ledger tr:hover td{background:#f7fff9}
+table.ledger td.wrap{white-space:normal;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+table.ledger col.c-college{width:108px}
+table.ledger col.c-name{width:210px}
+table.ledger col.c-loc{width:140px}
+table.ledger col.c-code{width:96px}
+table.ledger col.c-lv{width:68px}
+table.ledger col.c-cat{width:78px}
+table.ledger col.c-haz{width:88px}
+table.ledger col.c-prot{width:150px}
+table.ledger col.c-mea{width:190px}
+table.ledger col.c-act{width:76px}
+.cell-sub{display:block;color:var(--muted);font-size:.72rem;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;color:#fff;font-size:.72rem;font-weight:700;white-space:nowrap}
+.lv-I{background:var(--red)}.lv-II{background:var(--orange)}.lv-III{background:var(--yellow);color:#222}.lv-IV{background:var(--blue)}.lv-X{background:#999}
+.muted{color:var(--muted);font-size:.75rem}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:14px}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}}
+.list{max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.list button{
+  display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #f0f0f0;
+  background:#fff;padding:10px 12px;cursor:pointer;font:inherit
+}
+.list button.active{background:var(--soft)}
+.list button small{display:block;color:var(--muted);font-size:.72rem;margin-top:2px}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:700px){.edit-grid{grid-template-columns:1fr}}
+label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.board-wrap{background:#d8d8d8;padding:12px;border-radius:10px;overflow:auto}
+.board.a4-board{
+  width:297mm;height:210mm;background:#fff;border:3.2mm solid #c62828;
+  display:grid;grid-template-columns:1.72fr 1fr;margin:0 auto;
+  box-shadow:0 10px 28px rgba(0,0,0,.14);box-sizing:border-box;overflow:hidden
+}
+.bleft{display:grid;grid-template-rows:auto 1fr 1fr 1fr auto;border-right:1.2mm solid #bbb;min-width:0;min-height:0}
+.bright{display:grid;grid-template-rows:1.15fr 1.25fr 1.15fr .72fr .72fr;min-width:0;min-height:0}
+.info{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ccc;background:#fff}
+.ic{padding:3mm 3.2mm;border-right:1px solid #ddd;border-bottom:1px solid #eee;font-size:3.1mm;line-height:1.25}
+.ic:nth-child(2n){border-right:0}
+.ic .k{color:#555;font-size:2.4mm}.ic .k small{display:block;opacity:.75;font-size:2mm}
+.ic .v{font-weight:800;margin-top:.6mm;font-size:3.4mm;word-break:break-all}
+.signrow{display:grid;grid-template-columns:8mm 1fr;border-bottom:1px solid #ccc;min-height:0}
+.signrow.tone-r{background:#fdecea}
+.signrow.tone-y{background:#fff8e1}
+.signrow.tone-b{background:#e8f1fb}
+.slabel{
+  writing-mode:vertical-rl;text-orientation:mixed;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;
+  font-weight:900;font-size:3.1mm;letter-spacing:.22em;padding:2.2mm 0;line-height:1.2;text-align:center;
+  box-sizing:border-box;border-right:1px solid rgba(0,0,0,.06)
+}
+.slabel .cn{display:block;letter-spacing:.22em}
+.slabel .en{
+  display:block;writing-mode:vertical-rl;text-orientation:mixed;
+  font-weight:600;letter-spacing:.08em;font-size:1.85mm;opacity:.92;margin-top:.2mm
+}
+.slabel.r{background:#c62828;color:#fff}
+.slabel.y{background:#f9a825;color:#1a1a1a}
+.slabel.b{background:#1565c0;color:#fff}
+.icons{display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;padding:2mm 2.2mm;align-content:center;background:transparent}
+.ico{
+  border:1px solid rgba(0,0,0,.08);border-radius:1.2mm;background:rgba(255,255,255,.88);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:1.2mm .6mm .8mm;min-height:0;overflow:hidden
+}
+.ico img{width:100%;max-width:16mm;height:16mm;object-fit:contain;flex:0 0 auto}
+.ico .cap{
+  margin-top:.8mm;width:100%;font-size:2.15mm;line-height:1.15;text-align:center;color:#222;font-weight:700;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-all
+}
+.extra{display:grid;grid-template-columns:1fr 1.4fr;border-top:1px solid #ccc;min-height:0;background:#fff}
+.ebox{padding:2mm 2.4mm;border-right:1px solid #eee;font-size:2.5mm;line-height:1.35;overflow:hidden}
+.ebox:last-child{border-right:0}
+.ebox h4{margin:0 0 1mm;font-size:2.7mm;color:#006B35;font-weight:800}
+.ebox ul{margin:0;padding-left:3.2mm}
+.ebox li{margin:0 0 .4mm}
+.rblk{border-bottom:1px solid #ccc;display:flex;flex-direction:column;min-height:0}
+.rblk:last-child{border-bottom:0}
+.rblk.qr-slot{background:#fffdf3}
+.rh{color:#fff;text-align:center;font-weight:900;padding:1.6mm 1mm;font-size:3mm;line-height:1.2;flex:0 0 auto}
+.rh small{display:block;font-weight:600;font-size:2mm;opacity:.92;margin-top:.3mm}
+.rh.y{background:#f9a825;color:#1a1a1a}.rh.b{background:#0d47a1}.rh.g{background:#2e7d32}.rh.r{background:#c62828}.rh.c{background:#0277bd}
+.rb{padding:2mm;flex:1;display:flex;align-items:center;justify-content:center;min-height:0;background:#fff}
+.rblk.qr-slot .rb{background:#fffdf3}
+.qrbox{
+  width:30mm;height:30mm;border:1.2mm dashed #c62828;display:grid;place-items:center;
+  background:#fff;padding:1.2mm;box-sizing:border-box;position:relative
+}
+.qrbox.filled{border-style:solid}
+.qrbox .qr-ph{
+  font-size:2.2mm;line-height:1.35;text-align:center;color:#999;font-weight:700;padding:1mm
+}
+.qrbox canvas,.qrbox img{width:100%!important;height:100%!important}
+.phones,.firelist{width:100%;font-size:2.55mm}
+.phones .prow{display:grid;grid-template-columns:18mm 1fr auto;gap:1mm;align-items:center;padding:.7mm 0;border-bottom:1px dotted #ccc}
+.phones .role{color:#555}.phones .nm{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.phones .ph{font-weight:800;white-space:nowrap}
+.firelist label{display:flex;justify-content:space-between;gap:2mm;padding:.6mm 0;border-bottom:1px dotted #ccc;align-items:center}
+.firelist input{width:3.2mm;height:3.2mm}
+.lvbig{font-size:9mm;font-weight:900;letter-spacing:.08em}.catbig{font-size:5.2mm;font-weight:900}
+.toast{position:fixed;right:16px;bottom:16px;background:#222;color:#fff;padding:10px 14px;border-radius:8px;display:none;z-index:50;font-size:.85rem}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  header,.tabs,.filters,.stats,.list,.edit-panel,.actions,.no-print,.table-wrap{display:none!important}
+  #tab-ledger{display:none!important}#tab-board{display:block!important}
+  .panel{box-shadow:none;padding:0;border-radius:0}.board-wrap{background:#fff;padding:0;overflow:visible}.main{padding:0;max-width:none}
+  .layout{display:block}.board.a4-board{box-shadow:none;margin:0;page-break-inside:avoid}
+}
+#loading{display:none}
+.file-hint{display:none;margin:16px;padding:16px;border:2px solid #c62828;background:#fff3f3;color:#842029;border-radius:10px;font-size:15px;line-height:1.55}
+.pager{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.pager button{min-width:72px}
+.statusline{padding:8px 0;color:var(--muted);font-size:.85rem}
+body.embed header{padding:10px 14px}
+body.embed header h1{font-size:1.05rem}
+body.embed .file-hint{display:none!important}
+</style>
+</head>
+<body>
+<div id="fileHint" class="file-hint">
+  <b>请不要直接双击 HTML 打开。</b><br/>
+  请回到本文件夹，双击 <b>open.bat</b>（会自动用浏览器打开正确地址）。<br/>
+  若仍空白，把本文件夹整份复制到桌面后再试。
+</div>
+<div id="bootError" style="display:none;margin:16px;padding:14px;border:1px solid #f5c2c7;background:#f8d7da;color:#842029;border-radius:8px;font-size:14px;white-space:pre-wrap"></div>
+<header>
+  <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+    <div>
+      <h1>广西生态工程职业技术学院 · 实训室分级分类管理台账与安全信息牌</h1>
+      <p>数据来源：腾讯文档台账 · 共 <span id="hdrTotal">0</span> 间 · 更新 <span id="hdrTime"></span> · <a id="hdrLink" href="#" target="_blank" style="color:#fff">打开在线台账</a></p>
+    </div>
+    <a id="backPlatform" href="../广西生态工程职业技术学院-教务处-实训科管理平台.html" target="_top" style="display:none;color:#fff;border:1px solid rgba(255,255,255,.55);padding:6px 12px;border-radius:8px;font-size:.82rem;white-space:nowrap;text-decoration:none">返回管理平台</a>
+  </div>
+</header>
+<div class="tabs">
+  <button class="active" data-tab="ledger">总台账</button>
+  <button data-tab="board">分室信息牌（查询/调整）</button>
+  <button data-tab="sop">SOP 评估生成器</button>
+</div>
+<div class="main">
+  <section class="panel" id="tab-ledger">
+    <div class="statusline" id="statusline">正在加载台账…</div>
+    <div class="stats" id="stats"></div>
+    <div class="filters">
+      <input type="search" id="q" placeholder="搜索：学院 / 实训室 / 房间号 / 系统编号 / 事故诱因…"/>
+      <select id="fCollege"><option value="">全部学院</option></select>
+      <select id="fLevel"><option value="">全部等级</option></select>
+      <select id="fCat"><option value="">全部类别</option></select>
+      <button class="btn btn-secondary" type="button" id="btnExportCsv">导出当前筛选 CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table class="ledger">
+        <colgroup>
+          <col class="c-college"/><col class="c-name"/><col class="c-loc"/><col class="c-code"/>
+          <col class="c-lv"/><col class="c-cat"/><col class="c-haz"/><col class="c-prot"/><col class="c-mea"/><col class="c-act"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>学院</th><th>实训室</th><th>楼栋/房间</th><th>系统编号</th>
+            <th>等级</th><th>类别</th><th>事故诱因</th><th>防护措施</th><th>安全措施与要求</th><th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="pager no-print">
+      <button class="btn btn-secondary" type="button" id="btnPrev">上一页</button>
+      <span class="muted" id="pageInfo">—</span>
+      <button class="btn btn-secondary" type="button" id="btnNext">下一页</button>
+    </div>
+  </section>
+
+  <section class="panel" id="tab-board" style="display:none">
+    <div class="layout">
+      <div>
+        <input type="search" id="bq" placeholder="筛选分室…"/>
+        <div class="list" id="roomList" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <div class="edit-panel">
+          <div class="edit-grid">
+            <div><label class="f">实训室名称</label><input id="e_name" type="text"/></div>
+            <div><label class="f">系统编号</label><input id="e_sys" type="text" readonly/></div>
+            <div><label class="f">学院</label><input id="e_college" type="text"/></div>
+            <div><label class="f">楼栋</label><input id="e_building" type="text"/></div>
+            <div><label class="f">房间号</label><input id="e_room" type="text"/></div>
+            <div><label class="f">安全等级</label>
+              <select id="e_level"><option>Ⅰ级</option><option>Ⅱ级</option><option>Ⅲ级</option><option>Ⅳ级</option><option>未定级</option></select>
+            </div>
+            <div><label class="f">安全类别</label>
+              <select id="e_cat"><option>化学类</option><option>生物类</option><option>辐射类</option><option>机电类</option><option>其他类</option><option>基础实验室</option></select>
+            </div>
+            <div><label class="f">安全负责人</label><input id="e_owner" type="text"/></div>
+            <div><label class="f">负责人电话</label><input id="e_phone" type="tel"/></div>
+            <div><label class="f">校区</label><input id="e_campus" type="text"/></div>
+          </div>
+          <label class="f">防护措施</label><textarea id="e_protect"></textarea>
+          <label class="f">事故诱因（列点描述）</label><textarea id="e_hazard"></textarea>
+          <label class="f">安全防范措施与要求（列点描述）</label><textarea id="e_measures"></textarea>
+          <label class="f">灭火要点</label><textarea id="e_fire"></textarea>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" id="btnSave">保存调整（本机）</button>
+            <button class="btn btn-secondary" type="button" id="btnReset">恢复台账原值</button>
+            <button class="btn btn-primary" type="button" id="btnExportJpg">导出 JPG</button>
+            <button class="btn btn-secondary" type="button" id="btnPrint">打印本室信息牌</button>
+            <button class="btn btn-secondary" type="button" id="btnExportOne">导出本室 JSON</button>
+            <button class="btn btn-secondary" type="button" id="btnExportAllEdits">导出全部本地调整</button>
+            <span class="muted" id="editHint"></span>
+          </div>
+        </div>
+        <div class="board-wrap"><div class="board a4-board" id="board"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="tab-sop" style="display:none;padding:0;overflow:hidden;min-height:78vh">
+    <iframe id="sopFrame" title="SOP评估" src="sop/实训室SOP评估_安全信息牌生成器.html" style="width:100%;height:78vh;border:0;border-radius:0 12px 12px 12px;background:#fff"></iframe>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+<script src="vendor/html2canvas.min.js"></script>
+<script src="vendor/qrcode.min.js"></script>
+<script src="lab_data.js"></script>
+<script>
+const STORE_KEY = "gxstzy_lab_board_overrides_v1";
+const PAGE_SIZE = 40;
+const LIST_SIZE = 80;
+let RAW = null;
+let rooms = [];
+let currentId = null;
+let ICON_META = {};
+let ledgerPage = 0;
+
+function showBootError(err){
+  const box=document.getElementById("bootError");
+  if(!box){ alert(String(err)); return; }
+  box.style.display="block";
+  box.textContent="页面加载失败：\\n"+String(err&&err.stack||err)+"\\n\\n请双击同目录 open.bat（不要直接打开 HTML）。";
+  const st=document.getElementById("statusline");
+  if(st) st.textContent="加载失败";
+}
+function loadRawData(){
+  if(typeof window.LAB_RAW==="object" && window.LAB_RAW && Array.isArray(window.LAB_RAW.rooms)){
+    return window.LAB_RAW;
+  }
+  throw new Error("未加载到 lab_data.js。请双击 open.bat 打开（file:// 直开常会失败）。");
+}
+function toast(m){const t=document.getElementById("toast"); if(!t) return; t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
+function loadOverrides(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||"{}")}catch(e){return {}}}
+function saveOverrides(o){localStorage.setItem(STORE_KEY, JSON.stringify(o))}
+function applyOverrides(){
+  const o=loadOverrides();
+  rooms = RAW.rooms.map(r=>{
+    const patch=o[r.id];
+    return patch?{...r,...patch,_patched:true}: {...r,_patched:false};
+  });
+}
+function lvClass(lv){
+  if(lv.includes("Ⅰ")||lv==="I级") return "lv-I";
+  if(lv.includes("Ⅱ")) return "lv-II";
+  if(lv.includes("Ⅲ")) return "lv-III";
+  if(lv.includes("Ⅳ")) return "lv-IV";
+  return "lv-X";
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
+function short(s,n=48){s=String(s||"").replace(/\s+/g," ");return s.length>n?s.slice(0,n)+"…":s}
+function points(text){
+  if(Array.isArray(text)) return text.filter(Boolean);
+  const t=String(text||"").trim(); if(!t) return [];
+  return t.split(/[\n；;|]+/).map(x=>x.replace(/^\d+[\.、．)]\s*/,"").trim()).filter(Boolean);
+}
+function iconFile(id){
+  const m=ICON_META[id];
+  return m?.file || (`icons/${id}.png`);
+}
+function fillIcons(arr){
+  const a=[...(arr||[])];
+  while(a.length<6) a.push(null);
+  return a.slice(0,6).map(s=>{
+    if(!s) return `<div class="ico"><div style="height:16mm"></div><div class="cap" style="color:#ccc">—</div></div>`;
+    const label=s.label||ICON_META[s.id]?.label||s.id;
+    const src=s.file||iconFile(s.id);
+    return `<div class="ico" title="${esc(label)}"><img src="${esc(src)}" alt="${esc(label)}"/><div class="cap">${esc(label)}</div></div>`;
+  }).join("");
+}
+function shortCap(t,n=8){
+  t=String(t||"").replace(/\s+/g,"");
+  return t.length>n?t.slice(0,n):t;
+}
+function protectGraphics(pp, mandatory){
+  const out=[];
+  const seen=new Set();
+  const push=(id,label)=>{
+    if(!id||seen.has(id)||out.length>=6) return;
+    seen.add(id);
+    out.push({id,label:label||ICON_META[id]?.label||id,file:iconFile(id)});
+  };
+  (pp||[]).forEach(p=>{
+    if(/断电|离开|电源/.test(p)) push("power", shortCap(p,8)||"离开断电");
+    else if(/眼镜|护目/.test(p)) push("goggles", "必须戴防护眼镜");
+    else if(/手套/.test(p)) push("gloves", "必须戴防护手套");
+    else if(/口罩|面罩/.test(p)) push("mask", "必须戴防护口罩");
+    else if(/鞋套|劳保鞋|防护鞋/.test(p)) push("shoe", "必须戴鞋套");
+    else if(/持证|上岗/.test(p)) push("cert", "必须持证上岗");
+    else if(/加锁|双锁/.test(p)) push("lock", "必须加锁");
+    else if(/绝缘/.test(p)) push("insul", "必须穿戴绝缘用品");
+    else if(/安全带/.test(p)) push("belt", "必须系安全带");
+    else if(/严格|规范|要求使用|按要求|未经允许/.test(p)) push("rule", shortCap(p,8)||"规范操作");
+    else if(/防护|劳保|穿戴/.test(p)) push("goggles", shortCap(p,8)||"个体防护");
+    else push("rule", shortCap(p,8)||"规范操作");
+  });
+  (mandatory||[]).forEach(s=>push(s.id, s.label));
+  return out.slice(0,6);
+}
+function fireChecks(r){
+  const t=r.fire||"";
+  const haz=r.hazard||"";
+  return [
+    {t:"防中毒和窒息", on:/中毒|窒息/.test(t+haz)},
+    {t:"切断电源", on:/切断|断电|电源/.test(t) || /用电|电器/.test(haz) || !t},
+    {t:"化学试剂易燃/易爆", on:/易燃|易爆|化学/.test(t+haz)},
+    {t:"干粉灭火", on:/干粉/.test(t) || !t},
+    {t:"二氧化碳灭火", on:/二氧化碳|电器/.test(t) || /用电|电器/.test(haz)},
+  ].map(x=>`<label><span>${esc(x.t)}</span><input type="checkbox" ${x.on?"checked":""} disabled/></label>`).join("");
+}
+function contactRow(role, name, phone){
+  return `<div class="prow"><span class="role">${esc(role)}</span><span class="nm">${esc(name||"—")}</span><span class="ph">${esc(phone||"—")}</span></div>`;
+}
+function renderQr(text){
+  const box=document.getElementById("qrMount");
+  if(!box) return;
+  box.innerHTML="";
+  box.classList.remove("filled");
+  const payload=String(text||"lab").slice(0,200);
+  try{
+    if(typeof QRCode==="function"){
+      new QRCode(box,{text:payload,width:120,height:120,correctLevel:QRCode.CorrectLevel?QRCode.CorrectLevel.L:1});
+      box.classList.add("filled");
+    }else{
+      box.innerHTML=`<div class="qr-ph">实验室二维码<br/>预留空位</div>`;
+    }
+  }catch(e){
+    box.innerHTML=`<div class="qr-ph">实验室二维码<br/>预留空位</div>`;
+  }
+}
+function renderBoard(r){
+  const hp=points(r.hazard_points?.length?r.hazard_points:r.hazard);
+  const pp=points(r.protect_points?.length?r.protect_points:r.protect);
+  const mp=points(r.measure_points?.length?r.measure_points:r.measures);
+  const border = r.level.includes("Ⅰ")?"#c62828": r.level.includes("Ⅱ")?"#ef6c00": r.level.includes("Ⅲ")?"#f9a825":"#1565c0";
+  const protectIcons=protectGraphics(pp, r.signs?.mandatory||[]);
+  const board=document.getElementById("board");
+  board.className="board a4-board";
+  board.style.borderColor=border;
+  const qrText=`${RAW.stats?.tencent_url||""}\n${r.sys_code}\n${r.college}\n${r.name}\n${r.room_no}`;
+  board.innerHTML=`
+  <div class="bleft">
+    <div class="info">
+      <div class="ic"><div class="k">单位名称<small>Unit Name</small></div><div class="v">${esc(r.college)}</div></div>
+      <div class="ic"><div class="k">楼宇<small>Building</small></div><div class="v">${esc(r.building||"—")} ${esc(r.floor||"")}</div></div>
+      <div class="ic"><div class="k">实验室名称<small>Laboratory Name</small></div><div class="v">${esc(r.name)}</div></div>
+      <div class="ic"><div class="k">房间号<small>Room Number</small></div><div class="v">${esc(r.room_no||"—")}</div></div>
+      <div class="ic"><div class="k">安全负责人<small>Safety Person in Charge</small></div><div class="v">${esc(r.owner||"—")}</div></div>
+      <div class="ic"><div class="k">负责人电话<small>Phone</small></div><div class="v">${esc(r.phone||"—")}</div></div>
+    </div>
+    <div class="signrow tone-r"><div class="slabel r"><span class="cn">危险类别</span><span class="en">Hazard Class</span></div><div class="icons">${fillIcons(r.signs?.prohibit)}</div></div>
+    <div class="signrow tone-y"><div class="slabel y"><span class="cn">注意事项</span><span class="en">Caution</span></div><div class="icons">${fillIcons(r.signs?.warning)}</div></div>
+    <div class="signrow tone-b"><div class="slabel b"><span class="cn">防护措施</span><span class="en">Protective Measures</span></div><div class="icons">${fillIcons(protectIcons)}</div></div>
+    <div class="extra">
+      <div class="ebox"><h4>事故诱因</h4><ul>${(hp.length?hp:["（待补充）"]).slice(0,6).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="ebox"><h4>安全防范措施与要求</h4><ul>${(mp.length?mp:["（待补充）"]).slice(0,6).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    </div>
+  </div>
+  <div class="bright">
+    <div class="rblk qr-slot"><div class="rh y">实验室二维码<small>Laboratory QR Code · 预留</small></div><div class="rb"><div class="qrbox" id="qrMount"><div class="qr-ph">实验室二维码<br/>预留空位</div></div></div></div>
+    <div class="rblk"><div class="rh b">紧急联系电话<small>Emergency Contact</small></div><div class="rb"><div class="phones">
+      ${contactRow("安全责任教师", r.teacher_name||r.owner, r.teacher_phone||r.phone)}
+      ${contactRow("实训管理员", r.admin_name, r.admin_phone)}
+      ${contactRow("学院负责人", r.dean_name, r.dean_phone)}
+      ${contactRow("火警", "—", "119")}
+      ${contactRow("急救", "—", "120")}
+    </div></div></div>
+    <div class="rblk"><div class="rh g">灭火要点<small>Key Points Of Fire Fighting</small></div><div class="rb"><div class="firelist">${fireChecks(r)}</div></div></div>
+    <div class="rblk"><div class="rh r">安全风险等级<small>Safety Risk Level</small></div><div class="rb"><div class="lvbig" style="color:${border}">${esc(r.level)}</div></div></div>
+    <div class="rblk"><div class="rh c">实验室风险类别<small>Laboratory Risk Category</small></div><div class="rb"><div class="catbig">${esc(r.category)}</div></div></div>
+  </div>`;
+  renderQr(qrText);
+}
+function filtered(){
+  const q=(document.getElementById("q").value||"").trim().toLowerCase();
+  const c=document.getElementById("fCollege").value;
+  const l=document.getElementById("fLevel").value;
+  const cat=document.getElementById("fCat").value;
+  return rooms.filter(r=>{
+    if(c && r.college!==c) return false;
+    if(l && r.level!==l) return false;
+    if(cat && r.category!==cat) return false;
+    if(!q) return true;
+    const blob=[r.college,r.name,r.room_no,r.sys_code,r.building,r.hazard,r.protect,r.measures,r.owner,r.level,r.category].join(" ").toLowerCase();
+    return blob.includes(q);
+  });
+}
+function renderLedger(){
+  const rows=filtered();
+  const pages=Math.max(1, Math.ceil(rows.length/PAGE_SIZE));
+  if(ledgerPage>=pages) ledgerPage=pages-1;
+  if(ledgerPage<0) ledgerPage=0;
+  const start=ledgerPage*PAGE_SIZE;
+  const slice=rows.slice(start, start+PAGE_SIZE);
+  const tb=document.getElementById("tbody");
+  tb.innerHTML=slice.map(r=>`<tr>
+    <td title="${esc(r.college)} ${esc(r.campus)}">${esc(r.college)}${r.campus?` · ${esc(r.campus)}`:""}</td>
+    <td title="${esc(r.name)}"><strong>${esc(r.name)}</strong>${r._patched?' <span class="muted">已调</span>':""}</td>
+    <td title="${esc(r.building)} ${esc(r.floor)} ${esc(r.room_no)}">${esc(r.building||"—")}${r.floor||r.room_no?` / ${esc([r.floor,r.room_no].filter(Boolean).join(" "))}`:""}</td>
+    <td title="${esc(r.sys_code)}">${esc(r.sys_code)}</td>
+    <td><span class="badge ${lvClass(r.level)}">${esc(r.level)}</span></td>
+    <td title="${esc(r.category)}">${esc(r.category)}</td>
+    <td title="${esc(r.hazard)}">${esc(short(r.hazard,14))}</td>
+    <td title="${esc(r.protect)}">${esc(short(r.protect,20))}</td>
+    <td title="${esc(r.measures)}">${esc(short(r.measures,24))}</td>
+    <td><button class="btn btn-primary" style="padding:4px 8px;font-size:.75rem" data-open="${esc(r.id)}">信息牌</button></td>
+  </tr>`).join("")||`<tr><td colspan="10">无匹配记录</td></tr>`;
+  const info=document.getElementById("pageInfo");
+  if(info) info.textContent=`共 ${rows.length} 条 · 第 ${ledgerPage+1}/${pages} 页`;
+  const bp=document.getElementById("btnPrev"), bn=document.getElementById("btnNext");
+  if(bp) bp.disabled=ledgerPage<=0;
+  if(bn) bn.disabled=ledgerPage>=pages-1;
+}
+function renderStats(){
+  const s=RAW.stats;
+  document.getElementById("hdrTotal").textContent=s.total;
+  document.getElementById("hdrTime").textContent=s.updated_at;
+  document.getElementById("hdrLink").href=s.tencent_url;
+  const levels=Object.entries(s.by_level).map(([k,v])=>`<div class="stat"><b>${v}</b><span>${k||"未定级"}</span></div>`).join("");
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><b>${s.total}</b><span>实训室总数</span></div>
+    <div class="stat"><b>${Object.keys(s.by_college).length}</b><span>二级学院</span></div>
+    ${levels}`;
+  const fc=document.getElementById("fCollege");
+  fc.innerHTML='<option value="">全部学院</option>';
+  Object.keys(s.by_college).sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=`${c}（${s.by_college[c]}）`;fc.appendChild(o)});
+  const fl=document.getElementById("fLevel");
+  fl.innerHTML='<option value="">全部等级</option>';
+  Object.keys(s.by_level).sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=`${c||"未定级"}（${s.by_level[c]}）`;fl.appendChild(o)});
+  const fcat=document.getElementById("fCat");
+  fcat.innerHTML='<option value="">全部类别</option>';
+  Object.keys(s.by_category).sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=`${c}（${s.by_category[c]}）`;fcat.appendChild(o)});
+}
+function renderRoomList(){
+  const q=(document.getElementById("bq").value||"").trim().toLowerCase();
+  const box=document.getElementById("roomList");
+  const list=rooms.filter(r=>{
+    if(!q) return true;
+    return [r.college,r.name,r.room_no,r.sys_code,r.hazard,r.level,r.category,r.protect,r.measures].join(" ").toLowerCase().includes(q);
+  });
+  const shown=list.slice(0, LIST_SIZE);
+  const more=list.length>LIST_SIZE?`<div class="muted" style="padding:8px">仅显示前 ${LIST_SIZE} 条（共 ${list.length}），请输入关键词缩小范围</div>`:"";
+  box.innerHTML=shown.map(r=>`<button type="button" data-id="${esc(r.id)}" class="${r.id===currentId?"active":""}">
+    <span class="badge ${lvClass(r.level)}">${esc(r.level)}</span> ${esc(r.name)}
+    <small>${esc(r.college)} · ${esc(r.building)} ${esc(r.room_no)} · ${esc(r.sys_code)}${r._patched?" · 已调整":""}</small>
+  </button>`).join("")+more;
+}
+function selectRoom(id){
+  currentId=id;
+  const r=rooms.find(x=>x.id===id); if(!r) return;
+  document.getElementById("e_name").value=r.name;
+  document.getElementById("e_sys").value=r.sys_code;
+  document.getElementById("e_college").value=r.college;
+  document.getElementById("e_building").value=r.building;
+  document.getElementById("e_room").value=r.room_no;
+  const lvSel=document.getElementById("e_level");
+  if(![...lvSel.options].some(o=>o.value===r.level)){const o=document.createElement("option");o.value=r.level;o.textContent=r.level;lvSel.appendChild(o)}
+  lvSel.value=r.level||"Ⅳ级";
+  const catSel=document.getElementById("e_cat");
+  if(![...catSel.options].some(o=>o.value===r.category)){const o=document.createElement("option");o.value=r.category;o.textContent=r.category;catSel.appendChild(o)}
+  catSel.value=r.category||"其他类";
+  document.getElementById("e_owner").value=r.owner||"";
+  document.getElementById("e_phone").value=r.phone||"";
+  document.getElementById("e_campus").value=r.campus||"";
+  document.getElementById("e_protect").value=r.protect||"";
+  document.getElementById("e_hazard").value=r.hazard||"";
+  document.getElementById("e_measures").value=r.measures||"";
+  document.getElementById("e_fire").value=r.fire||"";
+  document.getElementById("editHint").textContent=r._patched?"本室有本地调整（未写回腾讯文档）":"当前为台账原值";
+  renderBoard(r);
+  renderRoomList();
+  history.replaceState(null,"",`#${encodeURIComponent(id)}`);
+}
+function readFormInto(r){
+  r.name=document.getElementById("e_name").value.trim();
+  r.college=document.getElementById("e_college").value.trim();
+  r.building=document.getElementById("e_building").value.trim();
+  r.room_no=document.getElementById("e_room").value.trim();
+  r.level=document.getElementById("e_level").value;
+  r.category=document.getElementById("e_cat").value;
+  r.owner=document.getElementById("e_owner").value.trim();
+  r.phone=document.getElementById("e_phone").value.trim();
+  r.campus=document.getElementById("e_campus").value.trim();
+  r.protect=document.getElementById("e_protect").value.trim();
+  r.hazard=document.getElementById("e_hazard").value.trim();
+  r.measures=document.getElementById("e_measures").value.trim();
+  r.fire=document.getElementById("e_fire").value.trim();
+  r.protect_points=points(r.protect);
+  r.hazard_points=points(r.hazard);
+  r.measure_points=points(r.measures);
+  return r;
+}
+function switchTab(name){
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
+  document.getElementById("tab-ledger").style.display=name==="ledger"?"":"none";
+  document.getElementById("tab-board").style.display=name==="board"?"":"none";
+  const sop=document.getElementById("tab-sop");
+  if(sop) sop.style.display=name==="sop"?"":"none";
+  if(name==="board" && !currentId && rooms[0]) selectRoom(rooms[0].id);
+}
+function init(){
+  RAW = loadRawData();
+  if(!RAW || !Array.isArray(RAW.rooms) || !RAW.rooms.length){
+    throw new Error("台账数据为空。");
+  }
+  ICON_META = Object.fromEntries((RAW.iconCatalog||[]).map(x=>[x.id,x]));
+  applyOverrides();
+  renderStats();
+  renderLedger();
+  renderRoomList();
+  document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+  const resetPage=()=>{ ledgerPage=0; renderLedger(); };
+  ["q","fCollege","fLevel","fCat"].forEach(id=>document.getElementById(id).oninput=resetPage);
+  document.getElementById("fCollege").onchange=resetPage;
+  document.getElementById("fLevel").onchange=resetPage;
+  document.getElementById("fCat").onchange=resetPage;
+  document.getElementById("btnPrev").onclick=()=>{ ledgerPage--; renderLedger(); };
+  document.getElementById("btnNext").onclick=()=>{ ledgerPage++; renderLedger(); };
+  document.getElementById("bq").oninput=renderRoomList;
+  document.getElementById("tbody").onclick=(e)=>{
+    const id=e.target?.dataset?.open; if(!id) return;
+    switchTab("board"); selectRoom(id);
+  };
+  document.getElementById("roomList").onclick=(e)=>{
+    const btn=e.target.closest("button[data-id]"); if(!btn) return; selectRoom(btn.dataset.id);
+  };
+  document.getElementById("btnSave").onclick=()=>{
+    if(!currentId) return;
+    const r=rooms.find(x=>x.id===currentId); readFormInto(r); r._patched=true;
+    const o=loadOverrides();
+    o[currentId]={
+      name:r.name,college:r.college,building:r.building,room_no:r.room_no,level:r.level,category:r.category,
+      owner:r.owner,phone:r.phone,campus:r.campus,protect:r.protect,hazard:r.hazard,measures:r.measures,fire:r.fire,
+      protect_points:r.protect_points,hazard_points:r.hazard_points,measure_points:r.measure_points
+    };
+    saveOverrides(o); renderBoard(r); renderRoomList(); renderLedger();
+    document.getElementById("editHint").textContent="已保存到本机浏览器";
+    toast("已保存本地调整");
+  };
+  document.getElementById("btnReset").onclick=()=>{
+    if(!currentId) return;
+    const o=loadOverrides(); delete o[currentId]; saveOverrides(o);
+    applyOverrides(); selectRoom(currentId); renderLedger(); toast("已恢复台账原值");
+  };
+  document.getElementById("btnPrint").onclick=()=>window.print();
+  document.getElementById("btnExportJpg").onclick=async ()=>{
+    const r=rooms.find(x=>x.id===currentId); if(!r) return;
+    const el=document.getElementById("board");
+    if(typeof html2canvas!=="function"){ toast("缺少 html2canvas，请用同目录打开页面"); return; }
+    toast("正在生成 JPG…");
+    try{
+      const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      const a=document.createElement("a");
+      a.href=canvas.toDataURL("image/jpeg",0.92);
+      a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+      a.click();
+      toast("JPG 已导出");
+    }catch(err){
+      console.error(err);
+      toast("导出失败，可改用打印");
+    }
+  };
+  document.getElementById("btnExportOne").onclick=()=>{
+    const r=rooms.find(x=>x.id===currentId); if(!r) return;
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([JSON.stringify(r,null,2)],{type:"application/json"}));
+    a.download=`${r.sys_code||r.name}_信息牌.json`; a.click();
+  };
+  document.getElementById("btnExportAllEdits").onclick=()=>{
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([JSON.stringify(loadOverrides(),null,2)],{type:"application/json"}));
+    a.download="实训室信息牌_本地调整.json"; a.click();
+  };
+  document.getElementById("btnExportCsv").onclick=()=>{
+    const rows=filtered();
+    const head=["学院","校区","实训室","楼栋","楼层","房间号","系统编号","安全等级","安全类别","安全负责人","电话","防护措施","事故诱因","安全防范措施与要求","灭火要点"];
+    const lines=[head.join(",")].concat(rows.map(r=>[r.college,r.campus,r.name,r.building,r.floor,r.room_no,r.sys_code,r.level,r.category,r.owner,r.phone,r.protect,r.hazard,r.measures,r.fire].map(x=>`"${String(x||"").replace(/"/g,'""')}"`).join(",")));
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv;charset=utf-8"}));
+    a.download="实训室分级分类台账_筛选导出.csv"; a.click();
+  };
+  ["e_name","e_college","e_building","e_room","e_level","e_cat","e_owner","e_phone","e_campus","e_protect","e_hazard","e_measures","e_fire"].forEach(id=>{
+    document.getElementById(id).addEventListener("input",()=>{
+      if(!currentId) return;
+      const r=rooms.find(x=>x.id===currentId); readFormInto(r); renderBoard(r);
+    });
+  });
+  const hash=decodeURIComponent((location.hash||"").slice(1));
+  if(hash && rooms.some(r=>r.id===hash)){ switchTab("board"); selectRoom(hash); }
+  const st=document.getElementById("statusline");
+  if(st) st.textContent="台账已加载，可搜索/筛选；点击「信息牌」查看分室牌。";
+}
+try{
+  if(location.protocol==="file:"){
+    const fh=document.getElementById("fileHint");
+    if(fh && !/embed=1/.test(location.search)) fh.style.display="block";
+  }
+  const inFrame=window.self!==window.top;
+  const embedMode=inFrame||/embed=1/.test(location.search);
+  if(embedMode){
+    document.body.classList.add("embed");
+    const fh=document.getElementById("fileHint");
+    if(fh) fh.style.display="none";
+  }else{
+    const bp=document.getElementById("backPlatform");
+    if(bp){
+      bp.style.display="inline-block";
+      bp.setAttribute("target","_top");
+    }
+  }
+  init();
+}catch(err){
+  console.error(err);
+  showBootError(err);
+}
+</script>
+</body>
+</html>

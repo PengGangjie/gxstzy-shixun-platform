@@ -1,0 +1,3188 @@
+[
+  {
+    "id": "016x4104",
+    "sys_code": "016x4104",
+    "college": "林学院",
+    "name": "无人机航测及数字林业实训中心",
+    "room_no": "4104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4106",
+    "sys_code": "016x4106",
+    "college": "林学院",
+    "name": "无人机训练室",
+    "room_no": "4106",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4107",
+    "sys_code": "016x4107",
+    "college": "林学院",
+    "name": "木材标本室",
+    "room_no": "4107",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4110",
+    "sys_code": "016x4110",
+    "college": "林学院",
+    "name": "自然保护地综合实训中心",
+    "room_no": "4110",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4122",
+    "sys_code": "016x4122",
+    "college": "林学院",
+    "name": "中药理实一体化实训室",
+    "room_no": "4122",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4207",
+    "sys_code": "016x4207",
+    "college": "林学院",
+    "name": "现代林业虚拟仿真实训室",
+    "room_no": "4207",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4302",
+    "sys_code": "016x4302",
+    "college": "林学院",
+    "name": "生物多样性实训室",
+    "room_no": "4302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4304",
+    "sys_code": "016x4304",
+    "college": "林学院",
+    "name": "自然保护地管理实训室",
+    "room_no": "4304",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4308",
+    "sys_code": "016x4308",
+    "college": "林学院",
+    "name": "数字林业实训基地/CAD实训室",
+    "room_no": "4308",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4311",
+    "sys_code": "016x4311",
+    "college": "林学院",
+    "name": "数字林业实训基地/GIS实训室",
+    "room_no": "4311",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4313",
+    "sys_code": "016x4313",
+    "college": "林学院",
+    "name": "数字林业实训基地/遥感实训室",
+    "room_no": "4313",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4316",
+    "sys_code": "016x4316",
+    "college": "林学院",
+    "name": "无人机实训室1",
+    "room_no": "4316",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4317",
+    "sys_code": "016x4317",
+    "college": "林学院",
+    "name": "无人机实训室2",
+    "room_no": "4317",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4321",
+    "sys_code": "016x4321",
+    "college": "林学院",
+    "name": "无人机实训室3",
+    "room_no": "4321",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4323",
+    "sys_code": "016x4323",
+    "college": "林学院",
+    "name": "数字林业实训基地/大数据实训室",
+    "room_no": "4323",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4325",
+    "sys_code": "016x4325",
+    "college": "林学院",
+    "name": "数字林业实训基地/模拟飞行实训室",
+    "room_no": "4325",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4327",
+    "sys_code": "016x4327",
+    "college": "林学院",
+    "name": "数字林业实训基地/航测数据处理实训室",
+    "room_no": "4327",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4402",
+    "sys_code": "016x4402",
+    "college": "林学院",
+    "name": "微生物实训室1",
+    "room_no": "4402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4404",
+    "sys_code": "016x4404",
+    "college": "林学院",
+    "name": "森林保护实训室1",
+    "room_no": "4404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4416",
+    "sys_code": "016x4416",
+    "college": "林学院",
+    "name": "森林保护研究中心",
+    "room_no": "4416",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4417",
+    "sys_code": "016x4417",
+    "college": "林学院",
+    "name": "森林保护实训室2",
+    "room_no": "4417",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4421",
+    "sys_code": "016x4421",
+    "college": "林学院",
+    "name": "森林保护实训室3",
+    "room_no": "4421",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4502",
+    "sys_code": "016x4502",
+    "college": "林学院",
+    "name": "微生物实训室2",
+    "room_no": "4502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4504",
+    "sys_code": "016x4504",
+    "college": "林学院",
+    "name": "森林调查实训室",
+    "room_no": "4504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4516",
+    "sys_code": "016x4516",
+    "college": "林学院",
+    "name": "大型仪器设备室",
+    "room_no": "4516",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4517",
+    "sys_code": "016x4517",
+    "college": "林学院",
+    "name": "森林培育实训室1",
+    "room_no": "4517",
+    "level": "Ⅱ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4521",
+    "sys_code": "016x4521",
+    "college": "林学院",
+    "name": "森林培育实训室2",
+    "room_no": "4521",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4601",
+    "sys_code": "016x4601",
+    "college": "林学院",
+    "name": "化学药剂室",
+    "room_no": "4601",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "016x4602",
+    "sys_code": "016x4602",
+    "college": "林学院",
+    "name": "森林环境实训室1",
+    "room_no": "4602",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "016x4604",
+    "sys_code": "016x4604",
+    "college": "林学院",
+    "name": "森林环境实训室2",
+    "room_no": "4604",
+    "level": "Ⅲ级",
+    "category": "化学类"
+  },
+  {
+    "id": "016x4608",
+    "sys_code": "016x4608",
+    "college": "林学院",
+    "name": "中药炮制实训室",
+    "room_no": "4608",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4610",
+    "sys_code": "016x4610",
+    "college": "林学院",
+    "name": "中药精密仪器室",
+    "room_no": "4610",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4611",
+    "sys_code": "016x4611",
+    "college": "林学院",
+    "name": "显微镜实训室",
+    "room_no": "4611",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4613",
+    "sys_code": "016x4613",
+    "college": "林学院",
+    "name": "中药质检实训室",
+    "room_no": "4613",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4616",
+    "sys_code": "016x4616",
+    "college": "林学院",
+    "name": "中药制剂实训室",
+    "room_no": "4616",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "016x4617",
+    "sys_code": "016x4617",
+    "college": "林学院",
+    "name": "基础化学实训室",
+    "room_no": "4617",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "016x4621",
+    "sys_code": "016x4621",
+    "college": "林学院",
+    "name": "中药鉴定实训室",
+    "room_no": "4621",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "SXJD001",
+    "sys_code": "SXJD001",
+    "college": "林学院",
+    "name": "食用菌高产栽培实训基地",
+    "room_no": "SXJD001",
+    "level": "Ⅱ级",
+    "category": "其他类"
+  },
+  {
+    "id": "SXJD002",
+    "sys_code": "SXJD002",
+    "college": "林学院",
+    "name": "植物组培教学工厂",
+    "room_no": "SXJD002",
+    "level": "Ⅱ级",
+    "category": "其他类"
+  },
+  {
+    "id": "SXJD003",
+    "sys_code": "SXJD003",
+    "college": "林学院",
+    "name": "智能林业装备培训基地",
+    "room_no": "SXJD003",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "SXJD004",
+    "sys_code": "SXJD004",
+    "college": "林学院",
+    "name": "林业种苗温室科普实践基地",
+    "room_no": "SXJD004",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "SXJD005",
+    "sys_code": "SXJD005",
+    "college": "林学院",
+    "name": "林业中草药生态科普培育场",
+    "room_no": "SXJD005",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5101",
+    "sys_code": "017x5101",
+    "college": "经贸学院",
+    "name": "数字运营部",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5102",
+    "sys_code": "017x5102",
+    "college": "经贸学院",
+    "name": "数字物流部",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5103",
+    "sys_code": "017x5103",
+    "college": "经贸学院",
+    "name": "数字营销部",
+    "room_no": "103",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5104",
+    "sys_code": "017x5104",
+    "college": "经贸学院",
+    "name": "虚拟仿真体验室1",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5105",
+    "sys_code": "017x5105",
+    "college": "经贸学院",
+    "name": "虚拟仿真体验室2",
+    "room_no": "105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5106",
+    "sys_code": "017x5106",
+    "college": "经贸学院",
+    "name": "商务直播数据分析室",
+    "room_no": "106",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5107",
+    "sys_code": "017x5107",
+    "college": "经贸学院",
+    "name": "圣特电商直播室",
+    "room_no": "107",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5201",
+    "sys_code": "017x5201",
+    "college": "经贸学院",
+    "name": "多媒体教室1",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5202",
+    "sys_code": "017x5202",
+    "college": "经贸学院",
+    "name": "智慧录播教室",
+    "room_no": "202",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5203",
+    "sys_code": "017x5203",
+    "college": "经贸学院",
+    "name": "商务礼仪实训室",
+    "room_no": "203",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5204",
+    "sys_code": "017x5204",
+    "college": "经贸学院",
+    "name": "多功能教室",
+    "room_no": "204",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5205",
+    "sys_code": "017x5205",
+    "college": "经贸学院",
+    "name": "机房1",
+    "room_no": "205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5206",
+    "sys_code": "017x5206",
+    "college": "经贸学院",
+    "name": "机房2",
+    "room_no": "206",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5207",
+    "sys_code": "017x5207",
+    "college": "经贸学院",
+    "name": "机房3",
+    "room_no": "207",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5303",
+    "sys_code": "017x5303",
+    "college": "经贸学院",
+    "name": "多媒体教室2",
+    "room_no": "303",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5304",
+    "sys_code": "017x5304",
+    "college": "经贸学院",
+    "name": "多媒体教室3",
+    "room_no": "304",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5309",
+    "sys_code": "017x5309",
+    "college": "经贸学院",
+    "name": "多媒体教室4",
+    "room_no": "309",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5310",
+    "sys_code": "017x5310",
+    "college": "经贸学院",
+    "name": "多媒体教室5",
+    "room_no": "310",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5311",
+    "sys_code": "017x5311",
+    "college": "经贸学院",
+    "name": "多媒体教室6",
+    "room_no": "311",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5401",
+    "sys_code": "017x5401",
+    "college": "经贸学院",
+    "name": "电商运营部",
+    "room_no": "401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5402",
+    "sys_code": "017x5402",
+    "college": "经贸学院",
+    "name": "视觉设计部",
+    "room_no": "402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5403",
+    "sys_code": "017x5403",
+    "college": "经贸学院",
+    "name": "跨境贸易部",
+    "room_no": "403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5404",
+    "sys_code": "017x5404",
+    "college": "经贸学院",
+    "name": "供应链管理部",
+    "room_no": "404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5405",
+    "sys_code": "017x5405",
+    "college": "经贸学院",
+    "name": "物流规划部",
+    "room_no": "405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5406",
+    "sys_code": "017x5406",
+    "college": "经贸学院",
+    "name": "市场推广部",
+    "room_no": "406",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5407",
+    "sys_code": "017x5407",
+    "college": "经贸学院",
+    "name": "市场策划部",
+    "room_no": "407",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5408",
+    "sys_code": "017x5408",
+    "college": "经贸学院",
+    "name": "市场经营部",
+    "room_no": "408",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5409",
+    "sys_code": "017x5409",
+    "college": "经贸学院",
+    "name": "人力资源部",
+    "room_no": "409",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5410",
+    "sys_code": "017x5410",
+    "college": "经贸学院",
+    "name": "战略发展部",
+    "room_no": "410",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5501",
+    "sys_code": "017x5501",
+    "college": "经贸学院",
+    "name": "智能出纳实训室",
+    "room_no": "501",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5502",
+    "sys_code": "017x5502",
+    "college": "经贸学院",
+    "name": "财务共享服务实训室",
+    "room_no": "502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5503",
+    "sys_code": "017x5503",
+    "college": "经贸学院",
+    "name": "PRA财务应用实训室",
+    "room_no": "503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5504",
+    "sys_code": "017x5504",
+    "college": "经贸学院",
+    "name": "财务大数据实训室",
+    "room_no": "504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5505",
+    "sys_code": "017x5505",
+    "college": "经贸学院",
+    "name": "云财务综合实训室",
+    "room_no": "505",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5506",
+    "sys_code": "017x5506",
+    "college": "经贸学院",
+    "name": "管理会计沙盘实训室",
+    "room_no": "506",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5507",
+    "sys_code": "017x5507",
+    "college": "经贸学院",
+    "name": "ERP管理会计实训室",
+    "room_no": "507",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5508",
+    "sys_code": "017x5508",
+    "college": "经贸学院",
+    "name": "业财税一体化实训室",
+    "room_no": "508",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5509",
+    "sys_code": "017x5509",
+    "college": "经贸学院",
+    "name": "智能税务应用实训室",
+    "room_no": "509",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5510",
+    "sys_code": "017x5510",
+    "college": "经贸学院",
+    "name": "会计实务岗赛证实训室",
+    "room_no": "510",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5601",
+    "sys_code": "017x5601",
+    "college": "经贸学院",
+    "name": "银行信贷部",
+    "room_no": "601",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5602",
+    "sys_code": "017x5602",
+    "college": "经贸学院",
+    "name": "证券事务部",
+    "room_no": "602",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5603",
+    "sys_code": "017x5603",
+    "college": "经贸学院",
+    "name": "保险事业部",
+    "room_no": "603",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5604",
+    "sys_code": "017x5604",
+    "college": "经贸学院",
+    "name": "华力直播室",
+    "room_no": "604",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017x5605",
+    "sys_code": "017x5605",
+    "college": "经贸学院",
+    "name": "多媒体教室7",
+    "room_no": "605",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "017jd",
+    "sys_code": "017jd",
+    "college": "经贸学院",
+    "name": "物流综合实训中心",
+    "room_no": "SXJD001",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2402",
+    "sys_code": "018x2402",
+    "college": "园林学院",
+    "name": "园林建筑CAD实训室1",
+    "room_no": "402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2404",
+    "sys_code": "018x2404",
+    "college": "园林学院",
+    "name": "园林建筑CAD实训室2",
+    "room_no": "404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2405",
+    "sys_code": "018x2405",
+    "college": "园林学院",
+    "name": "园林景观CAD实训室",
+    "room_no": "405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2407",
+    "sys_code": "018x2407",
+    "college": "园林学院",
+    "name": "园林工程预决算实训室",
+    "room_no": "407",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2408",
+    "sys_code": "018x2408",
+    "college": "园林学院",
+    "name": "风景园林规划设计实训室",
+    "room_no": "408",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2413",
+    "sys_code": "018x2413",
+    "college": "园林学院",
+    "name": "景观设计制图实训室1",
+    "room_no": "413",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2414",
+    "sys_code": "018x2414",
+    "college": "园林学院",
+    "name": "景观设计制图实训室2",
+    "room_no": "414",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2502",
+    "sys_code": "018x2502",
+    "college": "园林学院",
+    "name": "花艺设计制作实训室",
+    "room_no": "502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2504",
+    "sys_code": "018x2504",
+    "college": "园林学院",
+    "name": "植物实验室实训室",
+    "room_no": "504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2505",
+    "sys_code": "018x2505",
+    "college": "园林学院",
+    "name": "植物生理实训室",
+    "room_no": "505",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2507",
+    "sys_code": "018x2507",
+    "college": "园林学院",
+    "name": "城镇规划设计实训室",
+    "room_no": "507",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2512",
+    "sys_code": "018x2512",
+    "college": "园林学院",
+    "name": "园林画室",
+    "room_no": "512",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2511",
+    "sys_code": "018x2511",
+    "college": "园林学院",
+    "name": "园林景观设计手绘实训室",
+    "room_no": "511",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd301",
+    "sys_code": "018jd301",
+    "college": "园林学院",
+    "name": "园林工程实训工场",
+    "room_no": "SXJD004",
+    "level": "Ⅳ级",
+    "category": "机电类"
+  },
+  {
+    "id": "018jd201",
+    "sys_code": "018jd201",
+    "college": "园林学院",
+    "name": "园林温室大棚1",
+    "room_no": "SXJD001",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd202",
+    "sys_code": "018jd202",
+    "college": "园林学院",
+    "name": "园林温室大棚2",
+    "room_no": "SXJD002",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd203",
+    "sys_code": "018jd203",
+    "college": "园林学院",
+    "name": "园林温室大棚3",
+    "room_no": "SXJD003",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2102",
+    "sys_code": "018x2102",
+    "college": "园林学院",
+    "name": "花艺实训室1",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2104",
+    "sys_code": "018x2104",
+    "college": "园林学院",
+    "name": "花艺实训室2",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2105",
+    "sys_code": "018x2105",
+    "college": "园林学院",
+    "name": "花艺实训室3",
+    "room_no": "105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2112",
+    "sys_code": "018x2112",
+    "college": "园林学院",
+    "name": "花艺实训室4",
+    "room_no": "112",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2113",
+    "sys_code": "018x2113",
+    "college": "园林学院",
+    "name": "花艺实训室5",
+    "room_no": "113",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2106",
+    "sys_code": "018x2106",
+    "college": "园林学院",
+    "name": "花艺准备室1",
+    "room_no": "106",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2114",
+    "sys_code": "018x2114",
+    "college": "园林学院",
+    "name": "花艺准备室2",
+    "room_no": "114",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2506",
+    "sys_code": "018x2506",
+    "college": "园林学院",
+    "name": "花艺准备室3",
+    "room_no": "506",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018x2503",
+    "sys_code": "018x2503",
+    "college": "园林学院",
+    "name": "园林植物病虫害准备室",
+    "room_no": "503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd103",
+    "sys_code": "018jd103",
+    "college": "园林学院",
+    "name": "园林工程综合实训中心库房(一)",
+    "room_no": "SXJD005",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd104",
+    "sys_code": "018jd104",
+    "college": "园林学院",
+    "name": "园林工程综合实训中心库房(二)",
+    "room_no": "SXJD006",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "018jd100",
+    "sys_code": "018jd100",
+    "college": "园林学院",
+    "name": "园林技术高水平专业群产教融合实训基地",
+    "room_no": "SXJD007",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4102",
+    "sys_code": "019d4102",
+    "college": "设计学院",
+    "name": "电窑室",
+    "room_no": "4102",
+    "level": "Ⅲ级",
+    "category": "机电类"
+  },
+  {
+    "id": "019d4103",
+    "sys_code": "019d4103",
+    "college": "设计学院",
+    "name": "软装陶艺工作室",
+    "room_no": "4103",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4105",
+    "sys_code": "019d4105",
+    "college": "设计学院",
+    "name": "激光技术创新实训室",
+    "room_no": "4105",
+    "level": "Ⅳ级",
+    "category": "机电类"
+  },
+  {
+    "id": "019d4106",
+    "sys_code": "019d4106",
+    "college": "设计学院",
+    "name": "智能制造实训中心",
+    "room_no": "4106",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4203",
+    "sys_code": "019d4203",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（一）",
+    "room_no": "4203",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4205",
+    "sys_code": "019d4205",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（二）",
+    "room_no": "4205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4303",
+    "sys_code": "019d4303",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（三）",
+    "room_no": "4303",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4305",
+    "sys_code": "019d4305",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（四）",
+    "room_no": "4305",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4403",
+    "sys_code": "019d4403",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（五）",
+    "room_no": "4403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d4405",
+    "sys_code": "019d4405",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（六）",
+    "room_no": "4405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d6204",
+    "sys_code": "019d6204",
+    "college": "设计学院",
+    "name": "校企共建实训室",
+    "room_no": "6204",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d62051",
+    "sys_code": "019d62051",
+    "college": "设计学院",
+    "name": "佳艺画室（6205上）",
+    "room_no": "6205（上）",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d62052",
+    "sys_code": "019d62052",
+    "college": "设计学院",
+    "name": "起点画室（6205下）",
+    "room_no": "6205（下）",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d6304",
+    "sys_code": "019d6304",
+    "college": "设计学院",
+    "name": "数字化设计与制造实训室",
+    "room_no": "6304",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d6305",
+    "sys_code": "019d6305",
+    "college": "设计学院",
+    "name": "艺博画室（6305）",
+    "room_no": "6305",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d6402",
+    "sys_code": "019d6402",
+    "college": "设计学院",
+    "name": "智慧及虚拟仿真实训室",
+    "room_no": "6402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2103",
+    "sys_code": "019d2103",
+    "college": "设计学院",
+    "name": "激光智造创意工坊",
+    "room_no": "2103",
+    "level": "Ⅳ级",
+    "category": "机电类"
+  },
+  {
+    "id": "019d2201",
+    "sys_code": "019d2201",
+    "college": "设计学院",
+    "name": "综合实训室（一）",
+    "room_no": "2201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2203",
+    "sys_code": "019d2203",
+    "college": "设计学院",
+    "name": "数智视觉创新中心",
+    "room_no": "2203",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2301",
+    "sys_code": "019d2301",
+    "college": "设计学院",
+    "name": "综合实训室（二）",
+    "room_no": "2301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2302",
+    "sys_code": "019d2302",
+    "college": "设计学院",
+    "name": "摄影准备室",
+    "room_no": "2302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2303",
+    "sys_code": "019d2303",
+    "college": "设计学院",
+    "name": "摄影摄像工作室",
+    "room_no": "2303",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2401",
+    "sys_code": "019d2401",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（七）",
+    "room_no": "2401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2403",
+    "sys_code": "019d2403",
+    "college": "设计学院",
+    "name": "综合实训室（三）",
+    "room_no": "2403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2501",
+    "sys_code": "019d2501",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（八）",
+    "room_no": "2501",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019d2503",
+    "sys_code": "019d2503",
+    "college": "设计学院",
+    "name": "综合实训室（四）",
+    "room_no": "2503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019jd101",
+    "sys_code": "019jd101",
+    "college": "设计学院",
+    "name": "计算机辅助设计实训室（九）",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "019jd103",
+    "sys_code": "019jd103",
+    "college": "设计学院",
+    "name": "木工类技能比赛集训基地",
+    "room_no": "103",
+    "level": "Ⅲ级",
+    "category": "机电类"
+  },
+  {
+    "id": "020x2107",
+    "sys_code": "020x2107",
+    "college": "旅游学院",
+    "name": "食品理化检验室",
+    "room_no": "107",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "020x2208",
+    "sys_code": "020x2208",
+    "college": "旅游学院",
+    "name": "食品安全管理实训室",
+    "room_no": "208",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "020x2209",
+    "sys_code": "020x2209",
+    "college": "旅游学院",
+    "name": "食品工艺实训室",
+    "room_no": "209",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020x2214",
+    "sys_code": "020x2214",
+    "college": "旅游学院",
+    "name": "微生物实训室",
+    "room_no": "214",
+    "level": "Ⅳ级",
+    "category": "生物类"
+  },
+  {
+    "id": "020x2211",
+    "sys_code": "020x2211",
+    "college": "旅游学院",
+    "name": "精密仪器室",
+    "room_no": "211",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020x2210",
+    "sys_code": "020x2210",
+    "college": "旅游学院",
+    "name": "大型仪器分析室",
+    "room_no": "210",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020x2212",
+    "sys_code": "020x2212",
+    "college": "旅游学院",
+    "name": "高温操作实训室",
+    "room_no": "212",
+    "level": "Ⅱ级",
+    "category": "机电类"
+  },
+  {
+    "id": "020x2215",
+    "sys_code": "020x2215",
+    "college": "旅游学院",
+    "name": "无菌操作实训室",
+    "room_no": "215",
+    "level": "Ⅲ级",
+    "category": "生物类"
+  },
+  {
+    "id": "020d7202",
+    "sys_code": "020d7202",
+    "college": "旅游学院",
+    "name": "202中式烹饪实训室",
+    "room_no": "202",
+    "level": "Ⅰ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7203",
+    "sys_code": "020d7203",
+    "college": "旅游学院",
+    "name": "203中式烹饪实训室",
+    "room_no": "203",
+    "level": "Ⅰ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7204",
+    "sys_code": "020d7204",
+    "college": "旅游学院",
+    "name": "204中式烹饪实训室",
+    "room_no": "204",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7401",
+    "sys_code": "020d7401",
+    "college": "旅游学院",
+    "name": "401西式烹调实训室",
+    "room_no": "401",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7402",
+    "sys_code": "020d7402",
+    "college": "旅游学院",
+    "name": "402生鲜粗加工实训室",
+    "room_no": "402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7403",
+    "sys_code": "020d7403",
+    "college": "旅游学院",
+    "name": "403营养配膳实训室",
+    "room_no": "403",
+    "level": "Ⅰ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3101",
+    "sys_code": "020d3101",
+    "college": "旅游学院",
+    "name": "城规智慧运维实训室",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3102",
+    "sys_code": "020d3102",
+    "college": "旅游学院",
+    "name": "城规车辆设备实训室",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3104",
+    "sys_code": "020d3104",
+    "college": "旅游学院",
+    "name": "城规综合演练沙盘",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3105",
+    "sys_code": "020d3105",
+    "college": "旅游学院",
+    "name": "城市轨道交通通信信号实训室",
+    "room_no": "105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3201",
+    "sys_code": "020d3201",
+    "college": "旅游学院",
+    "name": "城规信息化综合实训室",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3202",
+    "sys_code": "020d3202",
+    "college": "旅游学院",
+    "name": "旅游电子商务实训室",
+    "room_no": "202",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3204",
+    "sys_code": "020d3204",
+    "college": "旅游学院",
+    "name": "酒店运营管理实训室",
+    "room_no": "204",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3205",
+    "sys_code": "020d3205",
+    "college": "旅游学院",
+    "name": "旅行社及产品展示实训室",
+    "room_no": "205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3301",
+    "sys_code": "020d3301",
+    "college": "旅游学院",
+    "name": "茶艺实训室",
+    "room_no": "301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3302",
+    "sys_code": "020d3302",
+    "college": "旅游学院",
+    "name": "导游实训室",
+    "room_no": "302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3401",
+    "sys_code": "020d3401",
+    "college": "旅游学院",
+    "name": "客房业务实训室",
+    "room_no": "401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3402",
+    "sys_code": "020d3402",
+    "college": "旅游学院",
+    "name": "西餐宴会实训室",
+    "room_no": "402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3404",
+    "sys_code": "020d3404",
+    "college": "旅游学院",
+    "name": "中餐宴会实训室",
+    "room_no": "404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d3405",
+    "sys_code": "020d3405",
+    "college": "旅游学院",
+    "name": "调酒与咖啡实训室",
+    "room_no": "405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d5102",
+    "sys_code": "020d5102",
+    "college": "旅游学院",
+    "name": "旅游虚拟仿真实训室",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d5103",
+    "sys_code": "020d5103",
+    "college": "旅游学院",
+    "name": "旅游景区开发与管理实训室",
+    "room_no": "103",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d5201",
+    "sys_code": "020d5201",
+    "college": "旅游学院",
+    "name": "旅游形体实训室",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7201",
+    "sys_code": "020d7201",
+    "college": "旅游学院",
+    "name": "201西式烹饪实训室",
+    "room_no": "201",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7301",
+    "sys_code": "020d7301",
+    "college": "旅游学院",
+    "name": "301西式面点实训室",
+    "room_no": "7301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7302",
+    "sys_code": "020d7302",
+    "college": "旅游学院",
+    "name": "302西式烹饪实训室",
+    "room_no": "7302",
+    "level": "Ⅱ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7303",
+    "sys_code": "020d7303",
+    "college": "旅游学院",
+    "name": "303中式面点实训室",
+    "room_no": "7303",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7304",
+    "sys_code": "020d7304",
+    "college": "旅游学院",
+    "name": "304中式面点实训室",
+    "room_no": "7304",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7501",
+    "sys_code": "020d7501",
+    "college": "旅游学院",
+    "name": "501西餐多媒体示范室",
+    "room_no": "7501",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7502",
+    "sys_code": "020d7502",
+    "college": "旅游学院",
+    "name": "502广西饼业产业学院",
+    "room_no": "7502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7503",
+    "sys_code": "020d7503",
+    "college": "旅游学院",
+    "name": "503广西饼业产业学院",
+    "room_no": "7503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7504",
+    "sys_code": "020d7504",
+    "college": "旅游学院",
+    "name": "504广西饼业产业学院",
+    "room_no": "7504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7404",
+    "sys_code": "020d7404",
+    "college": "旅游学院",
+    "name": "404大师工作室",
+    "room_no": "7404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7405",
+    "sys_code": "020d7405",
+    "college": "旅游学院",
+    "name": "405大师工作室",
+    "room_no": "7405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "020d7101",
+    "sys_code": "020d7101",
+    "college": "旅游学院",
+    "name": "101桂菜展示馆",
+    "room_no": "7101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7613",
+    "sys_code": "021X7613",
+    "college": "汽信学院",
+    "name": "7613集成电路实训室",
+    "room_no": "7613",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7514",
+    "sys_code": "021X7514",
+    "college": "汽信学院",
+    "name": "7514影视后期合成实训室",
+    "room_no": "7514",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7513",
+    "sys_code": "021X7513",
+    "college": "汽信学院",
+    "name": "7513创新实践实训室",
+    "room_no": "7513",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7512",
+    "sys_code": "021X7512",
+    "college": "汽信学院",
+    "name": "7512数字影像创新实验室",
+    "room_no": "7512",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7510",
+    "sys_code": "021X7510",
+    "college": "汽信学院",
+    "name": "7510创新实践实训室（一）",
+    "room_no": "7510",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7509",
+    "sys_code": "021X7509",
+    "college": "汽信学院",
+    "name": "7509蓝晒工坊",
+    "room_no": "7509",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7508",
+    "sys_code": "021X7508",
+    "college": "汽信学院",
+    "name": "7508大数据综合实训室",
+    "room_no": "7508",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7507",
+    "sys_code": "021X7507",
+    "college": "汽信学院",
+    "name": "7507数字资源研创中心",
+    "room_no": "7507",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7506",
+    "sys_code": "021X7506",
+    "college": "汽信学院",
+    "name": "7506 4K超高清智慧审片室",
+    "room_no": "7506",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7505",
+    "sys_code": "021X7505",
+    "college": "汽信学院",
+    "name": "7505 NDI 4K+5G超高清播出控制中心",
+    "room_no": "7505",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7504",
+    "sys_code": "021X7504",
+    "college": "汽信学院",
+    "name": "7504 NDI 4K超高清演播实训室",
+    "room_no": "7504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7503",
+    "sys_code": "021X7503",
+    "college": "汽信学院",
+    "name": "7503 创意孵化工坊",
+    "room_no": "7503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7502",
+    "sys_code": "021X7502",
+    "college": "汽信学院",
+    "name": "7502影视剪辑制作实训室",
+    "room_no": "7502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7501",
+    "sys_code": "021X7501",
+    "college": "汽信学院",
+    "name": "7501 媒体融合传播实训室",
+    "room_no": "7501",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7413",
+    "sys_code": "021X7413",
+    "college": "汽信学院",
+    "name": "7413软件测试实训室",
+    "room_no": "7413",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7412",
+    "sys_code": "021X7412",
+    "college": "汽信学院",
+    "name": "7412电工电子实训室（二）",
+    "room_no": "7412",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7409",
+    "sys_code": "021X7409",
+    "college": "汽信学院",
+    "name": "7409电工电子实训室（一）",
+    "room_no": "7409",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7407",
+    "sys_code": "021X7407",
+    "college": "汽信学院",
+    "name": "7407数据治理实训室",
+    "room_no": "7407",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7406",
+    "sys_code": "021X7406",
+    "college": "汽信学院",
+    "name": "7406云创大数据实训室",
+    "room_no": "7406",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7405",
+    "sys_code": "021X7405",
+    "college": "汽信学院",
+    "name": "7405智能体应用开发实训室",
+    "room_no": "7405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7404",
+    "sys_code": "021X7404",
+    "college": "汽信学院",
+    "name": "7404鸿蒙应用开发实训室",
+    "room_no": "7404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7403",
+    "sys_code": "021X7403",
+    "college": "汽信学院",
+    "name": "7403低代码开发实训室",
+    "room_no": "7403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7402",
+    "sys_code": "021X7402",
+    "college": "汽信学院",
+    "name": "7402AI大模型训练实训室",
+    "room_no": "7402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7401",
+    "sys_code": "021X7401",
+    "college": "汽信学院",
+    "name": "7401Web应用开发实训室",
+    "room_no": "7401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7311",
+    "sys_code": "021X7311",
+    "college": "汽信学院",
+    "name": "7311人工智能实训室（一）",
+    "room_no": "7311",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7310",
+    "sys_code": "021X7310",
+    "college": "汽信学院",
+    "name": "7310SGAVE双元创新实训室（三）",
+    "room_no": "7310",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7309",
+    "sys_code": "021X7309",
+    "college": "汽信学院",
+    "name": "7309SGAVE双元创新实训室（二）",
+    "room_no": "7309",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7307",
+    "sys_code": "021X7307",
+    "college": "汽信学院",
+    "name": "7307SGAVE双元创新实训室（二）",
+    "room_no": "7307",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7306",
+    "sys_code": "021X7306",
+    "college": "汽信学院",
+    "name": "人工智能实训室（四）",
+    "room_no": "7306",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7305",
+    "sys_code": "021X7305",
+    "college": "汽信学院",
+    "name": "7305汽车底盘实训室（二）",
+    "room_no": "7305",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7304",
+    "sys_code": "021X7304",
+    "college": "汽信学院",
+    "name": "7304汽车底盘实训室（一）",
+    "room_no": "7304",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7303",
+    "sys_code": "021X7303",
+    "college": "汽信学院",
+    "name": "7303人工智能实训室（三）",
+    "room_no": "7303",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7301",
+    "sys_code": "021X7301",
+    "college": "汽信学院",
+    "name": "人工智能实训室（二）",
+    "room_no": "7301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7211",
+    "sys_code": "021X7211",
+    "college": "汽信学院",
+    "name": "7211理实一体化教室（三）",
+    "room_no": "7211",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7210",
+    "sys_code": "021X7210",
+    "college": "汽信学院",
+    "name": "7210智能网联实训室（二）",
+    "room_no": "7210",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7209",
+    "sys_code": "021X7209",
+    "college": "汽信学院",
+    "name": "7209智能网联实训室（一）",
+    "room_no": "7209",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7208",
+    "sys_code": "021X7208",
+    "college": "汽信学院",
+    "name": "7208汽车工具室",
+    "room_no": "7208",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7207",
+    "sys_code": "021X7207",
+    "college": "汽信学院",
+    "name": "7207理实一体化教室（二）",
+    "room_no": "7207",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7206",
+    "sys_code": "021X7206",
+    "college": "汽信学院",
+    "name": "7206理实一体化教室（一）",
+    "room_no": "7206",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7205",
+    "sys_code": "021X7205",
+    "college": "汽信学院",
+    "name": "7205发动机构造实训室（二）",
+    "room_no": "7205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7204",
+    "sys_code": "021X7204",
+    "college": "汽信学院",
+    "name": "7204发动机构造实训室（一）",
+    "room_no": "7204",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7203",
+    "sys_code": "021X7203",
+    "college": "汽信学院",
+    "name": "7203汽车电工电子实训室",
+    "room_no": "7203",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7202",
+    "sys_code": "021X7202",
+    "college": "汽信学院",
+    "name": "7202汽车耗材室",
+    "room_no": "7202",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7201",
+    "sys_code": "021X7201",
+    "college": "汽信学院",
+    "name": "7201汽车电气实训室",
+    "room_no": "7201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7107",
+    "sys_code": "021X7107",
+    "college": "汽信学院",
+    "name": "7107人工智能创新中心",
+    "room_no": "7107",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7106",
+    "sys_code": "021X7106",
+    "college": "汽信学院",
+    "name": "7106具身机器人实训室",
+    "room_no": "7106",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7105",
+    "sys_code": "021X7105",
+    "college": "汽信学院",
+    "name": "7105智能网联创新中心",
+    "room_no": "7105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7104",
+    "sys_code": "021X7104",
+    "college": "汽信学院",
+    "name": "7104智能网联汽车应用实践中心",
+    "room_no": "7104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7103",
+    "sys_code": "021X7103",
+    "college": "汽信学院",
+    "name": "7103汽车整车实训室",
+    "room_no": "7103",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021X7102",
+    "sys_code": "021X7102",
+    "college": "汽信学院",
+    "name": "7102新能源汽车虚拟仿真实训室",
+    "room_no": "7102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd09",
+    "sys_code": "021jd09",
+    "college": "汽信学院",
+    "name": "9.汽车维护保养实训室",
+    "room_no": "SXJD009",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd08",
+    "sys_code": "021jd08",
+    "college": "汽信学院",
+    "name": "8.汽车营销实训室",
+    "room_no": "SXJD008",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd07",
+    "sys_code": "021jd07",
+    "college": "汽信学院",
+    "name": "7.汽车构造实训室（三）",
+    "room_no": "SXJD007",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd06",
+    "sys_code": "021jd06",
+    "college": "汽信学院",
+    "name": "6.汽车电气实训室（二）",
+    "room_no": "SXJD006",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd05",
+    "sys_code": "021jd05",
+    "college": "汽信学院",
+    "name": "5.汽车构造实训室（二）",
+    "room_no": "SXJD005",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd04",
+    "sys_code": "021jd04",
+    "college": "汽信学院",
+    "name": "4.汽车构造实训室（一）",
+    "room_no": "SXJD004",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd03",
+    "sys_code": "021jd03",
+    "college": "汽信学院",
+    "name": "3.电控发动机实训室",
+    "room_no": "SXJD003",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd02",
+    "sys_code": "021jd02",
+    "college": "汽信学院",
+    "name": "2.新能源汽车实训室",
+    "room_no": "SXJD002",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd01",
+    "sys_code": "021jd01",
+    "college": "汽信学院",
+    "name": "1.汽车电气实训室",
+    "room_no": "SXJD001",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd11",
+    "sys_code": "021jd11",
+    "college": "汽信学院",
+    "name": "汽车制造实训室",
+    "room_no": "SXJD011",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd10",
+    "sys_code": "021jd10",
+    "college": "汽信学院",
+    "name": "汽车维修实训车间",
+    "room_no": "SXJD010",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd12",
+    "sys_code": "021jd12",
+    "college": "汽信学院",
+    "name": "汽车生产实训室",
+    "room_no": "SXJD012",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd15",
+    "sys_code": "021jd15",
+    "college": "汽信学院",
+    "name": "汽车耗材室3",
+    "room_no": "SXJD015",
+    "level": "未定级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd14",
+    "sys_code": "021jd14",
+    "college": "汽信学院",
+    "name": "汽车耗材室2",
+    "room_no": "SXJD014",
+    "level": "未定级",
+    "category": "其他类"
+  },
+  {
+    "id": "021jd13",
+    "sys_code": "021jd13",
+    "college": "汽信学院",
+    "name": "汽车耗材室1",
+    "room_no": "SXJD013",
+    "level": "未定级",
+    "category": "其他类"
+  },
+  {
+    "id": "汽信学院-101-实训工厂",
+    "sys_code": "汽信学院-101-实训工厂",
+    "college": "汽信学院",
+    "name": "实训工厂",
+    "room_no": "101",
+    "level": "未定级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x2207",
+    "sys_code": "022x2207",
+    "college": "建工学院",
+    "name": "建筑设备实训室(207)",
+    "room_no": "207",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x302",
+    "sys_code": "022x302",
+    "college": "建工学院",
+    "name": "道桥工程实训室(302)",
+    "room_no": "302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x304",
+    "sys_code": "022x304",
+    "college": "建工学院",
+    "name": "工程造价实训室Ⅰ(304)",
+    "room_no": "304",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x305",
+    "sys_code": "022x305",
+    "college": "建工学院",
+    "name": "工程造价实训室Ⅱ(305)",
+    "room_no": "305",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x307",
+    "sys_code": "022x307",
+    "college": "建工学院",
+    "name": "BIM实训室(307)",
+    "room_no": "307",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x308",
+    "sys_code": "022x308",
+    "college": "建工学院",
+    "name": "建筑工程实训室(308)",
+    "room_no": "308",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x309",
+    "sys_code": "022x309",
+    "college": "建工学院",
+    "name": "CAD绘图室(309)",
+    "room_no": "309",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x213",
+    "sys_code": "022x213",
+    "college": "建工学院",
+    "name": "建筑构造与模型实训室(313)",
+    "room_no": "213",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x409",
+    "sys_code": "022x409",
+    "college": "建工学院",
+    "name": "工程招标模拟实训室",
+    "room_no": "409",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6101",
+    "sys_code": "022x6101",
+    "college": "建工学院",
+    "name": "智能检测实训中心",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6103",
+    "sys_code": "022x6103",
+    "college": "建工学院",
+    "name": "装配建造实训中心",
+    "room_no": "103",
+    "level": "Ⅲ级",
+    "category": "机电类"
+  },
+  {
+    "id": "022x6104",
+    "sys_code": "022x6104",
+    "college": "建工学院",
+    "name": "智能建造实训中心",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6105",
+    "sys_code": "022x6105",
+    "college": "建工学院",
+    "name": "校企协同创新工作室",
+    "room_no": "105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6107",
+    "sys_code": "022x6107",
+    "college": "建工学院",
+    "name": "待定功能实验室",
+    "room_no": "107",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6201",
+    "sys_code": "022x6201",
+    "college": "建工学院",
+    "name": "交通工程实训中心",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6202",
+    "sys_code": "022x6202",
+    "college": "建工学院",
+    "name": "木构营造实训室",
+    "room_no": "202",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6203",
+    "sys_code": "022x6203",
+    "college": "建工学院",
+    "name": "建筑施工实训中心(一)",
+    "room_no": "203",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6204",
+    "sys_code": "022x6204",
+    "college": "建工学院",
+    "name": "建筑施工实训中心(二)",
+    "room_no": "204",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6205",
+    "sys_code": "022x6205",
+    "college": "建工学院",
+    "name": "生态路材协同创新中心",
+    "room_no": "205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6208",
+    "sys_code": "022x6208",
+    "college": "建工学院",
+    "name": "智能测绘实训室（一）",
+    "room_no": "208",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6209",
+    "sys_code": "022x6209",
+    "college": "建工学院",
+    "name": "智能测绘实训室（二）",
+    "room_no": "209",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6316",
+    "sys_code": "022x6316",
+    "college": "建工学院",
+    "name": "多功能教室",
+    "room_no": "316",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6402",
+    "sys_code": "022x6402",
+    "college": "建工学院",
+    "name": "建筑工程虚仿实训室（一）",
+    "room_no": "402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6403",
+    "sys_code": "022x6403",
+    "college": "建工学院",
+    "name": "建筑工程虚仿实训室（二）",
+    "room_no": "403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6406",
+    "sys_code": "022x6406",
+    "college": "建工学院",
+    "name": "BIM&CIM实训室（一）",
+    "room_no": "406",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6405",
+    "sys_code": "022x6405",
+    "college": "建工学院",
+    "name": "BIM&CIM实训室（二）",
+    "room_no": "405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6406",
+    "sys_code": "022x6406",
+    "college": "建工学院",
+    "name": "BIM造价实训室（一）",
+    "room_no": "406",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6407",
+    "sys_code": "022x6407",
+    "college": "建工学院",
+    "name": "桥隧虚拟仿真实训室（一）",
+    "room_no": "407",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6408",
+    "sys_code": "022x6408",
+    "college": "建工学院",
+    "name": "桥隧虚拟仿真实训室（二）",
+    "room_no": "408",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6410",
+    "sys_code": "022x6410",
+    "college": "建工学院",
+    "name": "BIM造价实训室（二）",
+    "room_no": "410",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6411",
+    "sys_code": "022x6411",
+    "college": "建工学院",
+    "name": "BIM造价实训室（三）",
+    "room_no": "411",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6501",
+    "sys_code": "022x6501",
+    "college": "建工学院",
+    "name": "工程制图识图实训室（一）",
+    "room_no": "501",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6502",
+    "sys_code": "022x6502",
+    "college": "建工学院",
+    "name": "多媒体教室1",
+    "room_no": "502",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6503",
+    "sys_code": "022x6503",
+    "college": "建工学院",
+    "name": "工程制图识图实训室（二）",
+    "room_no": "503",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6504",
+    "sys_code": "022x6504",
+    "college": "建工学院",
+    "name": "多媒体教室2",
+    "room_no": "504",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6505",
+    "sys_code": "022x6505",
+    "college": "建工学院",
+    "name": "多媒体教室3",
+    "room_no": "505",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6506",
+    "sys_code": "022x6506",
+    "college": "建工学院",
+    "name": "多媒体教室4",
+    "room_no": "506",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6515",
+    "sys_code": "022x6515",
+    "college": "建工学院",
+    "name": "职业技能鉴定中心",
+    "room_no": "515",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6601",
+    "sys_code": "022x6601",
+    "college": "建工学院",
+    "name": "电子电工实训教室",
+    "room_no": "601",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6602",
+    "sys_code": "022x6602",
+    "college": "建工学院",
+    "name": "多媒体教室5",
+    "room_no": "602",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6603",
+    "sys_code": "022x6603",
+    "college": "建工学院",
+    "name": "制图与识图实训室",
+    "room_no": "603",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6604",
+    "sys_code": "022x6604",
+    "college": "建工学院",
+    "name": "多媒体教室6",
+    "room_no": "604",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6605",
+    "sys_code": "022x6605",
+    "college": "建工学院",
+    "name": "多媒体教室7",
+    "room_no": "605",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6606",
+    "sys_code": "022x6606",
+    "college": "建工学院",
+    "name": "多媒体教室8",
+    "room_no": "606",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6609",
+    "sys_code": "022x6609",
+    "college": "建工学院",
+    "name": "多媒体教室9",
+    "room_no": "609",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6611",
+    "sys_code": "022x6611",
+    "college": "建工学院",
+    "name": "多媒体教室10",
+    "room_no": "611",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6612",
+    "sys_code": "022x6612",
+    "college": "建工学院",
+    "name": "多媒体教室11",
+    "room_no": "612",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "022x6613",
+    "sys_code": "022x6613",
+    "college": "建工学院",
+    "name": "多媒体教室12",
+    "room_no": "613",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x2108",
+    "sys_code": "023x2108",
+    "college": "环保学院",
+    "name": "环境污染控制模拟实训室",
+    "room_no": "西-2-108",
+    "level": "Ⅳ级",
+    "category": "机电类"
+  },
+  {
+    "id": "023x3S101",
+    "sys_code": "023x3S101",
+    "college": "环保学院",
+    "name": "物理监测实训室",
+    "room_no": "西-3-S101",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S102",
+    "sys_code": "023x3S102",
+    "college": "环保学院",
+    "name": "大气监测实训室",
+    "room_no": "西-3-S102",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S103",
+    "sys_code": "023x3S103",
+    "college": "环保学院",
+    "name": "仪器室1",
+    "room_no": "西-3-S103",
+    "level": "Ⅳ级",
+    "category": "机电类"
+  },
+  {
+    "id": "023x3S104",
+    "sys_code": "023x3S104",
+    "college": "环保学院",
+    "name": "水污染控制实训室1",
+    "room_no": "西-3-S104",
+    "level": "Ⅱ级",
+    "category": "机电类"
+  },
+  {
+    "id": "023x3S105",
+    "sys_code": "023x3S105",
+    "college": "环保学院",
+    "name": "土壤监测实训室",
+    "room_no": "西-3-S105",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S201",
+    "sys_code": "023x3S201",
+    "college": "环保学院",
+    "name": "仪器分析实训室",
+    "room_no": "西-3-S201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S202",
+    "sys_code": "023x3S202",
+    "college": "环保学院",
+    "name": "水环境监测实训室1",
+    "room_no": "西-3-S202",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S203",
+    "sys_code": "023x3S203",
+    "college": "环保学院",
+    "name": "仪器室2",
+    "room_no": "西-3-S203",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S204",
+    "sys_code": "023x3S204",
+    "college": "环保学院",
+    "name": "仪器库房",
+    "room_no": "西-3-S204",
+    "level": "Ⅲ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S205",
+    "sys_code": "023x3S205",
+    "college": "环保学院",
+    "name": "水环境监测实训室2",
+    "room_no": "西-3-S205",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S301",
+    "sys_code": "023x3S301",
+    "college": "环保学院",
+    "name": "环境工程仿真中心1",
+    "room_no": "西-3-S301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S302",
+    "sys_code": "023x3S302",
+    "college": "环保学院",
+    "name": "环境工程仿真中心2",
+    "room_no": "西-3-S302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S303",
+    "sys_code": "023x3S303",
+    "college": "环保学院",
+    "name": "药品准备室",
+    "room_no": "西-3-S303",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S304",
+    "sys_code": "023x3S304",
+    "college": "环保学院",
+    "name": "药品储存室",
+    "room_no": "西-3-S304",
+    "level": "Ⅰ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S305",
+    "sys_code": "023x3S305",
+    "college": "环保学院",
+    "name": "环境工程仿真中心3",
+    "room_no": "西-3-S305",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S401",
+    "sys_code": "023x3S401",
+    "college": "环保学院",
+    "name": "电子电工实训室",
+    "room_no": "西-3-S401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S402",
+    "sys_code": "023x3S402",
+    "college": "环保学院",
+    "name": "固废处理实训室",
+    "room_no": "西-3-S402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3S403",
+    "sys_code": "023x3S403",
+    "college": "环保学院",
+    "name": "预处理室",
+    "room_no": "西-3-S403",
+    "level": "Ⅳ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S404",
+    "sys_code": "023x3S404",
+    "college": "环保学院",
+    "name": "精密仪器实训室",
+    "room_no": "西-3-S404",
+    "level": "Ⅲ级",
+    "category": "化学类"
+  },
+  {
+    "id": "023x3S405",
+    "sys_code": "023x3S405",
+    "college": "环保学院",
+    "name": "智能装备实训室",
+    "room_no": "西-3-S405",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N103",
+    "sys_code": "023x3N103",
+    "college": "环保学院",
+    "name": "虚拟仿真实训室",
+    "room_no": "西-3-N103",
+    "level": "Ⅱ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N301",
+    "sys_code": "023x3N301",
+    "college": "环保学院",
+    "name": "水污染控制实训室2",
+    "room_no": "西-3-N301",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N302",
+    "sys_code": "023x3N302",
+    "college": "环保学院",
+    "name": "水污染控制实训室3",
+    "room_no": "西-3-N302",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N401",
+    "sys_code": "023x3N401",
+    "college": "环保学院",
+    "name": "水污染控制实训室4",
+    "room_no": "西-3-N401",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N402",
+    "sys_code": "023x3N402",
+    "college": "环保学院",
+    "name": "准备室",
+    "room_no": "西-3-N402",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N403",
+    "sys_code": "023x3N403",
+    "college": "环保学院",
+    "name": "环境微生物实训室",
+    "room_no": "西-3-N403",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "023x3N404",
+    "sys_code": "023x3N404",
+    "college": "环保学院",
+    "name": "自动监测实训室2",
+    "room_no": "西-3-N404",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "028d2205",
+    "sys_code": "028d2205",
+    "college": "智造学院",
+    "name": "PLC实训室01（1）",
+    "room_no": "2205",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2206",
+    "sys_code": "028d2206",
+    "college": "智造学院",
+    "name": "机器视觉实训室",
+    "room_no": "2206",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2209",
+    "sys_code": "028d2209",
+    "college": "智造学院",
+    "name": "电工电子实训室（1）",
+    "room_no": "2209",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2305",
+    "sys_code": "028d2305",
+    "college": "智造学院",
+    "name": "工业网络数据采集实训室",
+    "room_no": "2305",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2309",
+    "sys_code": "028d2309",
+    "college": "智造学院",
+    "name": "计算机实训室（1）",
+    "room_no": "2309",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2405",
+    "sys_code": "028d2405",
+    "college": "智造学院",
+    "name": "电工电子实训室（2）",
+    "room_no": "2405",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2408",
+    "sys_code": "028d2408",
+    "college": "智造学院",
+    "name": "计算机实训室（2）",
+    "room_no": "2408",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028d2511",
+    "sys_code": "028d2511",
+    "college": "智造学院",
+    "name": "计算机实训室（3）",
+    "room_no": "2511",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd101",
+    "sys_code": "028xjd101",
+    "college": "智造学院",
+    "name": "气压传动实训室",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd102",
+    "sys_code": "028xjd102",
+    "college": "智造学院",
+    "name": "实训器材室",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd103",
+    "sys_code": "028xjd103",
+    "college": "智造学院",
+    "name": "备赛训练室（2）",
+    "room_no": "103",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd104",
+    "sys_code": "028xjd104",
+    "college": "智造学院",
+    "name": "PLC实训室（2）",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd105",
+    "sys_code": "028xjd105",
+    "college": "智造学院",
+    "name": "电工电子实训室（4）",
+    "room_no": "105",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd106",
+    "sys_code": "028xjd106",
+    "college": "智造学院",
+    "name": "计算机实训室（5）",
+    "room_no": "106",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd107",
+    "sys_code": "028xjd107",
+    "college": "智造学院",
+    "name": "供配电实训室",
+    "room_no": "107",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd201",
+    "sys_code": "028xjd201",
+    "college": "智造学院",
+    "name": "电工电子实训室（3）",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd202",
+    "sys_code": "028xjd202",
+    "college": "智造学院",
+    "name": "计算机实训室（4）",
+    "room_no": "202",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd203",
+    "sys_code": "028xjd203",
+    "college": "智造学院",
+    "name": "传感器实训室",
+    "room_no": "203",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd204",
+    "sys_code": "028xjd204",
+    "college": "智造学院",
+    "name": "工业机器人实训室（1）",
+    "room_no": "204",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "028xjd205",
+    "sys_code": "028xjd205",
+    "college": "智造学院",
+    "name": "工业机器人实训室（2）",
+    "room_no": "205",
+    "level": "Ⅳ级",
+    "category": "基础实验室"
+  },
+  {
+    "id": "dt1",
+    "sys_code": "dt1",
+    "college": "通识学院",
+    "name": "形体训练馆",
+    "room_no": "103",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "dt2",
+    "sys_code": "dt2",
+    "college": "通识学院",
+    "name": "体育综合馆",
+    "room_no": "104",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "xt1",
+    "sys_code": "xt1",
+    "college": "通识学院",
+    "name": "大学生文化艺术中心",
+    "room_no": "101",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "xt2",
+    "sys_code": "xt2",
+    "college": "通识学院",
+    "name": "大学生文化艺术中心",
+    "room_no": "201",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  },
+  {
+    "id": "xt3",
+    "sys_code": "xt3",
+    "college": "通识学院",
+    "name": "大学生文化艺术中心",
+    "room_no": "102",
+    "level": "Ⅳ级",
+    "category": "其他类"
+  }
+]

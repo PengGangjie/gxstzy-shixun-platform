@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>实训室 SOP 评估 · 安全信息牌生成器</title>
+<style>
+:root{
+  --school:#008742; --school-deep:#006B35; --school-soft:#f1fff3;
+  --bg:#f4f4f4; --card:#fff; --ink:#1a1a1a; --muted:#666;
+  --red:#c62828; --yellow:#f9a825; --blue:#1565c0; --green:#2e7d32;
+  --line:#e0e0e0; --shadow:0 8px 28px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header.app{
+  background:linear-gradient(135deg,var(--school),var(--school-deep));
+  color:#fff;padding:18px 24px;position:sticky;top:0;z-index:20;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+}
+header.app h1{margin:0;font-size:1.25rem;font-weight:700}
+header.app p{margin:6px 0 0;opacity:.92;font-size:.85rem}
+.wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(380px,1.05fr);gap:16px;padding:16px;max-width:1480px;margin:0 auto}
+@media(max-width:1100px){.wrap{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.panel h2{margin:0;padding:14px 16px;font-size:1rem;background:var(--school-soft);color:var(--school-deep);border-bottom:1px solid #d7efdc}
+.panel .body{padding:14px 16px 18px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.steps button{
+  border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;
+  font-size:.78rem;cursor:pointer;color:var(--muted)
+}
+.steps button.active{background:var(--school);border-color:var(--school);color:#fff}
+.step{display:none}.step.active{display:block}
+label.field{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+input[type=text],input[type=tel],select,textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.hint{font-size:.78rem;color:var(--muted);margin:8px 0 0}
+.group{border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}
+.group>summary,.group-h{
+  padding:10px 12px;background:#fafafa;font-weight:650;font-size:.9rem;cursor:pointer;list-style:none
+}
+.group .inner{padding:8px 12px 12px}
+.chk{
+  display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed #eee;font-size:.86rem
+}
+.chk:last-child{border-bottom:0}
+.chk input{margin-top:3px}
+.radio-row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.radio-row label{
+  border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.8rem;cursor:pointer;background:#fff
+}
+.radio-row input{margin-right:4px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+  font-size:.78rem;font-weight:700;color:#fff
+}
+.scorebox{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px;border-radius:10px;
+  background:linear-gradient(90deg,#f1fff3,#fff);border:1px solid #cfe9d6;margin-bottom:12px
+}
+.scorebox .n{font-size:1.6rem;font-weight:800;color:var(--school-deep)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.actions button,.actions a{
+  border:0;border-radius:8px;padding:9px 14px;font:inherit;cursor:pointer;text-decoration:none;display:inline-block
+}
+.btn-primary{background:var(--school);color:#fff}
+.btn-secondary{background:#eee;color:#333}
+.btn-danger{background:var(--red);color:#fff}
+.preview-wrap{padding:12px;background:#ececec;overflow:auto}
+.board{
+  width:297mm;height:210mm;background:#fff;border:3.2mm solid var(--red);
+  display:grid;grid-template-columns:1.72fr 1fr;margin:0 auto;box-sizing:border-box;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);overflow:hidden;
+}
+.board-left{display:grid;grid-template-rows:auto 1fr 1fr 1fr;border-right:1.2mm solid #ddd;min-height:0;min-width:0}
+.info-table{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ccc}
+.info-cell{padding:2.5mm 3mm;border-bottom:1px solid #eee;border-right:1px solid #eee;font-size:3mm}
+.info-cell:nth-child(2n){border-right:0}
+.info-cell .k{color:#666;font-size:2.3mm}
+.info-cell .k small{display:block;opacity:.7}
+.info-cell .v{font-weight:700;margin-top:1mm;min-height:1.2em;font-size:3.2mm}
+.sign-row{display:grid;grid-template-columns:8mm 1fr;border-bottom:1px solid #ccc;min-height:0}
+.sign-row.tone-r{background:#fdecea}
+.sign-row.tone-y{background:#fff8e1}
+.sign-row.tone-b{background:#e8f1fb}
+.sign-label{
+  writing-mode:vertical-rl;text-orientation:mixed;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;
+  color:#fff;font-weight:900;font-size:3.1mm;letter-spacing:.22em;padding:2.2mm 0;line-height:1.2;text-align:center
+}
+.sign-label .en{display:block;font-weight:600;letter-spacing:.08em;font-size:1.85mm;opacity:.92}
+.sign-label.red{background:#c62828;color:#fff}
+.sign-label.yellow{background:#f9a825;color:#1a1a1a}
+.sign-label.blue{background:#1565c0;color:#fff}
+.sign-icons{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;padding:2mm;align-content:center;background:transparent
+}
+.sign-icons .ico{
+  border:1px solid rgba(0,0,0,.08);border-radius:1.2mm;background:rgba(255,255,255,.88);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:1.2mm .6mm .8mm;min-height:0;overflow:hidden
+}
+.sign-icons .ico img,.sign-icons .ico svg{width:100%;max-width:16mm;height:16mm;object-fit:contain}
+.sign-icons .ico span{font-size:2.1mm;text-align:center;line-height:1.15;margin-top:.8mm;color:#222;font-weight:700}
+.board-right{display:grid;grid-template-rows:1.15fr 1.25fr 1.15fr .72fr .72fr;min-height:0;min-width:0}
+.rblock{border-bottom:1px solid #ccc;display:flex;flex-direction:column;min-height:0}
+.rblock:last-child{border-bottom:0}
+.rblock.qr-slot{background:#fffdf3}
+.rhead{color:#fff;font-weight:800;text-align:center;padding:1.6mm 1mm;font-size:3mm}
+.rhead small{display:block;font-weight:500;opacity:.9;font-size:2mm;margin-top:.3mm}
+.rhead.y{background:#f9a825;color:#222}
+.rhead.b{background:#0d47a1}
+.rhead.g{background:var(--green)}
+.rhead.r{background:var(--red)}
+.rhead.c{background:#0277bd}
+.rbody{padding:2mm;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.rblock.qr-slot .rbody{background:#fffdf3}
+.qrbox{
+  width:30mm;height:30mm;border:1.2mm dashed var(--red);display:grid;place-items:center;
+  font-size:2.2mm;color:#999;text-align:center;background:#fff;box-sizing:border-box;padding:1.2mm;font-weight:700
+}
+.phones{width:100%;font-size:2.55mm}
+.phones div{display:flex;justify-content:space-between;gap:6px;padding:.7mm 0;border-bottom:1px dotted #ddd}
+.firelist{width:100%;font-size:2.55mm}
+.firelist label{display:flex;justify-content:space-between;align-items:center;padding:.6mm 0}
+.level-big{font-size:9mm;font-weight:900;letter-spacing:.1em}
+.cat-big{font-size:5.2mm;font-weight:800}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line)}
+.issue{margin-top:10px;padding:10px;border-radius:8px;background:#fff8e1;border:1px solid #ffe082;font-size:.82rem}
+.issue h3{margin:0 0 6px;font-size:.88rem}
+.issue ul{margin:0;padding-left:1.1em}
+footer.note{max-width:1480px;margin:0 auto 24px;padding:0 16px;font-size:.75rem;color:#777}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{background:#fff!important}
+  header.app,.panel:first-child,footer.note,.toolbar,.steps,.actions,.scorebox,.hint,.no-print{display:none!important}
+  .wrap{display:block;padding:0}
+  .preview-wrap{background:#fff;padding:0}
+  .board{box-shadow:none;margin:0}
+}
+</style>
+</head>
+<body>
+<header class="app">
+  <h1>实训室 SOP 评估 · 安全信息牌生成器</h1>
+  <p>依据校政字〔2024〕183号分级分类办法 · 危险源清单（试行）· 安全检查项目表（2026） · 选择题自动定级并生成信息栏</p>
+</header>
+<div class="wrap">
+  <section class="panel">
+    <h2>一、评估问卷（选择题）</h2>
+    <div class="body">
+      <div class="steps" id="steps"></div>
+      <div class="scorebox">
+        <div>评估结果：<span class="badge" id="levelBadge">Ⅳ级</span></div>
+        <div>类别：<strong id="catOut">其他类</strong></div>
+        <div>评分：<span class="n" id="scoreOut">0</span><span style="color:#888"> / 100</span></div>
+      </div>
+
+      <div class="step active" data-step="0">
+        <div class="grid2">
+          <div><label class="field">二级学院 / 单位名称</label><input id="unit" type="text" placeholder="如：环保学院" /></div>
+          <div><label class="field">楼宇</label><input id="building" type="text" placeholder="如：实训楼 A 栋" /></div>
+          <div><label class="field">实训室名称</label><input id="roomName" type="text" placeholder="如：电子电工实训室" /></div>
+          <div><label class="field">房间号</label><input id="roomNo" type="text" placeholder="如：A302" /></div>
+          <div><label class="field">安全负责人</label><input id="owner" type="text" /></div>
+          <div><label class="field">负责人电话</label><input id="phone" type="tel" /></div>
+        </div>
+        <label class="field">主要风险类别（分类）</label>
+        <div class="radio-row" id="catRadios"></div>
+        <p class="hint">同一间室涉及多种危险源时，按等级最高的危险源判定类别（管理办法第十一条）。</p>
+      </div>
+
+      <div class="step" data-step="1">
+        <p class="hint">勾选本室存在的重要危险源（源自附件1，共8大类）。系统将据此推荐标识与灭火要点。</p>
+        <div id="hazardGroups"></div>
+      </div>
+
+      <div class="step" data-step="2">
+        <p class="hint">若符合下列任一条，直接按对应等级定级（管理办法附件1）。同时符合评分规则时取较高者。</p>
+        <details class="group" open><summary class="group-h" style="background:#ffebee;color:#b71c1c">Ⅰ级 / 红色级（重大风险）直接条件</summary><div class="inner" id="trigI"></div></details>
+        <details class="group"><summary class="group-h" style="background:#fff3e0;color:#e65100">Ⅱ级 / 橙色级（高风险）直接条件</summary><div class="inner" id="trigII"></div></details>
+        <details class="group"><summary class="group-h" style="background:#fffde7;color:#f57f17">Ⅲ级 / 黄色级（中风险）直接条件</summary><div class="inner" id="trigIII"></div></details>
+      </div>
+
+      <div class="step" data-step="3">
+        <p class="hint">按《学校实训室安全风险评价表》累加计分，最高 100 分。≥100→Ⅰ；[75,100)→Ⅱ；[25,75)→Ⅲ；[0,25)→Ⅳ。</p>
+        <div id="scoreGroups"></div>
+      </div>
+
+      <div class="step" data-step="4">
+        <p class="hint">单间场所合规自评（摘自检查项目表中与房间直接相关条款），用于 SOP 评估结论，不改变风险等级。</p>
+        <div id="checkGroups"></div>
+        <div class="issue" id="issueBox" style="display:none"><h3>SOP 评估提示</h3><ul id="issueList"></ul></div>
+      </div>
+
+      <div class="step" data-step="5">
+        <label class="field">灭火要点（可多选，将显示在信息牌）</label>
+        <div id="firePoints"></div>
+        <label class="field">紧急联系电话（可改）</label>
+        <div id="emergBox"></div>
+        <label class="field">标识选用（可微调；默认已按危险源自动勾选）</label>
+        <div class="grid2">
+          <div>
+            <div class="group-h">禁止 / 警告标识</div>
+            <div id="signPickPW" class="inner"></div>
+          </div>
+          <div>
+            <div class="group-h">防护 / 指令标识</div>
+            <div id="signPickM" class="inner"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary" type="button" id="prevBtn">上一步</button>
+        <button class="btn-primary" type="button" id="nextBtn">下一步</button>
+        <button class="btn-primary" type="button" id="genBtn">生成 / 刷新信息牌</button>
+        <button class="btn-secondary" type="button" id="printBtn">打印信息牌</button>
+        <button class="btn-secondary" type="button" id="exportBtn">导出 JSON</button>
+        <button class="btn-danger" type="button" id="resetBtn">清空重填</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>二、安全信息牌预览</h2>
+    <div class="toolbar">
+      <span class="hint no-print" style="margin:0">打印输出为 A4 横向（297mm×210mm）安全信息牌。</span>
+    </div>
+    <div class="preview-wrap">
+      <div class="board" id="board">
+        <div class="board-left">
+          <div class="info-table" id="infoTable"></div>
+          <div class="sign-row tone-r"><div class="sign-label red">危险类别<span class="en">Hazard Class</span></div><div class="sign-icons" id="rowProhibit"></div></div>
+          <div class="sign-row tone-y"><div class="sign-label yellow">注意事项<span class="en">Caution</span></div><div class="sign-icons" id="rowWarning"></div></div>
+          <div class="sign-row tone-b"><div class="sign-label blue">防护措施<span class="en">Protective Measures</span></div><div class="sign-icons" id="rowMandatory"></div></div>
+        </div>
+        <div class="board-right">
+          <div class="rblock qr-slot" style="flex:1.1">
+            <div class="rhead y">实验室二维码<br><small>Laboratory QR Code · 预留</small></div>
+            <div class="rbody"><div class="qrbox" id="qrBox">实验室二维码<br>预留空位</div></div>
+          </div>
+          <div class="rblock" style="flex:1.3">
+            <div class="rhead b">紧急联系电话<br><small>Emergency Contact</small></div>
+            <div class="rbody"><div class="phones" id="phoneList"></div></div>
+          </div>
+          <div class="rblock" style="flex:1.2">
+            <div class="rhead g">灭火要点<br><small>Key Points Of Fire Fighting</small></div>
+            <div class="rbody"><div class="firelist" id="fireList"></div></div>
+          </div>
+          <div class="rblock">
+            <div class="rhead r">安全风险等级<br><small>Safety Risk Level</small></div>
+            <div class="rbody"><div class="level-big" id="levelBig">Ⅳ级</div></div>
+          </div>
+          <div class="rblock">
+            <div class="rhead c">实验室风险类别<br><small>Laboratory Risk Category</small></div>
+            <div class="rbody"><div class="cat-big" id="catBig">其他类</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<footer class="note">
+  本工具用于单间实训室自评与信息牌草稿生成；正式定级须经二级学院审核、教务处备案。标识图片来自教务处「安全类标识矢量图」库；部分通用标识以 SVG 补全以便排版。
+</footer>
+<script>
+const DATA = {"school": "广西生态工程职业技术学院", "basis": ["校政字〔2024〕183号《实训室安全分级分类管理办法》", "附件1《高校实验室重要危险源主要风险清单（试行）》（8大类48条）", "附件2《高等学校实验室安全检查项目表（2026年）》场所级要点"], "categories": [{"id": "化学类", "hint": "较多涉及化学试剂或化学反应"}, {"id": "生物类", "hint": "涉及微生物、动物等生物危险源"}, {"id": "辐射类", "hint": "涉及放射性同位素、射线装置、核材料"}, {"id": "机电类", "hint": "高温高压高速、强电强磁激光、大型机加工等"}, {"id": "其他类", "hint": "主要是一般用电/消防风险"}], "levels": [{"id": "I", "name": "Ⅰ级", "color": "#C62828", "alias": "红色级", "risk": "重大风险"}, {"id": "II", "name": "Ⅱ级", "color": "#EF6C00", "alias": "橙色级", "risk": "高风险"}, {"id": "III", "name": "Ⅲ级", "color": "#F9A825", "alias": "黄色级", "risk": "中风险"}, {"id": "IV", "name": "Ⅳ级", "color": "#1565C0", "alias": "蓝色级", "risk": "低风险"}], "directTriggers": {"I": [{"id": "i1", "t": "实验原料或产物含剧毒化学成分 / 使用剧毒化学品"}, {"id": "i2", "t": "存储第一类易制毒品、第一类精神药品"}, {"id": "i3", "t": "存储易燃易爆化学品总量 > 50kg 或 50L"}, {"id": "i4", "t": "存储有毒、易燃气体总量 ≥ 6 瓶"}, {"id": "i5", "t": "生物安全 BSL-3/ABSL-3/BSL-4/ABSL-4"}, {"id": "i6", "t": "使用 I、II 类射线设备 / 放射性同位素、放射源、核材料"}, {"id": "i7", "t": "使用机电类特种设备"}, {"id": "i8", "t": "使用超高压等第三类压力容器"}, {"id": "i9", "t": "使用强磁、强电设备"}, {"id": "i10", "t": "使用 4、3R、3B 类激光设备"}, {"id": "i11", "t": "使用富氧涉爆实训室自制设备"}], "II": [{"id": "ii1", "t": "存储第二类精神药品"}, {"id": "ii2", "t": "存储易燃易爆化学品总量 20~50kg 或 20~50L"}, {"id": "ii3", "t": "存储有毒、易燃气体总量 3~6（不含）瓶"}, {"id": "ii4", "t": "生物安全 BSL-2、ABSL-2"}, {"id": "ii5", "t": "使用第一类、第二类压力容器"}], "III": [{"id": "iii1", "t": "存储第二/三类易制毒品"}, {"id": "iii2", "t": "生物安全 BSL-1、ABSL-1"}, {"id": "iii3", "t": "基础设备老化（学校认定）"}]}, "scoreItems": [{"id": "s25_1", "points": 25, "text": "存储易燃易爆化学品总量 5~20kg/L"}, {"id": "s25_2", "points": 25, "text": "存储一般危化品总量 50~100kg/L"}, {"id": "s25_3", "points": 25, "text": "存储有毒、易燃气体总量 2 瓶"}, {"id": "s25_4", "points": 25, "text": "使用 III 类射线设备 ≥2 台"}, {"id": "s25_5", "points": 25, "text": "使用简单压力容器 ≥3 台"}, {"id": "s25_6", "points": 25, "text": "使用危险机加工装置 ≥3 台"}, {"id": "s25_7", "points": 25, "text": "使用加热设备 ≥6 台"}, {"id": "s25_8", "points": 25, "text": "每月危险废物产生量 ≥100 L/kg"}, {"id": "s10_1", "points": 10, "text": "使用超过人体安全电压（36V）的实验"}, {"id": "s10_2", "points": 10, "text": "涉及合成放热 / 压力 / 持续加热实验"}, {"id": "s10_3", "points": 10, "text": "产生易燃气体的实验"}, {"id": "s10_4", "points": 10, "text": "使用一般实训室自制设备"}, {"id": "s10_5", "points": 10, "text": "存储易燃易爆化学品 ＜5kg/L"}, {"id": "s10_6", "points": 10, "text": "存储一般危化品总量 ＜50kg/L"}, {"id": "s10_7", "points": 10, "text": "存储有毒、易燃气体 1 瓶"}, {"id": "s10_8", "points": 10, "text": "存储/使用感染性较弱病原微生物"}, {"id": "s10_9", "points": 10, "text": "使用简单压力容器 1~2 台"}, {"id": "s10_10", "points": 10, "text": "使用 III 类射线设备 1 台"}, {"id": "s10_11", "points": 10, "text": "使用危险机加工装置 1~2 台"}, {"id": "s10_12", "points": 10, "text": "使用一般机加工装置 ≥5 台"}, {"id": "s10_13", "points": 10, "text": "一般用电设备负载 ≥80% 设计负载"}, {"id": "s10_14", "points": 10, "text": "使用 2/2M/1/1M 类激光 ≥3 台"}, {"id": "s10_15", "points": 10, "text": "每月危险废物 20~100 L/kg"}, {"id": "s10_16", "points": 10, "text": "使用加热设备 3~5 台"}, {"id": "s10_17", "points": 10, "text": "使用明火设备（每台计）"}, {"id": "s5_1", "points": 5, "text": "存储普通气体 1~4 瓶"}, {"id": "s5_2", "points": 5, "text": "使用一般机加工装置 1~4 台"}, {"id": "s5_3", "points": 5, "text": "使用 2/2M/1/1M 类激光 1~2 台"}, {"id": "s5_4", "points": 5, "text": "每月危险废物 ＜20 L/kg"}, {"id": "s5_5", "points": 5, "text": "使用加热设备 1~2 台"}, {"id": "s5_6", "points": 5, "text": "防爆冰箱/改造冰箱（每台）"}, {"id": "s5_7", "points": 5, "text": "快捷电热设备（每台）"}], "hazards": [{"id": "h1", "no": 1, "category": "第一类", "title": "爆炸风险", "description": "爆炸风险：在受热、摩擦、撞击、震动等外界作用下，可能发生剧烈化学反应，瞬间产生大量气体和热量，导致爆炸。", "measures": "（1）有防爆需求的实验室，应选用防爆型的电气设备，达到整体防爆要求。 （2）采取有效措施，避免或减少出现危险爆炸性环境，避免出现任何潜在的有效点燃源。 （3）危险化学品专用仓库须有通风、隔热、避光、防盗、防爆、防静电、泄漏报警等措施。 （4）危险化学品应当储存在专用储存室或储存专柜内，并由专人负责管理。 （5）储藏室、储藏区、储藏柜应通风、隔热、避免阳光直射，易泄漏、易挥发的试剂存放设备与地点应保证充足的通风。 （6）同一防火单元内，须控制易燃易爆化学品的存放总量在合理范围。 （7）涉及危险工艺、重点监管危险化学品的反应装置应设置自动化控制系统。"}, {"id": "h2", "no": 2, "category": "第一类", "title": "自燃易燃风险", "description": "自燃易燃风险：在常温下易燃烧、遇空气自燃或遇水剧烈反应产生易燃气体，引发火灾，遇明火、高热、静电火花即可能引发燃烧或爆炸。", "measures": "（1）有防爆需求的实验室，应选用防爆型的电气设备，达到整体防爆要求。 （2）有机溶剂储存区应远离热源和火源。 （3）同一防火单元内，须控制易燃易爆化学品的存放总量在合理范围。 （4）常年大量使用易燃易爆溶剂须加装泄漏报警器，储存部位应加装常时排风或与监测报警联动排风装置。"}, {"id": "h3", "no": 3, "category": "第一类", "title": "剧烈反应风险", "description": "剧烈反应风险：发生反应后剧烈放热，或生成易燃、易爆物质。", "measures": "（1）涉及危险工艺在调整工艺路线后须重新进行安全风险分析，制定相应防护措施及现场处置方案。 （2）危险工艺指导书和应急预案上墙或便于取阅，实验人员熟悉所涉及的危险性及应急处理措施。"}, {"id": "h4", "no": 4, "category": "第一类", "title": "中毒风险", "description": "中毒风险：可通过吸入、食入或皮肤接触导致急性或慢性中毒，严重时危及生命。", "measures": "（1）实验室排出的有害物质浓度超标时，须采取净化措施，做到达标排放。 （2）任何可能产生有毒有害气体而导致个人暴露的实验，都须在通风柜内进行，操作者佩戴合适有效的个体防护装备。                                                                                              （3）实验室内不得饮食。"}, {"id": "h5", "no": 5, "category": "第一类", "title": "腐蚀风险", "description": "腐蚀风险：接触皮肤、眼睛或呼吸道会造成严重化学灼伤，并对环境造成破坏。", "measures": "（1）存在燃烧、腐蚀等风险的实验区域，须配置应急喷淋和洗眼装置。 （2）按需要佩戴防护眼镜、防护手套、安全帽、防护帽、呼吸器或面罩等。 （3）配备必要的二次泄漏防护、吸附或防溢流功能等的设施设备。"}, {"id": "h6", "no": 6, "category": "第一类", "title": "个体防护风险", "description": "个体防护风险：个体防护装备配备错误，与实验涉及危险源及反应过程风险不匹配，或未配备个体防护装备。", "measures": "（1）进入实验室人员须穿着质地合适的实验服或防护服。 （2）按需要佩戴防护眼镜、防护手套等。 （3）进行化学和高温实验时，慎戴隐形眼镜。 （4）穿着化学类实验服或戴实验手套时，不得进入非实验区。"}, {"id": "h7", "no": 7, "category": "第一类", "title": "实验条件风险", "description": "实验条件风险：实验条件不能满足实验要求。", "measures": "（1）项目负责人负责对实验项目进行危险源辨识、风险评估和控制，制定现场处置方案，指导有关人员做好安全防护。 （2）开展实验前应进行安全风险分析，并通过项目负责人审核，尤其是涉及危险工艺在调整工艺路线（如更改配比、压力、温度等参数）后须重新进行安全风险分析，制定相应防护措施及现场处置方案后方可进行实验。"}, {"id": "h8", "no": 8, "category": "第一类", "title": "使用过程风险", "description": "使用过程风险：标准操作规程与危化品使用过程不匹配或未制定标准操作规程。", "measures": "（1）危险实验时不能脱岗，须有实验室负责人或其指定的安全员在场。 （2）制定危险实验、危险工艺指导书、各类标准操作规程（SOP）、应急预案。"}, {"id": "h9", "no": 9, "category": "第一类", "title": "应急处置风险", "description": "应急处置风险：应急处置预案及应急处置设施与实验涉及危化品不匹配，或未制定应急处置预案、未配备应急处置设施。", "measures": "（1）学校、二级单位和实验室应建立针对重要危险源的现场处置方案并定期组织演练。 （2）配备的急救箱不得上锁，并定期检查物品是否在保质期内。 （3）存在燃烧、腐蚀等风险的实验区域，须配置应急喷淋和洗眼装置。"}, {"id": "h10", "no": 10, "category": "第二类", "title": "物理爆炸风险", "description": "物理爆炸风险：气瓶存放不当（如暴晒、靠近热源）、超期使用、受到撞击、安全附件（如安全阀、压力表）失效时，可能发生物理爆炸，碎片和冲击波会造成严重伤害。", "measures": "（1）气体（气瓶）存放点须通风、远离热源、避免暴晒，地面平整干燥。 （2）气瓶应合理固定。 （3）有供应商提供的气瓶定期检验合格标识，无超过检验有效期及超过设计年限的气瓶。 （4）气瓶附件齐全。"}, {"id": "h11", "no": 11, "category": "第二类", "title": "化学爆炸风险", "description": "化学爆炸风险：易燃气体与空气混合达到爆炸极限，遇明火、静电火花即可能引发化学爆炸。助燃气体（如氧气）与油脂或可燃物接触可能引起剧烈燃烧。", "measures": "（1）有防爆需求的实验室，应选用防爆型的电气设备，达到整体防爆要求。 （2）涉及有毒、可燃气体的场所，配有通风设施和相应的气体监测和报警装置等。 （3）可燃性气体与氧气等助燃气体气瓶不得混放。"}, {"id": "h12", "no": 12, "category": "第二类", "title": "中毒与窒息风险", "description": "中毒与窒息风险：有毒气体泄漏可能导致人员急性中毒；惰性气体或窒息性气体（如氮气、氩气、液氮）在密闭空间大量泄漏会置换氧气，导致人员缺氧窒息。", "measures": "（1）操作者佩戴合适有效的呼吸防护用具。 （2）涉及有毒、可燃气体的场所，配有通风设施和相应的气体监测和报警装置等。 （3）存有大量无毒窒息性压缩气体或液化气体的较小密闭空间，须安装氧含量监测报警装置。  （4）同一实验单元内，须控制气瓶的存放总量在合理范围。"}, {"id": "h13", "no": 13, "category": "第二类", "title": "气体监测装置风险", "description": "气体监测装置风险：气体监测装置与危险气体不匹配、安装位置错误、功能失效。", "measures": "（1）涉及有毒、可燃气体的场所，配有通风设施和相应的气体监测和报警装置等。 （2）在存有大量窒息性气体的较小密闭空间，须安装氧含量监测报警装置。     （3）所有安装的监测报警装置须符合规范要求。"}, {"id": "h14", "no": 14, "category": "第二类", "title": "气瓶检验与配件风险", "description": "气瓶检验与配件风险：气瓶超过检验有效期或设计年限；气瓶压力表、减压阀等过期、失效，气瓶缺少保护罩等附件。", "measures": "（1）有供应商提供的气瓶定期检验合格标识，无超过检验有效期及超过设计年限的气瓶。 （2）气瓶附件齐全、与气体配套。 （3）安全阀或压力表等附件须委托有资质的单位定期校验或检定。"}, {"id": "h15", "no": 15, "category": "第二类", "title": "气瓶使用风险", "description": "气瓶使用风险：气路老化泄漏。", "measures": "（1）管路材质选择合适，无破损或老化现象，连接处须有效加固并定期进行气密性检查。"}, {"id": "h16", "no": 16, "category": "第三类", "title": "高致病性病原微生物感染风险", "description": "高致病性病原微生物感染风险：操作未经灭活的高致病性病原微生物时，若防护不当，可能通过气溶胶、直接接触等途径导致实验室获得性感染，甚至引发公共卫生事件。", "measures": "（1）实验室生物安全级别不低于国家发布的病原微生物目录要求。 （2）在合适的生物安全柜中进行相关实验操作，不得在超净工作台中进行。 （3）操作高速离心机时防止离心管破损或盖子破裂造成溢洒或气溶胶扩散。 （4）有合适的个体防护措施，禁止戴防护手套操作相关实验以外的设施设备。"}, {"id": "h17", "no": 17, "category": "第三类", "title": "动物实验风险", "description": "动物实验风险：实验动物可能携带人畜共患病病原体（如狂犬病毒、布鲁氏菌），咬伤、抓伤或接触其排泄物、分泌物时可能造成感染。", "measures": "（1）实验动物须从具有资质的单位购买，有合格证明。 （2）解剖实验动物时，必须做好个体防护。 （3）对直接接触实验动物的工作人员，须定期组织健康检查。 （4）动物尸体及组织应做无害化处理。"}, {"id": "h18", "no": 18, "category": "第三类", "title": "过程操作风险", "description": "过程操作风险：在生物安全柜外进行病原微生物操作，导致气溶胶扩散；离心操作不当，造成离心管破裂，产生气溶胶；未经培训或未按要求使用生物安全柜（如堵塞排风）；解剖动物时未做好个人防护。", "measures": "（1）不得在超净工作台中进行生物安全二级以上病原微生物实验。 （2）按标准操作规程安全操作高速离心机。 （3）人员经考核合格，并取得证书。 （4）配备生物安全柜，并定期检测。 （5）进行实验动物时，必须做好个人安全防护。"}, {"id": "h19", "no": 19, "category": "第三类", "title": "物品与废物风险", "description": "物品与废物风险：使用后的锐器（如针头、刀片）未放入利器盒，导致刺伤；感染性废物未经过有效灭菌即移出实验室；实验动物尸体及组织未做无害化处理。", "measures": "（1）尖锐物应使用利器盒或耐扎纸板箱盛放。 （2）感染性生物废物必须进行高温高压灭菌或化学浸泡处理，再由有资质的公司进行处置。 （3）动物尸体及组织应做无害化处理，感染性废物彻底灭菌。                   （4）实验室内配备生物废物垃圾桶（内置生物废物专用塑料袋）。        （5）实验室按要求定期进行消毒杀菌并监测效果。"}, {"id": "h20", "no": 20, "category": "第三类", "title": "资质与备案风险", "description": "资质与备案风险：未经政府部门批准或备案，在不符合等级要求的实验室开展病原微生物实验；使用高致病性病原微生物菌（毒）种未办理相应申请和报批手续。", "measures": "（1）BSL-1/ABSL-1、BSL-2/ABSL-2实验室由学校建设后报设区的市卫生或农业农村部门备案。 （2）合规获取病原微生物菌（毒）株，学校应有审批流程。 （3）转移和运输高致病病原微生物须按规定报批。"}, {"id": "h21", "no": 21, "category": "第三类", "title": "人员与培训风险", "description": "人员与培训风险：开展病原微生物相关实验和研究的人员未经过专业培训并取得证书；未对从事高致病性病原微生物的工作人员提供适宜的医学评估和监测；外来人员随意进入生物安全实验室。", "measures": "（1）人员经考核合格，并取得证书。 （2）对实验室工作人员进行健康监测，妥善保存医学记录。 （3）外来人员进入生物安全实验室须经负责人批准，并有相关的教育培训、安全防控措施。 （4）出现感冒发热等症状时，不得进行病原微生物实验。"}, {"id": "h22", "no": 22, "category": "第三类", "title": "伦理与处置风险", "description": "伦理与处置风险：动物实验未通过伦理审查；生物废物处置不规范，未与有资质的单位签约处置，或与生活垃圾混装。", "measures": "（1）学校有实验动物福利伦理审查机构，有审查记录。 （2）学校与有资质的单位签约处置感染性废物，有交接记录。 （3）生物废物应与化学废物、生活垃圾等分开贮存。"}, {"id": "h23", "no": 23, "category": "第四类", "title": "外照射风险", "description": "外照射风险：γ辐照装置、X射线衍射仪、电子加速器等射线装置，以及密封放射源，在无屏蔽或屏蔽不足的情况下，人员近距离接触会受到持续的或瞬时的外照射，可能引起组织损伤、白血病、癌症等。", "measures": "（1）辐射工作人员应具有考核成绩报告单。 （2）进入实验场所须佩戴个人剂量计。 （3）辐照设施设备和场所应具有能正常工作的安全联锁装置和报警装置。 （4）各类放射性装置有符合国家相关规定的操作规程、安保方案及应急预案，并遵照执行。"}, {"id": "h24", "no": 24, "category": "第四类", "title": "内照射风险", "description": "内照射风险：操作非密封放射性物质（如放射性同位素示踪剂）时，若防护不当，可能通过吸入、食入或伤口进入体内，造成内照射，对器官造成长期损害。", "measures": "（1）进入实验场所须佩戴个人剂量计。 （2）辐射工作人员经过专门培训。 （3）制定辐射事故应急预案并演练。"}, {"id": "h25", "no": 25, "category": "第四类", "title": "操作风险", "description": "操作风险：未按规定程序操作辐照装置，导致人员误入辐照室被照射；放射性物质在实验过程中发生泄漏、泼洒，造成大面积污染；使用老旧或故障设备，联锁装置失效。", "measures": "（1）辐照设施设备具有有效安全联锁装置。 （2）辐射实验场所每年有合格的实验场所检测报告。 （3）遵守操作规程、安保方案及应急预案。 （4）定期组织应急演练。"}, {"id": "h26", "no": 26, "category": "第四类", "title": "储存与保管风险", "description": "储存与保管风险：放射源未按规定在储库或保险柜中存放，或未执行双人双锁管理，存在被盗、丢失风险。", "measures": "（1）放射源有专人管理并做好贮存、领取、发放情况登记。 （2）核材料许可证持有单位须建立专职机构或指定专人负责保管核材料，保证账物相符。 （3）放射源储存库应设双人双锁，并有安全报警系统和视频监控系统。"}, {"id": "h27", "no": 27, "category": "第四类", "title": "资质与人员风险", "description": "资质与人员风险：未取得辐射安全许可证即开展辐射工作；辐射工作人员未经过专门培训考核，未定期参加职业体检；未按规定佩戴个人剂量计，或剂量计未按时送检。", "measures": "（1）工作单位须取得辐射安全许可证。 （2）工作人员应具有考核成绩报告单。 （3）工作人员按时参加放射性职业体检，有健康档案。 （4）工作人员须佩戴个人剂量计，剂量计委托有资质的单位按时进行剂量监测。"}, {"id": "h28", "no": 28, "category": "第四类", "title": "场所与废物风险", "description": "场所与废物风险：辐射设施和场所未设置警示、联锁和报警装置；放射性废物（源）未严加管理，当作普通废物处理；放射性废液未经处理随意排放；放射性物质转让、转移和运输未按规定报批。", "measures": "（1）有明显的安全警示标志 、警戒线和剂量报警仪。                                                                                                                                                                                                                                                                                      （2）配置专门的放射性废物收集桶，放射性废液送贮前应进行固化整备。 （3）放射性废物应及时送交有资质的单位贮存。 （4）排放气态或液态放射性流出物应严格按照环评批准的方式执行。"}, {"id": "h29", "no": 29, "category": "第四类", "title": "应急与处置风险", "description": "应急与处置风险：无辐射事故应急预案或未进行演练；放射源及设备报废时无符合国家规定的处置方案或回收协议；涉源实验场所退役未按国家规定执行。", "measures": "（1）有辐射事故应急预案及应急演练记录。 （2）中、长半衰期核素固液废物有符合国家规定的处置方案或回收协议。 （3）报废含有放射源或可产生放射性的设备，须报学校管理部门同意，并按国家规定进行退役处置。 （4）涉源实验场所退役，须按国家相关规定执行。"}, {"id": "h30", "no": 30, "category": "第五类", "title": "火灾风险", "description": "火灾风险：烘箱、电阻炉、马弗炉、电热板、油浴锅等加热设备，若长时间超温运行、散热不良、线路老化，或设备旁堆放易燃易爆物品，极易引发火灾。", "measures": "（1）设备旁不得放置易燃易爆物品。 （2）设备使用完毕，清理物品、切断电源，确认其冷却至安全温度后方能离开。"}, {"id": "h31", "no": 31, "category": "第五类", "title": "烫伤风险", "description": "烫伤风险：设备表面温度高，人员误触或操作不当（如未使用隔热工具）可能造成严重烫伤。", "measures": "（1）设备周边醒目位置张贴高温警示标志，并有必要的防护措施。 （2）按需要佩戴防护眼镜、防护手套等。"}, {"id": "h32", "no": 32, "category": "第五类", "title": "爆炸风险", "description": "爆炸风险：将易燃易爆试剂或物品（如易燃溶剂、塑料、纸制品）放入烘箱等密闭加热设备中烘烤，可能引发爆炸。", "measures": "（1）烘箱等加热设备内不准烘烤易燃易爆试剂及易燃物品。 （2）不得使用塑料筐等易燃容器盛放实验物品在烘箱等加热设备内烘烤。"}, {"id": "h33", "no": 33, "category": "第五类", "title": "操作过程风险", "description": "操作过程风险：未制定加热设备的安全操作规程；使用加热设备时，人员离开现场，特别是使用明火电炉或进行高温实验时无人值守。", "measures": "（1）张贴有安全操作规程、警示标志。 （2）使用电阻炉等明火设备时经过审批并有人值守。 （3）使用加热设备时，温度较高的实验须有人值守或有实时监控措施。 （4）危险实验时不能脱岗。"}, {"id": "h34", "no": 34, "category": "第五类", "title": "超期使用风险", "description": "超期使用风险：烘箱、电阻炉等设备超期服役，未定期维护保养和检查。", "measures": "（1）烘箱、电阻炉不超期使用，如超期使用须经审批。"}, {"id": "h35", "no": 35, "category": "第六类", "title": "爆炸风险", "description": "爆炸风险：普通冰箱（非防爆）内部电气元件（如温控器、照明灯、开关）在开关时可能产生火花。若在冰箱内存放易燃易爆化学品（如乙醚、丙酮），其挥发蒸气遇火花可能引发爆炸。", "measures": "（1）贮存危险化学品的冰箱应为防爆冰箱或经过防爆改造，并在冰箱门上注明是否防爆。 （2）实验室冰箱中试剂瓶螺口拧紧，无开口容器。"}, {"id": "h36", "no": 36, "category": "第六类", "title": "冻伤风险", "description": "冻伤风险：接触制冷设备（如超低温冰箱、液氮罐）的低温表面或内容物（如液氮、冻存管），可能造成皮肤冻伤。", "measures": "（1）定期开展应急知识学习、应急处置培训和应急演练。 （2）按需要佩戴防护眼镜、防护手套等。"}, {"id": "h37", "no": 37, "category": "第六类", "title": "窒息风险", "description": "窒息风险：使用液氮、液氩等液化气体在密闭或通风不良的小空间内大量泄漏，会迅速气化，置换空气中的氧气，导致人员缺氧窒息。", "measures": "（1）定期开展应急知识学习、应急处置培训和应急演练。 （2）存有大量无毒窒息性压缩气体或液化气体的较小密闭空间，须安装氧含量监测报警装置。"}, {"id": "h38", "no": 38, "category": "第六类", "title": "超期使用风险", "description": "超期使用风险：冰箱超期使用，设备老化，能耗增加，制冷效率下降，安全隐患（如线路老化、温控失灵）增大。", "measures": "（1）冰箱不超期使用，如超期使用须经审批。"}, {"id": "h39", "no": 39, "category": "第六类", "title": "散热不良风险", "description": "散热不良风险：冰箱周围堆放杂物，或紧贴墙壁放置，影响散热，可能导致压缩机过热、寿命缩短甚至引发火灾。", "measures": "（1）冰箱周围留出足够空间，周围不堆放杂物，不影响散热。"}, {"id": "h40", "no": 40, "category": "第六类", "title": "标识与分区风险", "description": "标识与分区风险：超低温冰箱门上无储物分区标识，影响查找和整理。", "measures": "（1）冰箱内存放的物品须标识明确，至少包括：名称、使用人、日期等，并经常清理。 （2）超低温冰箱门上有储物分区标识。"}, {"id": "h41", "no": 41, "category": "第七类", "title": "超压爆炸风险", "description": "超压爆炸风险：压力容器（如储气罐、高压灭菌锅、反应釜）罐体或其他关键设备腐蚀老化的情况下，可能发生超压爆炸，造成严重伤害。", "measures": "（1）压力容器须取得特种设备使用登记证。 （2）委托有资质的单位进行定期检验，并将定期检验合格证置于显著位置。 （3）建立压力容器自行检查制度。"}, {"id": "h42", "no": 42, "category": "第七类", "title": "物理爆炸风险", "description": "物理爆炸风险：快开门式压力容器（如灭菌锅）在门未完全关闭或锁紧的情况下升压，或压力未降至常压时开门，极易发生爆炸事故。", "measures": "（1）快开门式压力容器操作人员应取得相应的特种设备作业人员证，持证上岗。"}, {"id": "h43", "no": 43, "category": "第七类", "title": "介质泄漏风险", "description": "介质泄漏风险：盛装有毒、易燃、腐蚀性介质的压力容器发生泄漏，可能导致中毒、火灾、化学灼伤等次生灾害。", "measures": "（1）涉及有毒、可燃气体的场所，须配有通风设施和相应的气体监测和报警装置等。"}, {"id": "h44", "no": 44, "category": "第七类", "title": "操作风险", "description": "操作风险：操作人员未经培训、无证上岗；未按操作规程进行升压、保压、降压操作；快开门压力容器在运行过程中违规操作门锁。", "measures": "（1）建立各项安全管理制度，制定操作规程。 （2）实验室应经常巡回检查，发现异常及时处理。"}, {"id": "h45", "no": 45, "category": "第七类", "title": "附件失效风险", "description": "附件失效风险：安全阀、压力表未定期校验或检定，导致失效；安全阀泄放口未正确导向，可能误伤人员。", "measures": "（1）安全阀或压力表等附件须委托有资质的单位定期校验或检定。"}, {"id": "h46", "no": 46, "category": "第七类", "title": "登记与检验风险", "description": "登记与检验风险：未按规定办理特种设备使用登记证；未委托有资质的单位进行定期检验，或检验合格证过期；简单压力容器未建立设备安全管理档案；超期使用。", "measures": "（1）压力容器须取得特种设备使用登记证。 （2）委托有资质的单位进行定期检验。 （3）简单压力容器也应建立设备安全管理档案。 （4）达到设计使用年限的压力容器应及时报废。"}, {"id": "h47", "no": 47, "category": "第八类", "title": "危险作业风险", "description": "危险作业风险：动火、有限空间、高处作业、吊装、临时用电、爆破、挖掘等危险作业风险：与生产企业相关的危险作业，在高校实验室中很少出现，但部分理工科高校学生从事小试或中试实验时会从事危险作业，作业风险高、事故易发。", "measures": "（1）从事危险作业前应当对作业现场进行安全风险辨识、制定作业方案和安全防范措施、按照规定持证上岗、进行安全技术交底、指定专人进行现场作业的统一指挥、指定安全管理人员进行现场安全检查和监督等。"}, {"id": "h48", "no": 48, "category": "第八类", "title": "特殊设备风险", "description": "特殊设备风险：涉及高电压、大电流、高温、高压、高速运动、电磁辐射等特殊设备，以及非标自制实验设备、锂电池等未做安全评估与防护，无人员监管。", "measures": "（1）特殊设备电路容量要匹配，有设备运行维护记录，有安全操作规程或注意事项。  （2）特殊设备有安全防护措施，对使用者有培训要求，有安全警示标志和安全警示线。 （3）非标自制设备应经安全论证合格后方可使用，须充分考虑安全系数，并有安全防护措施。 （4）操作特殊设备时实验人员应做好个体防护，防护用品要穿戴齐全。 （5）高电压、大电流等强电实验室要设定安全距离，按规定设置安全警示牌，安全信号灯，联动式警铃、门锁，有安全隔离装置或屏蔽遮栏。 （6）强电实验室禁止存放易燃、易爆、易腐品，保持通风散热。 （7）功率较大的激光器有互锁装置、防护罩，激光照射方向不会对他人造成伤害，防止激光发射口及反射镜上扬。                                                                                                             （8）锂电池、高能量密度电池等在充放电时须注意热失控，相关实验区域应远离其他可燃物品，须注意自燃等风险。                                                                                      （9）进行特殊设备相关实验时，须有专人在场指导。"}], "roomChecks": [{"id": "c_access", "section": "安全准入", "q": "本室是否落实人员安全准入（培训/考核后方可进入）？", "options": [{"v": "yes", "t": "是，有记录"}, {"v": "partial", "t": "部分落实"}, {"v": "no", "t": "否"}]}, {"id": "c_sop", "section": "规章制度", "q": "是否制定并上墙/可取阅本室标准操作规程（SOP）与应急处置要点？", "options": [{"v": "yes", "t": "是"}, {"v": "partial", "t": "有制度但未上墙"}, {"v": "no", "t": "否"}]}, {"id": "c_resp", "section": "责任体系", "q": "是否明确安全负责人/安全员，并签订本室安全责任书？", "options": [{"v": "yes", "t": "是"}, {"v": "partial", "t": "有负责人未签责任书"}, {"v": "no", "t": "否"}]}, {"id": "c_fire", "section": "安全设施", "q": "消防器材、疏散通道是否完好畅通？", "options": [{"v": "yes", "t": "完好畅通"}, {"v": "partial", "t": "基本合格有待整改"}, {"v": "no", "t": "存在隐患"}]}, {"id": "c_ppe", "section": "基础安全", "q": "个体防护用品是否按危险源配备且可用？", "options": [{"v": "yes", "t": "齐全可用"}, {"v": "partial", "t": "部分配备"}, {"v": "no", "t": "缺失"}, {"v": "na", "t": "本室无需专项防护"}]}, {"id": "c_sign", "section": "实验场所", "q": "门外安全信息牌、风险等级与危险源标识是否齐全清晰？", "options": [{"v": "yes", "t": "齐全清晰"}, {"v": "partial", "t": "有但不完整"}, {"v": "no", "t": "缺失"}]}, {"id": "c_hazard_id", "section": "安全检查", "q": "本学年是否完成危险源辨识并更新台账？", "options": [{"v": "yes", "t": "已完成并更新"}, {"v": "partial", "t": "有辨识未更新"}, {"v": "no", "t": "未开展"}]}, {"id": "c_electric", "section": "基础安全", "q": "用电线路、插座、接地与负载是否符合安全要求？", "options": [{"v": "yes", "t": "符合"}, {"v": "partial", "t": "基本符合"}, {"v": "no", "t": "存在隐患"}]}], "signs": [{"id": "png_01", "file": "signs/lab_01_当心触电.png", "label": "当心触电", "kind": "warning", "tags": ["用电", "高压", "机电", "触电"], "src_name": "0 (2).png"}, {"id": "png_02", "file": "signs/lab_02_当心机械伤人.png", "label": "当心机械伤人", "kind": "warning", "tags": ["机械", "机电", "机加工"], "src_name": "0 (3).png"}, {"id": "png_03", "file": "signs/lab_03_小心夹手.png", "label": "小心夹手", "kind": "warning", "tags": ["机械", "机电"], "src_name": "0 (4).png"}, {"id": "png_04", "file": "signs/lab_04_止步高压危险.png", "label": "止步高压危险", "kind": "warning", "tags": ["高压", "用电", "机电"], "src_name": "0 (5).png"}, {"id": "png_05", "file": "signs/lab_05_当心腐蚀.png", "label": "当心腐蚀", "kind": "warning", "tags": ["危化", "腐蚀", "化学"], "src_name": "0 (7).png"}, {"id": "png_06", "file": "signs/lab_06_视频监控区域.png", "label": "视频监控区域", "kind": "warning", "tags": ["监控", "高风险"], "src_name": "0 (8).png"}, {"id": "png_07", "file": "signs/lab_07_禁止攀登.png", "label": "禁止攀登", "kind": "prohibit", "tags": ["高处", "危险作业"], "src_name": "0 (10).png"}, {"id": "png_08", "file": "signs/lab_08_安全用电.png", "label": "安全用电", "kind": "warning", "tags": ["用电", "机电"], "src_name": "0 (12).png"}, {"id": "png_09", "file": "signs/lab_09_注意防尘.png", "label": "注意防尘", "kind": "warning", "tags": ["粉尘", "机电"], "src_name": "0 (15).png"}, {"id": "png_10", "file": "signs/lab_10_请勿高空抛物.png", "label": "请勿高空抛物", "kind": "prohibit", "tags": ["高处", "危险作业"], "src_name": "0 (20).png"}, {"id": "png_11", "file": "signs/lab_11_禁止超载.png", "label": "禁止超载", "kind": "prohibit", "tags": ["起重", "特种设备"], "src_name": "0 (21).png"}, {"id": "png_12", "file": "signs/lab_12_当心吊物.png", "label": "当心吊物", "kind": "warning", "tags": ["起重", "吊装", "危险作业"], "src_name": "0 (22).png"}, {"id": "png_13", "file": "signs/lab_13_注意高温.png", "label": "注意高温", "kind": "warning", "tags": ["加热", "高温", "烫伤"], "src_name": "0 (25).png"}, {"id": "png_14", "file": "signs/lab_14_严禁烟火.png", "label": "严禁烟火", "kind": "prohibit", "tags": ["危化", "易燃", "气瓶", "加热", "消防"], "src_name": "0 (26).png"}, {"id": "png_15", "file": "signs/lab_15_注意安全.png", "label": "注意安全", "kind": "warning", "tags": ["通用"], "src_name": "0 (28).png"}, {"id": "png_16", "file": "signs/lab_16_触电危险严禁靠近.png", "label": "触电危险严禁靠近", "kind": "prohibit", "tags": ["用电", "高压"], "src_name": "0 (29).png"}, {"id": "png_17", "file": "signs/lab_17_必须系安全带.png", "label": "必须系安全带", "kind": "mandatory", "tags": ["高处", "危险作业"], "src_name": "0 (30).png"}, {"id": "png_18", "file": "signs/lab_18_有电危险闲人免进.png", "label": "有电危险闲人免进", "kind": "warning", "tags": ["用电", "配电"], "src_name": "0 (33).png"}, {"id": "png_19", "file": "signs/lab_19_当心滑跌.png", "label": "当心滑跌", "kind": "warning", "tags": ["场所", "卫生"], "src_name": "0 (37).png"}, {"id": "png_20", "file": "signs/lab_20_重点防火区域.png", "label": "重点防火区域", "kind": "warning", "tags": ["消防", "危化", "易燃"], "src_name": "0 (39).png"}, {"id": "png_21", "file": "signs/lab_21_当心火灾.png", "label": "当心火灾", "kind": "warning", "tags": ["消防", "加热", "易燃"], "src_name": "0 (41).png"}, {"id": "png_22", "file": "signs/lab_22_危险有毒物质.png", "label": "危险有毒物质", "kind": "warning", "tags": ["危化", "有毒", "生物", "中毒"], "src_name": "0 (43).png"}, {"id": "png_23", "file": "signs/lab_23_非工作人员禁止入内.png", "label": "非工作人员禁止入内", "kind": "prohibit", "tags": ["准入", "辐射", "生物", "特种"], "src_name": "0 (49).png"}, {"id": "png_24", "file": "signs/lab_24_仓库重地严禁烟火.png", "label": "仓库重地严禁烟火", "kind": "prohibit", "tags": ["危化", "仓储", "易燃", "消防"], "src_name": "0 (50).png"}], "firePoints": [{"id": "f1", "t": "防中毒和窒息"}, {"id": "f2", "t": "切断电源"}, {"id": "f3", "t": "化学试剂易燃/易爆"}, {"id": "f4", "t": "干粉灭火"}, {"id": "f5", "t": "二氧化碳灭火"}, {"id": "f6", "t": "泡沫灭火（适用时）"}, {"id": "f7", "t": "砂土覆盖（适用时）"}], "svgSigns": [{"id": "svg_no_fire", "label": "禁止烟火", "kind": "prohibit", "tags": ["危化", "易燃", "消防"]}, {"id": "svg_no_food", "label": "禁止饮食", "kind": "prohibit", "tags": ["危化", "生物", "通用"]}, {"id": "svg_no_water", "label": "禁止用水灭火", "kind": "prohibit", "tags": ["用电", "危化"]}, {"id": "svg_mask", "label": "必须戴防护口罩", "kind": "mandatory", "tags": ["危化", "生物", "粉尘"]}, {"id": "svg_goggles", "label": "必须戴防护眼镜", "kind": "mandatory", "tags": ["危化", "机械", "机电"]}, {"id": "svg_gloves", "label": "必须戴防护手套", "kind": "mandatory", "tags": ["危化", "生物", "腐蚀"]}, {"id": "svg_lock", "label": "必须加锁", "kind": "mandatory", "tags": ["危化", "辐射", "特种"]}, {"id": "svg_cert", "label": "必须持证上岗", "kind": "mandatory", "tags": ["特种", "压力容器", "起重", "辐射"]}, {"id": "svg_infect", "label": "当心感染", "kind": "warning", "tags": ["生物"]}, {"id": "svg_bio", "label": "当心生物危害", "kind": "warning", "tags": ["生物"]}], "emergencyDefaults": [{"name": "保卫处", "phone": ""}, {"name": "教务处（实训科）", "phone": ""}, {"name": "校总值班室", "phone": ""}, {"name": "火警", "phone": "119"}, {"name": "急救", "phone": "120"}]};
+let step = 0;
+const STEP_NAMES = ["基本信息","危险源辨识","直接定级","风险评分","场所自评","标识与电话"];
+
+function $(id){return document.getElementById(id)}
+function val(id){return ($(id).value||"").trim()}
+
+function init(){
+  const steps = $("steps");
+  STEP_NAMES.forEach((n,i)=>{
+    const b=document.createElement("button");
+    b.type="button"; b.textContent=(i+1)+". "+n; b.dataset.i=i;
+    if(i===0) b.classList.add("active");
+    b.onclick=()=>gotoStep(i);
+    steps.appendChild(b);
+  });
+  DATA.categories.forEach((c,i)=>{
+    const lab=document.createElement("label");
+    lab.innerHTML=`<input type="radio" name="cat" value="${c.id}" ${i===4?"checked":""}/> ${c.id}`;
+    lab.title=c.hint;
+    $("catRadios").appendChild(lab);
+  });
+  // hazards by category
+  const byCat={};
+  DATA.hazards.forEach(h=>{(byCat[h.category]=byCat[h.category]||[]).push(h)});
+  const hg=$("hazardGroups");
+  Object.keys(byCat).forEach(cat=>{
+    const d=document.createElement("details");
+    d.className="group";
+    d.innerHTML=`<summary>${cat}（${byCat[cat].length}项）</summary><div class="inner"></div>`;
+    const inner=d.querySelector(".inner");
+    byCat[cat].forEach(h=>{
+      const row=document.createElement("label");
+      row.className="chk";
+      row.innerHTML=`<input type="checkbox" data-hazard="${h.id}" data-cat="${cat}"/> <span><strong>${h.title}</strong><br><span style="color:#777;font-size:.78rem">${h.description.slice(0,90)}${h.description.length>90?"…":""}</span></span>`;
+      inner.appendChild(row);
+    });
+    hg.appendChild(d);
+  });
+  const map={I:"trigI",II:"trigII",III:"trigIII"};
+  Object.entries(DATA.directTriggers).forEach(([lv,arr])=>{
+    const box=$(map[lv]);
+    arr.forEach(it=>{
+      const row=document.createElement("label");
+      row.className="chk";
+      row.innerHTML=`<input type="checkbox" data-trig="${lv}" data-id="${it.id}"/> <span>${it.t}</span>`;
+      box.appendChild(row);
+    });
+  });
+  const sg=$("scoreGroups");
+  [25,10,5].forEach(pts=>{
+    const d=document.createElement("details");
+    d.className="group"; if(pts===25) d.open=true;
+    const items=DATA.scoreItems.filter(x=>x.points===pts);
+    d.innerHTML=`<summary>每项 ${pts} 分（${items.length}项）</summary><div class="inner"></div>`;
+    const inner=d.querySelector(".inner");
+    items.forEach(it=>{
+      const row=document.createElement("label");
+      row.className="chk";
+      row.innerHTML=`<input type="checkbox" data-score="${it.id}" data-pts="${it.points}"/> <span>${it.text}</span>`;
+      inner.appendChild(row);
+    });
+    sg.appendChild(d);
+  });
+  const cg=$("checkGroups");
+  DATA.roomChecks.forEach(q=>{
+    const box=document.createElement("div");
+    box.className="group";
+    box.style.borderRadius="10px";
+    box.innerHTML=`<div class="group-h">${q.section} · ${q.q}</div><div class="radio-row" style="padding:8px 12px"></div>`;
+    const row=box.querySelector(".radio-row");
+    q.options.forEach((op,idx)=>{
+      const lab=document.createElement("label");
+      lab.innerHTML=`<input type="radio" name="${q.id}" value="${op.v}" ${idx===0?"checked":""}/> ${op.t}`;
+      row.appendChild(lab);
+    });
+    cg.appendChild(box);
+  });
+  DATA.firePoints.forEach(f=>{
+    const lab=document.createElement("label");
+    lab.className="chk";
+    lab.innerHTML=`<input type="checkbox" data-fire="${f.id}" ${(f.id==="f2"||f.id==="f4")?"checked":""}/> <span>${f.t}</span>`;
+    $("firePoints").appendChild(lab);
+  });
+  const eb=$("emergBox");
+  DATA.emergencyDefaults.forEach((e,i)=>{
+    const g=document.createElement("div");
+    g.className="grid2";
+    g.style.marginBottom="6px";
+    g.innerHTML=`<input type="text" data-ename="${i}" value="${e.name}"/><input type="tel" data-ephone="${i}" value="${e.phone}" placeholder="电话"/>`;
+    eb.appendChild(g);
+  });
+  renderSignPickers();
+  bindAuto();
+  evaluate();
+  renderBoard();
+  $("prevBtn").onclick=()=>gotoStep(Math.max(0,step-1));
+  $("nextBtn").onclick=()=>gotoStep(Math.min(STEP_NAMES.length-1,step+1));
+  $("genBtn").onclick=()=>{evaluate();renderBoard()};
+  $("printBtn").onclick=()=>window.print();
+  $("exportBtn").onclick=exportJson;
+  $("resetBtn").onclick=()=>{if(confirm("确认清空？")) location.reload()};
+}
+
+function allSigns(){
+  return [
+    ...DATA.signs.map(s=>({...s, source:"png"})),
+    ...DATA.svgSigns.map(s=>({...s, file:null, source:"svg"}))
+  ];
+}
+
+function renderSignPickers(){
+  const pw=$("signPickPW"), m=$("signPickM");
+  pw.innerHTML=""; m.innerHTML="";
+  allSigns().forEach(s=>{
+    const lab=document.createElement("label");
+    lab.className="chk";
+    lab.innerHTML=`<input type="checkbox" data-sign="${s.id}" data-kind="${s.kind}"/> <span>${s.label}</span>`;
+    if(s.kind==="mandatory") m.appendChild(lab); else pw.appendChild(lab);
+  });
+}
+
+function bindAuto(){
+  document.body.addEventListener("change", (e)=>{
+    if(e.target.matches("[data-hazard],[data-trig],[data-score],input[name=cat]")){
+      autoSelectSigns();
+      evaluate();
+      renderBoard();
+    }else if(e.target.matches("[data-sign],[data-fire],[data-ename],[data-ephone],#unit,#building,#roomName,#roomNo,#owner,#phone,input[name^=c_]")){
+      if(e.target.matches("input[name^=c_]")) evaluateIssues();
+      renderBoard();
+    }
+  });
+  ["unit","building","roomName","roomNo","owner","phone"].forEach(id=>{
+    $(id).addEventListener("input", ()=>renderBoard());
+  });
+}
+
+function gotoStep(i){
+  step=i;
+  document.querySelectorAll(".step").forEach(el=>el.classList.toggle("active", +el.dataset.step===i));
+  document.querySelectorAll("#steps button").forEach(b=>b.classList.toggle("active", +b.dataset.i===i));
+}
+
+function selectedHazards(){
+  return [...document.querySelectorAll("[data-hazard]:checked")].map(el=>{
+    const id=el.dataset.hazard;
+    return DATA.hazards.find(h=>h.id===id);
+  }).filter(Boolean);
+}
+
+function inferTags(){
+  const tags=new Set(["通用"]);
+  const cat=(document.querySelector("input[name=cat]:checked")||{}).value||"其他类";
+  if(cat==="化学类"){["危化","化学","易燃","有毒","腐蚀","消防"].forEach(t=>tags.add(t))}
+  if(cat==="生物类"){["生物","感染","准入"].forEach(t=>tags.add(t))}
+  if(cat==="辐射类"){["辐射","准入"].forEach(t=>tags.add(t))}
+  if(cat==="机电类"){["机电","机械","用电","高压"].forEach(t=>tags.add(t))}
+  selectedHazards().forEach(h=>{
+    const c=h.category;
+    if(c.includes("危险化学品")){["危化","易燃","有毒","腐蚀","消防"].forEach(t=>tags.add(t))}
+    if(c.includes("气体")){["气瓶","易燃","窒息","消防"].forEach(t=>tags.add(t))}
+    if(c.includes("生物")){["生物","感染"].forEach(t=>tags.add(t))}
+    if(c.includes("辐射")){["辐射","准入"].forEach(t=>tags.add(t))}
+    if(c.includes("加热")){["加热","高温","消防","烫伤"].forEach(t=>tags.add(t))}
+    if(c.includes("制冷")){["窒息","危化"].forEach(t=>tags.add(t))}
+    if(c.includes("压力")){["压力容器","特种","持证"].forEach(t=>tags.add(t))}
+    if(c.includes("危险作业")||c.includes("特殊设备")){["危险作业","机电","高压","特种"].forEach(t=>tags.add(t))}
+    if(/触电|电压|电气|强电/.test(h.title+h.description)) tags.add("用电");
+    if(/机械|机加工/.test(h.title+h.description)) tags.add("机械");
+  });
+  document.querySelectorAll("[data-trig]:checked").forEach(el=>{
+    const t=el.closest("label").textContent;
+    if(/射线|放射|核/.test(t)) tags.add("辐射");
+    if(/生物|BSL/.test(t)) tags.add("生物");
+    if(/特种|压力|激光|强电|强磁/.test(t)) {tags.add("特种");tags.add("机电");tags.add("持证")}
+    if(/易燃|危化|剧毒|精神药|易制毒/.test(t)) {tags.add("危化");tags.add("消防")}
+  });
+  return tags;
+}
+
+function autoSelectSigns(){
+  const tags=inferTags();
+  allSigns().forEach(s=>{
+    const el=document.querySelector(`[data-sign="${s.id}"]`);
+    if(!el) return;
+    const hit=(s.tags||[]).some(t=>tags.has(t));
+    // 默认勾选命中项；用户已手动改过的不再强制（用 dataset.touched）
+    if(!el.dataset.touched) el.checked=hit;
+  });
+  document.querySelectorAll("[data-sign]").forEach(el=>{
+    el.addEventListener("click",()=>{el.dataset.touched="1"}, {once:true});
+  });
+  // 灭火要点智能勾选
+  const fireMap={f1:["有毒","窒息","气瓶","危化"], f2:["用电","机电","加热"], f3:["易燃","危化","气瓶"], f4:["消防","易燃","危化"], f5:["用电","机电"]};
+  Object.entries(fireMap).forEach(([fid,need])=>{
+    const el=document.querySelector(`[data-fire="${fid}"]`);
+    if(el && !el.dataset.touched) el.checked=need.some(t=>tags.has(t));
+    if(el) el.addEventListener("click",()=>{el.dataset.touched="1"},{once:true});
+  });
+}
+
+function calcScore(){
+  let s=0;
+  document.querySelectorAll("[data-score]:checked").forEach(el=>{s+=(+el.dataset.pts||0)});
+  return Math.min(100,s);
+}
+
+function levelFromScore(score){
+  if(score>=100) return "I";
+  if(score>=75) return "II";
+  if(score>=25) return "III";
+  return "IV";
+}
+
+function levelFromDirect(){
+  if(document.querySelector('[data-trig="I"]:checked')) return "I";
+  if(document.querySelector('[data-trig="II"]:checked')) return "II";
+  if(document.querySelector('[data-trig="III"]:checked')) return "III";
+  return "IV";
+}
+
+function higherLevel(a,b){
+  const order={I:4,II:3,III:2,IV:1};
+  return order[a]>=order[b]?a:b;
+}
+
+function evaluate(){
+  const score=calcScore();
+  const lv=higherLevel(levelFromDirect(), levelFromScore(score));
+  const meta=DATA.levels.find(x=>x.id===lv);
+  const cat=(document.querySelector("input[name=cat]:checked")||{}).value||"其他类";
+  // 若勾选危险源但类别仍为其他，给出弱提示：不强制改
+  $("scoreOut").textContent=score;
+  $("levelBadge").textContent=meta.name+" / "+meta.alias;
+  $("levelBadge").style.background=meta.color;
+  $("catOut").textContent=cat;
+  $("levelBig").textContent=meta.name;
+  $("levelBig").style.color=meta.color;
+  $("catBig").textContent=cat;
+  evaluateIssues();
+  return {level:lv, score, cat, meta};
+}
+
+function evaluateIssues(){
+  const issues=[];
+  DATA.roomChecks.forEach(q=>{
+    const v=(document.querySelector(`input[name="${q.id}"]:checked`)||{}).value;
+    if(v==="no") issues.push(`【${q.section}】${q.q} → 未达标，须纳入整改。`);
+    if(v==="partial") issues.push(`【${q.section}】${q.q} → 部分落实，建议限期完善。`);
+  });
+  const haz=selectedHazards();
+  if(!haz.length) issues.push("尚未勾选任何重要危险源；若确无重要危险源，可维持Ⅳ级，但仍须落实日常消防与用电管理。");
+  const lv=higherLevel(levelFromDirect(), levelFromScore(calcScore()));
+  if(lv==="I"||lv==="II"){
+    issues.push("Ⅰ/Ⅱ级实训室须针对重要危险源制定管理办法与应急措施，责任到人，并按管理办法落实培训与演练频次。");
+  }
+  const box=$("issueBox"), list=$("issueList");
+  if(issues.length){
+    box.style.display="block";
+    list.innerHTML=issues.map(x=>`<li>${x}</li>`).join("");
+  }else{
+    box.style.display="none";
+    list.innerHTML="";
+  }
+}
+
+function svgIcon(id){
+  const common='viewBox="0 0 64 64" width="100%" height="100%"';
+  const map={
+    svg_no_fire:`<svg ${common}><circle cx="32" cy="28" r="22" fill="none" stroke="#c62828" stroke-width="4"/><line x1="16" y1="12" x2="48" y2="44" stroke="#c62828" stroke-width="4"/><text x="32" y="60" text-anchor="middle" font-size="8" fill="#c62828">禁烟火</text></svg>`,
+    svg_no_food:`<svg ${common}><circle cx="32" cy="28" r="22" fill="none" stroke="#c62828" stroke-width="4"/><line x1="16" y1="12" x2="48" y2="44" stroke="#c62828" stroke-width="4"/><text x="32" y="32" text-anchor="middle" font-size="10">饮</text></svg>`,
+    svg_no_water:`<svg ${common}><circle cx="32" cy="28" r="22" fill="none" stroke="#c62828" stroke-width="4"/><line x1="16" y1="12" x2="48" y2="44" stroke="#c62828" stroke-width="4"/><text x="32" y="32" text-anchor="middle" font-size="9">水</text></svg>`,
+    svg_mask:`<svg ${common}><circle cx="32" cy="32" r="26" fill="#1565c0"/><text x="32" y="36" text-anchor="middle" font-size="10" fill="#fff">口罩</text></svg>`,
+    svg_goggles:`<svg ${common}><circle cx="32" cy="32" r="26" fill="#1565c0"/><text x="32" y="36" text-anchor="middle" font-size="10" fill="#fff">护目</text></svg>`,
+    svg_gloves:`<svg ${common}><circle cx="32" cy="32" r="26" fill="#1565c0"/><text x="32" y="36" text-anchor="middle" font-size="10" fill="#fff">手套</text></svg>`,
+    svg_lock:`<svg ${common}><circle cx="32" cy="32" r="26" fill="#1565c0"/><text x="32" y="36" text-anchor="middle" font-size="10" fill="#fff">加锁</text></svg>`,
+    svg_cert:`<svg ${common}><circle cx="32" cy="32" r="26" fill="#1565c0"/><text x="32" y="36" text-anchor="middle" font-size="10" fill="#fff">持证</text></svg>`,
+    svg_infect:`<svg ${common}><polygon points="32,6 58,54 6,54" fill="#f9a825" stroke="#222" stroke-width="3"/><text x="32" y="42" text-anchor="middle" font-size="12">生</text></svg>`,
+    svg_bio:`<svg ${common}><polygon points="32,6 58,54 6,54" fill="#f9a825" stroke="#222" stroke-width="3"/><text x="32" y="42" text-anchor="middle" font-size="11">☣</text></svg>`,
+  };
+  return map[id]||`<svg ${common}><rect width="64" height="64" fill="#eee"/></svg>`;
+}
+
+function pickedSigns(kind){
+  const ids=[...document.querySelectorAll(`[data-sign][data-kind="${kind}"]:checked`)].map(el=>el.dataset.sign);
+  const all=allSigns();
+  return ids.map(id=>all.find(s=>s.id===id)).filter(Boolean).slice(0,6);
+}
+
+function fillIconRow(el, items){
+  el.innerHTML="";
+  const list=items.length?items:[{label:"（待选）", source:"empty"}];
+  while(list.length<6) list.push({label:"", source:"empty"});
+  list.slice(0,6).forEach(s=>{
+    const d=document.createElement("div");
+    d.className="ico";
+    if(s.source==="png" && s.file){
+      d.innerHTML=`<img src="${s.file}" alt="${s.label}"/><span>${s.label||""}</span>`;
+    }else if(s.source==="svg"){
+      d.innerHTML=`${svgIcon(s.id)}<span>${s.label||""}</span>`;
+    }else{
+      d.innerHTML=`<span style="color:#bbb;font-size:.65rem">${s.label||"—"}</span>`;
+    }
+    el.appendChild(d);
+  });
+}
+
+function renderBoard(){
+  const unit=val("unit")||"二级学院";
+  const building=val("building")||"—";
+  const roomName=val("roomName")||"XX实训室";
+  const roomNo=val("roomNo")||"—";
+  const owner=val("owner")||"—";
+  const phone=val("phone")||"—";
+  $("infoTable").innerHTML=`
+    <div class="info-cell"><div class="k">单位名称<small>Unit Name</small></div><div class="v">${esc(unit)}</div></div>
+    <div class="info-cell"><div class="k">楼宇<small>Building</small></div><div class="v">${esc(building)}</div></div>
+    <div class="info-cell"><div class="k">实验室名称<small>Laboratory Name</small></div><div class="v">${esc(roomName)}</div></div>
+    <div class="info-cell"><div class="k">房间号<small>Room Number</small></div><div class="v">${esc(roomNo)}</div></div>
+    <div class="info-cell"><div class="k">安全负责人<small>Safety Person in Charge</small></div><div class="v">${esc(owner)}</div></div>
+    <div class="info-cell"><div class="k">负责人电话<small>Phone</small></div><div class="v">${esc(phone)}</div></div>`;
+  fillIconRow($("rowProhibit"), pickedSigns("prohibit"));
+  fillIconRow($("rowWarning"), pickedSigns("warning"));
+  fillIconRow($("rowMandatory"), pickedSigns("mandatory"));
+  $("qrBox").dataset.text=roomName+"\n"+roomNo;
+  const phones=[];
+  for(let i=0;i<DATA.emergencyDefaults.length;i++){
+    const n=document.querySelector(`[data-ename="${i}"]`)?.value||DATA.emergencyDefaults[i].name;
+    const p=document.querySelector(`[data-ephone="${i}"]`)?.value||DATA.emergencyDefaults[i].phone||"—";
+    phones.push(`<div><span>${esc(n)}</span><strong>${esc(p)}</strong></div>`);
+  }
+  $("phoneList").innerHTML=phones.join("");
+  const fires=[...document.querySelectorAll("[data-fire]")].map(el=>{
+    const t=el.closest("label").innerText.trim();
+    const on=el.checked;
+    return `<label><span>${esc(t)}</span><input type="checkbox" ${on?"checked":""} disabled/></label>`;
+  });
+  $("fireList").innerHTML=fires.join("");
+  evaluate();
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
+
+function exportJson(){
+  const r=evaluate();
+  const payload={
+    room:{unit:val("unit"),building:val("building"),name:val("roomName"),no:val("roomNo"),owner:val("owner"),phone:val("phone")},
+    category:r.cat, level:r.meta.name, levelId:r.level, score:r.score,
+    hazards:selectedHazards().map(h=>({id:h.id,category:h.category,title:h.title})),
+    directTriggers:[...document.querySelectorAll("[data-trig]:checked")].map(el=>el.dataset.id),
+    scoreItems:[...document.querySelectorAll("[data-score]:checked")].map(el=>el.dataset.score),
+    checks:Object.fromEntries(DATA.roomChecks.map(q=>[q.id,(document.querySelector(`input[name="${q.id}"]:checked`)||{}).value])),
+    signs:[...document.querySelectorAll("[data-sign]:checked")].map(el=>el.dataset.sign),
+    firePoints:[...document.querySelectorAll("[data-fire]:checked")].map(el=>el.dataset.fire),
+    basis:DATA.basis,
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(val("roomName")||"实训室")+"_SOP评估信息牌.json";
+  a.click();
+}
+
+init();
+autoSelectSigns();
+evaluate();
+renderBoard();
+</script>
+</body>
+</html>
