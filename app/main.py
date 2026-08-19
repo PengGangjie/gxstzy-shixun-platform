@@ -79,7 +79,14 @@ async def require_auth(request: Request, call_next):
 
 
 # SessionMiddleware 须后注册（更靠外层），保证 require_auth 内可读写 request.session
-app.add_middleware(SessionMiddleware, secret_key=settings.session_secret, https_only=False)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.session_secret,
+    session_cookie="shixun_session",
+    https_only=settings.logto_redirect_uri.startswith("https://"),
+    same_site="lax",
+    max_age=14 * 24 * 3600,
+)
 
 
 @app.get("/health")
@@ -103,8 +110,23 @@ async def sign_in(request: Request):
 
 @app.get("/callback")
 async def callback(request: Request):
+    """OIDC 回调。无 code/state 或会话丢失时返回说明页，避免裸 500。"""
+    if not request.query_params.get("code"):
+        return RedirectResponse("/sign-in")
     client = logto_client(request)
-    await client.handleSignInCallback(str(request.url))
+    try:
+        await client.handleSignInCallback(str(request.url))
+    except Exception as exc:  # noqa: BLE001
+        detail = str(exc)
+        return JSONResponse(
+            {
+                "detail": "登录回调失败",
+                "reason": detail,
+                "hint": "请从平台首页重新登录。若出现 invalid_client，请在 Logto 控制台核对 App ID/Secret 后重新部署。",
+                "sign_in": "/sign-in",
+            },
+            status_code=400,
+        )
     claims = client.getIdTokenClaims()
     if claims and claims.sub:
         upsert_user(claims.sub, getattr(claims, "email", None), getattr(claims, "name", None))
