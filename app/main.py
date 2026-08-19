@@ -26,7 +26,6 @@ PUBLIC_PREFIXES = (
 
 settings = get_settings()
 app = FastAPI(title="广西生态工程职业技术学院 · 实训科管理平台")
-app.add_middleware(SessionMiddleware, secret_key=settings.session_secret, https_only=False)
 
 
 class SessionStorage(Storage):
@@ -77,6 +76,10 @@ async def require_auth(request: Request, call_next):
     if path.startswith("/api/"):
         return JSONResponse({"detail": "未登录"}, status_code=401)
     return RedirectResponse("/sign-in")
+
+
+# SessionMiddleware 须后注册（更靠外层），保证 require_auth 内可读写 request.session
+app.add_middleware(SessionMiddleware, secret_key=settings.session_secret, https_only=False)
 
 
 @app.get("/health")
