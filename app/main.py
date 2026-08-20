@@ -9,7 +9,7 @@ from typing import Union
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from logto import LogtoClient, LogtoConfig, Storage
+from logto import LogtoClient, LogtoConfig, Storage, UserInfoScope
 from starlette.middleware.sessions import SessionMiddleware
 
 from .config import get_settings
@@ -52,6 +52,7 @@ def logto_client(request: Request) -> LogtoClient:
             endpoint=settings.logto_endpoint,
             appId=settings.logto_app_id,
             appSecret=settings.logto_app_secret,
+            scopes=[UserInfoScope.email, UserInfoScope.phone],
         ),
         storage=SessionStorage(request.session),
     )
@@ -129,7 +130,12 @@ async def callback(request: Request):
         )
     claims = client.getIdTokenClaims()
     if claims and claims.sub:
-        upsert_user(claims.sub, getattr(claims, "email", None), getattr(claims, "name", None))
+        upsert_user(
+            claims.sub,
+            getattr(claims, "email", None),
+            getattr(claims, "name", None),
+            getattr(claims, "phone_number", None),
+        )
     return RedirectResponse("/")
 
 
@@ -146,7 +152,13 @@ async def me(request: Request):
     if not client.isAuthenticated():
         return JSONResponse({"authenticated": False}, status_code=401)
     claims = client.getIdTokenClaims()
-    return {"authenticated": True, "sub": claims.sub if claims else None, "email": getattr(claims, "email", None)}
+    return {
+        "authenticated": True,
+        "sub": claims.sub if claims else None,
+        "email": getattr(claims, "email", None) if claims else None,
+        "phone": getattr(claims, "phone_number", None) if claims else None,
+        "name": getattr(claims, "name", None) if claims else None,
+    }
 
 
 static_dir = settings.static_dir

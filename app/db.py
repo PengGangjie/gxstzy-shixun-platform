@@ -23,20 +23,29 @@ def turso_client() -> Iterator:
 
 def ping_db() -> str:
     with turso_client() as client:
+        _ensure_phone_column(client)
         row = client.execute("SELECT value FROM meta WHERE key = 'schema_version'").rows
         return row[0][0] if row else "unknown"
 
 
-def upsert_user(sub: str, email: str | None, name: str | None) -> None:
+def _ensure_phone_column(client) -> None:
+    cols = [r[1] for r in client.execute("PRAGMA table_info(users)").rows]
+    if "phone" not in cols:
+        client.execute("ALTER TABLE users ADD COLUMN phone TEXT")
+
+
+def upsert_user(sub: str, email: str | None, name: str | None, phone: str | None = None) -> None:
     with turso_client() as client:
+        _ensure_phone_column(client)
         client.execute(
             """
-            INSERT INTO users (id, logto_sub, email, name, role)
-            VALUES (?, ?, ?, ?, 'staff')
+            INSERT INTO users (id, logto_sub, email, name, phone, role)
+            VALUES (?, ?, ?, ?, ?, 'staff')
             ON CONFLICT(logto_sub) DO UPDATE SET
-              email = excluded.email,
-              name = excluded.name,
+              email = COALESCE(excluded.email, users.email),
+              name = COALESCE(excluded.name, users.name),
+              phone = COALESCE(excluded.phone, users.phone),
               updated_at = datetime('now')
             """,
-            [sub, sub, email, name],
+            [sub, sub, email, name, phone],
         )

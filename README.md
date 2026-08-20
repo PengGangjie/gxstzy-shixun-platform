@@ -13,7 +13,7 @@ cd output\gxstzy-shixun-platform
 ..\..\venv\Scripts\uvicorn.exe app.main:app --host 127.0.0.1 --port 8000
 ```
 
-打开 http://127.0.0.1:8000/ → Logto 登录 → 平台首页。
+打开 http://127.0.0.1:8000/ → Logto 登录（邮箱或手机号，视控制台配置） → 平台首页。
 
 ## Space 部署
 
