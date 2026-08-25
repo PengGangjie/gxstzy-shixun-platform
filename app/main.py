@@ -30,6 +30,8 @@ PUBLIC_PREFIXES = (
     "/callback",
     "/sign-out",
     "/assets/",
+    "/brand/",
+    "/icons/",
 )
 
 # 游客可浏览首页外壳；模块页 / 搜索索引 / 台账 JSON 仍须登录
@@ -50,6 +52,7 @@ STATIC_ASSET_SUFFIXES = (
     ".jpeg",
     ".gif",
     ".webp",
+    ".svg",
     ".ico",
     ".woff",
     ".woff2",

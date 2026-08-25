@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>教室分室 · 广西生态工程职业技术学院</title>
+<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="rooms.css">
+<link rel="stylesheet" href="/assets/mobile-space.css">
+</head>
+<body data-page="catalog">
+<header class="top"><div class="top-inner">
+  <div>
+    <h1>教室分室</h1>
+    <p>教务教室与实训台账对齐 · 每间教室独立界面 · 模块按万欣二期需求表</p>
+  </div>
+  <nav>
+    <a href="../广西生态工程职业技术学院-教务处-实训科管理平台.html" target="_top">平台首页</a>
+    <a href="https://docs.qq.com/sheet/DQnVwbWdjV3R2cHJ6?tab=2cyqc7" target="_blank" rel="noopener">对齐表</a>
+  </nav>
+</div></header>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>438</b><span>教务教室</span></div>
+    <div class="stat"><b>354</b><span>实训台账</span></div>
+    <div class="stat"><b>245</b><span>已对齐</span></div>
+    <div class="stat"><b>193</b><span>仅教务</span></div>
+    <div class="stat"><b>109</b><span>仅实训</span></div>
+    <div class="stat"><b>547</b><span>分室界面</span></div>
+  </div>
+  <p class="hint">真源为腾讯文档最新列表（分院 Sheet ∪ Sheet1）。编号相同优先对齐；否则按同学院名称或门牌数字匹配。点击卡片进入该教室专属页。</p>
+  <div class="filters">
+    <input id="q" type="search" placeholder="搜索编号、名称、楼栋、门牌…">
+    <select id="college"></select>
+    <select id="type"></select>
+    <select id="align"></select>
+    <span class="hint" id="meta"></span>
+  </div>
+  <div class="jump" id="jump"></div>
+  <div class="grid" id="grid"></div>
+</div>
+<script src="rooms-data.js"></script>
+<script src="rooms.js"></script>
+</body></html>

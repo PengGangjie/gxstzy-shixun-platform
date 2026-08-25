@@ -1,8 +1,13 @@
 /* 实验室管理平台 · 移动端（对齐《沉浮》EP：顶栏不挤、safe-area、横向滚动表） */
 html,body{overflow-x:hidden}
 body{padding-bottom:env(safe-area-inset-bottom,0px)}
+.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0;margin-right:4px}
+.product-brand:hover{color:#008742}
+.product-mark{width:28px;height:28px;display:block;border:none;background:transparent}
+.product-name{font-size:14px;font-weight:600;white-space:nowrap}
 @media (max-width:720px){
   .link-top ul.credit{display:none}
+  .product-name{display:none}
   .link-top li{padding:0 8px;line-height:40px;font-size:13px}
   .site-logo{padding:20px 0 16px}
   .site-logo a.logo img{max-width:100%;height:auto}
