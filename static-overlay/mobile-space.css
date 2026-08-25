@@ -1,17 +1,39 @@
-/* 实验室管理平台 · 移动端（对齐《沉浮》EP：顶栏不挤、safe-area、横向滚动表） */
+/* 实验室管理平台 · 顶栏单行 + 移动端（safe-area） */
 html,body{overflow-x:hidden}
 body{padding-bottom:env(safe-area-inset-bottom,0px)}
-.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0;margin-right:4px}
+.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0}
 .product-brand:hover{color:#008742}
 .product-mark{width:28px;height:28px;display:block;border:none;background:transparent}
-.product-name{font-size:14px;font-weight:600;white-space:nowrap}
+.product-name{font-size:15px;font-weight:600;white-space:nowrap;letter-spacing:.02em}
+.link-top{padding-top:env(safe-area-inset-top,0px);position:relative;z-index:120}
+.link-top .web{display:flex!important;flex-wrap:nowrap!important;align-items:center;justify-content:flex-start;gap:8px 12px;min-height:48px;max-width:var(--web-w,1200px);position:relative}
+.link-top ul.nav-links{flex:1 1 auto;min-width:0;flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;gap:0}
+.link-top ul.nav-links li{flex-shrink:0;padding:0 10px;line-height:48px;white-space:nowrap}
+.link-top ul.nav-links a{font-size:14px;color:#006B35}
+.link-top ul.nav-links a:hover{color:#008742}
+.link-top ul.credit{display:none!important}
+.topbar-menu-btn{display:none;flex-shrink:0;width:40px;height:40px;margin:0;padding:0;border:1px solid #e5e5e5;border-radius:6px;background:#fff;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.topbar-menu-btn span{display:block;width:18px;height:2px;background:#323232;border-radius:1px;transition:transform .2s,opacity .2s}
+.topbar-menu-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.topbar-menu-btn.is-open span:nth-child(2){opacity:0}
+.topbar-menu-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.topbar-drawer{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #e5e5e5;border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,.12);padding:8px;z-index:130}
+.topbar-drawer[hidden]{display:none!important}
+.topbar-drawer-list{list-style:none;margin:0;padding:0}
+.topbar-drawer-list a{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:6px;color:#323232;font-size:15px;text-decoration:none}
+.topbar-drawer-list a:hover,.topbar-drawer-list a:active{background:#f1fff3;color:#008742}
+.guest-auth-bar{margin-left:auto;flex-shrink:0}
+@media (max-width:900px){
+  .link-top ul.nav-links{display:none!important}
+  .topbar-menu-btn{display:inline-flex}
+  body.topbar-drawer-open .topbar-drawer:not([hidden]){display:block}
+  .product-name{font-size:14px}
+}
 @media (max-width:720px){
-  .link-top ul.credit{display:none}
-  .product-name{display:none}
-  .link-top li{padding:0 8px;line-height:40px;font-size:13px}
+  .product-name{max-width:42vw;overflow:hidden;text-overflow:ellipsis}
   .site-logo{padding:20px 0 16px}
   .site-logo a.logo img{max-width:100%;height:auto}
-  .navbar{top:env(safe-area-inset-top,0px)}
+  .navbar{top:0}
   .navbar ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .navbar li a{height:48px;line-height:48px;padding:0 12px;font-size:14px}
   .list-right{padding:16px 14px 24px}
@@ -20,4 +42,6 @@ body{padding-bottom:env(safe-area-inset-bottom,0px)}
   .top{flex-wrap:wrap;padding:12px 14px;padding-top:max(12px, env(safe-area-inset-top, 0px))}
   .top nav{flex-wrap:wrap;gap:10px}
   .top nav a{min-height:44px;display:inline-flex;align-items:center}
+  .portal-btns{justify-content:center}
+  .portal-btns a{width:calc(50% - 8px);max-width:160px}
 }

@@ -2,7 +2,7 @@
 (function () {
   const SIGN_IN = "/sign-in";
   const MODULE_RE =
-    /(platform-\d+|实训室安全数据驾驶舱|实训室分级分类台账|lab-grade-boards)/i;
+    /(platform-\d+|实训室安全数据驾驶舱|实训室分级分类台账|lab-grade-boards|rooms\/)/i;
 
   function isModuleHref(href) {
     if (!href || href.startsWith("http") || href.startsWith("mailto:")) return false;
@@ -25,10 +25,11 @@
     const s = document.createElement("style");
     s.id = "guest-gate-style";
     s.textContent = `
-      .guest-auth-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-left:auto}
-      .guest-auth-bar .guest-btn{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 14px;border-radius:4px;font-size:13px;border:1px solid rgba(255,255,255,.35);background:#fff;color:#005c2d!important;cursor:pointer;text-decoration:none}
-      .guest-auth-bar .guest-btn.primary{background:#FFFA00;border-color:#e6e000;color:#191919!important;font-weight:600}
-      .guest-auth-bar .guest-user{font-size:13px;color:#fff;opacity:.95}
+      .guest-auth-bar{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;flex-shrink:0;margin-left:auto}
+      .guest-auth-bar .guest-user{font-size:12px;color:#666;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .guest-auth-bar .guest-btn{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 12px;border-radius:4px;font-size:13px;border:1px solid #c8e6d0;background:#f1fff3;color:#005c2d!important;cursor:pointer;text-decoration:none;white-space:nowrap}
+      .guest-auth-bar .guest-btn.primary{background:#008742;border-color:#008742;color:#fff!important;font-weight:600}
+      .guest-auth-bar .guest-btn:hover{filter:brightness(.97)}
       .guest-lock-banner{margin:12px 0 16px;padding:12px 14px;background:#fff8e1;border:1px solid #ffe082;border-radius:6px;font-size:14px;color:#6d4c00}
       .guest-lock-banner a{color:#008742;font-weight:600}
       .guest-search-locked .text{background:#f5f5f5;cursor:not-allowed}
@@ -38,6 +39,10 @@
       body.guest-mode .portal-btns a,
       body.guest-mode .link-top a[href*="驾驶舱"],
       body.guest-mode .link-top a[href*="信息牌"]{opacity:.72}
+      @media (max-width:720px){
+        .guest-auth-bar .guest-user{display:none}
+        .guest-auth-bar .guest-btn{min-height:36px;padding:0 10px;font-size:13px}
+      }
     `;
     document.head.appendChild(s);
   }
@@ -52,7 +57,9 @@
       const label = me.role_label || "已登录";
       const name = me.email || me.name || "";
       bar.innerHTML =
-        '<span class="guest-user">' +
+        '<span class="guest-user" title="' +
+        (name || label).replace(/"/g, "&quot;") +
+        '">' +
         label +
         (name ? " · " + name : "") +
         "</span>" +
@@ -66,7 +73,7 @@
         SIGN_IN +
         "?next=" +
         encodeURIComponent(location.pathname || "/") +
-        '">登录后解锁全部功能</a>';
+        '">登录</a>';
     }
     web.appendChild(bar);
   }
@@ -79,7 +86,7 @@
       ban.id = "guest-lock-banner";
       ban.className = "guest-lock-banner";
       ban.innerHTML =
-        '当前为<strong>游客浏览</strong>：可查看首页介绍。七大业务模块、全站搜索与驾驶舱明细需' +
+        '当前为<strong>游客浏览</strong>：可查看首页介绍。业务模块、全站搜索与驾驶舱明细需' +
         '<a href="' +
         SIGN_IN +
         "?next=/'" +
