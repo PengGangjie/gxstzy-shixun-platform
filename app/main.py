@@ -32,7 +32,16 @@ PUBLIC_PREFIXES = (
     "/assets/",
 )
 
-# 静态资源扩展名：须已登录会话（中间件在 isAuthenticated 后放行）
+# 游客可浏览首页外壳；模块页 / 搜索索引 / 台账 JSON 仍须登录
+GUEST_HOME_PATHS = frozenset(
+    {
+        "/",
+        "/index.html",
+        "/广西生态工程职业技术学院-教务处-实训科管理平台.html",
+    }
+)
+
+# 静态资源扩展名：须已登录（/assets/ 已在 PUBLIC_PREFIXES）
 STATIC_ASSET_SUFFIXES = (
     ".css",
     ".js",
@@ -115,6 +124,14 @@ class SetRoleBody(BaseModel):
     lab_rooms: list[str] = Field(default_factory=list)
 
 
+def _unauth_response(request: Request, path: str):
+    """未登录响应：API/静态资源用 401，页面跳转登录。"""
+    if path.startswith("/api/") or path.endswith(STATIC_ASSET_SUFFIXES) or path.endswith(".json"):
+        return JSONResponse({"detail": "未登录", "sign_in": "/sign-in"}, status_code=401)
+    next_q = path if path.startswith("/") else f"/{path}"
+    return RedirectResponse(f"/sign-in?next={next_q}")
+
+
 @app.middleware("http")
 async def require_auth(request: Request, call_next):
     if not settings.auth_required or not auth_configured():
@@ -126,18 +143,17 @@ async def require_auth(request: Request, call_next):
     client = logto_client(request)
     authenticated = client.isAuthenticated()
 
-    # 敏感 JSON 必须登录；纯静态资源扩展名也须登录（防未登录直链）
+    # 游客：首页外壳 + /api/me（返回未登录状态）
+    if not authenticated and (path in GUEST_HOME_PATHS or path == "/api/me"):
+        return await call_next(request)
+
     if path.endswith(STATIC_ASSET_SUFFIXES) or path.endswith(".json"):
         if authenticated:
             return await call_next(request)
-        if path.startswith("/api/"):
-            return JSONResponse({"detail": "未登录"}, status_code=401)
-        return RedirectResponse("/sign-in")
+        return _unauth_response(request, path)
 
     if not authenticated:
-        if path.startswith("/api/"):
-            return JSONResponse({"detail": "未登录"}, status_code=401)
-        return RedirectResponse("/sign-in")
+        return _unauth_response(request, path)
 
     # 教务处后台页：仅 jw_admin；管理 API：jw_admin 或学院管理员（本院）
     if path.startswith("/admin"):
@@ -185,6 +201,9 @@ async def health():
 async def sign_in(request: Request):
     if not auth_configured():
         return RedirectResponse("/")
+    nxt = request.query_params.get("next") or ""
+    if nxt.startswith("/") and not nxt.startswith("//") and nxt not in {"/sign-in", "/callback"}:
+        request.session["post_login_next"] = nxt
     client = logto_client(request)
     url = await client.signIn(redirectUri=settings.logto_redirect_uri)
     return RedirectResponse(url)
@@ -220,8 +239,10 @@ async def callback(request: Request):
             default_role="student",
             promote_to_jw_admin=_email_is_bootstrap_admin(email),
         )
-    return RedirectResponse("/")
-
+    nxt = request.session.pop("post_login_next", None) or "/"
+    if not (isinstance(nxt, str) and nxt.startswith("/") and not nxt.startswith("//")):
+        nxt = "/"
+    return RedirectResponse(nxt)
 
 @app.get("/sign-out")
 async def sign_out(request: Request):
@@ -234,7 +255,7 @@ async def sign_out(request: Request):
 async def me(request: Request):
     client = logto_client(request)
     if not client.isAuthenticated():
-        return JSONResponse({"authenticated": False}, status_code=401)
+        return {"authenticated": False}
     claims = client.getIdTokenClaims()
     sub = claims.sub if claims else None
     user = get_user_by_sub(sub) if sub else None
