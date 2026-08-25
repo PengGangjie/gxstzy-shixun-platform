@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户权限管理 · 教务处管理员后台</title>
+<style>
+:root {
+  --primary:#008742; --primary-dark:#005c2d; --bg:#f4f4f4; --bg-light:#f1fff3;
+  --text:#323232; --muted:#666; --border:#e5e5e5; --danger:#c62828; --warn:#e65100;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:15px;color:var(--text);background:var(--bg);line-height:1.6}
+a{color:var(--primary);text-decoration:none}
+a:hover{color:var(--primary-dark)}
+.top{background:var(--primary-dark);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.top h1{font-size:18px;font-weight:normal}
+.top .meta{font-size:13px;opacity:.9}
+.top nav{display:flex;gap:14px;font-size:14px}
+.top nav a{color:#fff;opacity:.9}
+.top nav a:hover{opacity:1;text-decoration:underline}
+.wrap{max-width:1100px;margin:24px auto;padding:0 16px 48px}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin-bottom:16px}
+.card h2{font-size:17px;color:var(--primary);font-weight:normal;margin-bottom:10px}
+.hint{font-size:13px;color:var(--muted);margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.toolbar input{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--border);border-radius:4px;font-size:14px}
+.toolbar button,.btn{appearance:none;border:none;background:var(--primary);color:#fff;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px}
+.toolbar button.secondary{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+.toolbar button:disabled,.btn:disabled{opacity:.5;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle}
+th{background:var(--bg-light);font-weight:normal;white-space:nowrap}
+select,input.cell{padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-size:13px;max-width:100%}
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:12px;background:#eee;color:var(--muted)}
+.badge.jw_admin{background:#005c2d;color:#fff}
+.badge.college_admin{background:#008742;color:#fff}
+.badge.lab_tech{background:#218483;color:#fff}
+.badge.teacher{background:#e8f5e9;color:#2e7d32}
+.badge.student{background:#f5f5f5;color:#666}
+.err{color:var(--danger);font-size:14px;margin:8px 0}
+.ok{color:var(--primary);font-size:14px;margin:8px 0}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.rooms{width:140px}
+@media (max-width:720px){
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>用户权限管理 · 教务处管理员后台</h1>
+    <div class="meta" id="who">正在校验权限…</div>
+  </div>
+  <nav>
+    <a href="/">返回平台首页</a>
+    <a href="/sign-out">退出登录</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <h2>说明</h2>
+    <p class="hint">
+      用户须先通过 Logto<strong>邀请</strong>并登录一次，才会出现在本表。
+      可修改角色（教务处管理员 / 学院管理员 / 实验员 / 教师 / 学生）与所属学院；
+      实验员可填写负责房间号（逗号分隔）。变更写入 Turso 并记入审计日志。
+    </p>
+    <div id="msg"></div>
+  </section>
+
+  <section class="card">
+    <h2>用户列表</h2>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="按邮箱 / 姓名 / 学院筛选" />
+      <button type="button" class="secondary" id="btn-reload">刷新</button>
+    </div>
+    <div id="table-wrap"><div class="empty">加载中…</div></div>
+  </section>
+</main>
+
+<script>
+const ROLE_ORDER = ["jw_admin","college_admin","lab_tech","teacher","student"];
+let ROLES = [];
+let COLLEGES = [];
+let USERS = [];
+
+const $msg = document.getElementById("msg");
+const $who = document.getElementById("who");
+const $wrap = document.getElementById("table-wrap");
+const $q = document.getElementById("q");
+
+function showMsg(text, ok) {
+  $msg.className = ok ? "ok" : "err";
+  $msg.textContent = text || "";
+}
+
+async function api(path, opts) {
+  const res = await fetch(path, {
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json", ...(opts && opts.headers || {}) },
+    ...opts,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(data.detail || ("HTTP " + res.status));
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
+
+function roleOptions(selected) {
+  return ROLE_ORDER.map(id => {
+    const label = (ROLES.find(r => r.id === id) || {}).label || id;
+    return `<option value="${id}" ${id === selected ? "selected" : ""}>${label}</option>`;
+  }).join("");
+}
+
+function collegeOptions(selected, role) {
+  const none = role === "jw_admin" ? `<option value="">（全校 / 不限）</option>` : `<option value="">请选择学院</option>`;
+  return none + COLLEGES.map(c =>
+    `<option value="${c}" ${c === selected ? "selected" : ""}>${c}</option>`
+  ).join("");
+}
+
+function filteredUsers() {
+  const kw = ($q.value || "").trim().toLowerCase();
+  if (!kw) return USERS;
+  return USERS.filter(u =>
+    [u.email, u.name, u.college, u.role_label, u.phone].join(" ").toLowerCase().includes(kw)
+  );
+}
+
+function renderTable() {
+  const rows = filteredUsers();
+  if (!rows.length) {
+    $wrap.innerHTML = `<div class="empty">暂无用户。请先在 Logto 邀请对方，对方登录平台一次后再刷新。</div>`;
+    return;
+  }
+  $wrap.innerHTML = `<table>
+    <thead><tr>
+      <th>邮箱 / 手机</th><th>姓名</th><th>当前角色</th><th>角色</th><th>学院</th><th>负责房间</th><th></th>
+    </tr></thead>
+    <tbody>${rows.map(u => {
+      const rooms = (u.lab_rooms || []).join(", ");
+      const sub = u.sub || "";
+      return `<tr data-sub="${sub}">
+        <td>
+          <div>${u.email || "—"}</div>
+          <div style="font-size:12px;color:#888">${u.phone || ""}</div>
+        </td>
+        <td>${u.name || "—"}</td>
+        <td><span class="badge ${u.role}">${u.role_label || u.role}</span></td>
+        <td><select class="role">${roleOptions(u.role)}</select></td>
+        <td><select class="college">${collegeOptions(u.college || "", u.role)}</select></td>
+        <td><input class="cell rooms" value="${rooms.replace(/"/g, "&quot;")}" placeholder="如 西6-6205" /></td>
+        <td><button type="button" class="btn save">保存</button></td>
+      </tr>`;
+    }).join("")}</tbody>
+  </table>`;
+
+  $wrap.querySelectorAll("tr[data-sub]").forEach(tr => {
+    const roleSel = tr.querySelector(".role");
+    const collegeSel = tr.querySelector(".college");
+    roleSel.addEventListener("change", () => {
+      collegeSel.innerHTML = collegeOptions(collegeSel.value, roleSel.value);
+    });
+    tr.querySelector(".save").addEventListener("click", () => saveRow(tr));
+  });
+}
+
+async function saveRow(tr) {
+  const sub = tr.getAttribute("data-sub");
+  const role = tr.querySelector(".role").value;
+  const college = tr.querySelector(".college").value || null;
+  const roomsRaw = tr.querySelector(".rooms").value || "";
+  const lab_rooms = roomsRaw.split(/[,，;；\s]+/).map(s => s.trim()).filter(Boolean);
+  const btn = tr.querySelector(".save");
+  btn.disabled = true;
+  showMsg("");
+  try {
+    await api("/api/admin/users/" + encodeURIComponent(sub) + "/role", {
+      method: "POST",
+      body: JSON.stringify({ role, college, lab_rooms }),
+    });
+    showMsg("已保存：" + (tr.querySelector("td").innerText || sub).split("\n")[0], true);
+    await loadUsers();
+  } catch (e) {
+    showMsg(e.message || String(e), false);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function loadUsers() {
+  const data = await api("/api/admin/users");
+  USERS = data.users || [];
+  renderTable();
+}
+
+async function boot() {
+  try {
+    const me = await api("/api/me");
+    if (!me.authenticated || !me.admin_panel) {
+      $who.textContent = "无教务处管理员权限";
+      showMsg((me && me.role_label ? ("当前身份：" + me.role_label + "。") : "") + "需要教务处管理员权限。", false);
+      $wrap.innerHTML = `<div class="empty"><a href="/">返回首页</a></div>`;
+      return;
+    }
+    $who.textContent = `${me.role_label || "教务处管理员"} · ${me.email || me.name || me.sub || ""}`;
+    const meta = await api("/api/meta/roles");
+    ROLES = meta.roles || [];
+    COLLEGES = meta.colleges || [];
+    await loadUsers();
+  } catch (e) {
+    if (e.status === 401) {
+      location.href = "/sign-in";
+      return;
+    }
+    $who.textContent = "加载失败";
+    showMsg(e.message || String(e), false);
+    $wrap.innerHTML = `<div class="empty">${e.message || "错误"}</div>`;
+  }
+}
+
+$q.addEventListener("input", renderTable);
+document.getElementById("btn-reload").addEventListener("click", () => {
+  showMsg("");
+  loadUsers().catch(e => showMsg(e.message, false));
+});
+boot();
+</script>
+</body>
+</html>

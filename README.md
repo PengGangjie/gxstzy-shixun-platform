@@ -13,7 +13,13 @@ cd output\gxstzy-shixun-platform
 ..\..\venv\Scripts\uvicorn.exe app.main:app --host 127.0.0.1 --port 8000
 ```
 
-打开 http://127.0.0.1:8000/ → Logto 登录（邮箱或手机号，视控制台配置） → 平台首页。
+打开 http://127.0.0.1:8000/ → Logto 登录（须邀请账号）→ 平台首页。  
+教务处管理员后台：http://127.0.0.1:8000/admin/（须 `jw_admin` 或 `ADMIN_EMAILS` 引导升权）。
+
+## 权限相关文档
+
+- `docs/Logto关闭注册与邀请_20260820.md` — 关注册、仅邀请  
+- `docs/RBAC落地设计_20260820.md` — 五类群体与能力矩阵  
 
 ## Space 部署
 

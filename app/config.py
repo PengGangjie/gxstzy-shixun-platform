@@ -32,8 +32,13 @@ class Settings:
     logto_post_logout_uri: str
     turso_database_url: str
     turso_auth_token: str
+    admin_emails: frozenset[str]
     static_dir: Path
     port: int
+
+
+def _parse_admin_emails(raw: str) -> frozenset[str]:
+    return frozenset(e.strip().lower() for e in raw.split(",") if e.strip())
 
 
 @lru_cache
@@ -61,6 +66,7 @@ def get_settings() -> Settings:
         logto_post_logout_uri=post_logout,
         turso_database_url=turso_url,
         turso_auth_token=os.getenv("TURSO_AUTH_TOKEN", "").strip(),
+        admin_emails=_parse_admin_emails(os.getenv("ADMIN_EMAILS", "")),
         static_dir=static,
         port=int(os.getenv("PORT", "8000")),
     )
