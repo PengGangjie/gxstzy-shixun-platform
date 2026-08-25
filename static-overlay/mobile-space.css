@@ -1,0 +1,18 @@
+/* 实验室管理平台 · 移动端（对齐《沉浮》EP：顶栏不挤、safe-area、横向滚动表） */
+html,body{overflow-x:hidden}
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (max-width:720px){
+  .link-top ul.credit{display:none}
+  .link-top li{padding:0 8px;line-height:40px;font-size:13px}
+  .site-logo{padding:20px 0 16px}
+  .site-logo a.logo img{max-width:100%;height:auto}
+  .navbar{top:env(safe-area-inset-top,0px)}
+  .navbar ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .navbar li a{height:48px;line-height:48px;padding:0 12px;font-size:14px}
+  .list-right{padding:16px 14px 24px}
+  .college-block table,.shixun-ke-table,.liaison-staff-table{font-size:13px}
+  input,select,textarea,button{font-size:16px}
+  .top{flex-wrap:wrap;padding:12px 14px;padding-top:max(12px, env(safe-area-inset-top, 0px))}
+  .top nav{flex-wrap:wrap;gap:10px}
+  .top nav a{min-height:44px;display:inline-flex;align-items:center}
+}
