@@ -173,6 +173,40 @@ body.embed-board .board.a4-board{transform:scale(.42);transform-origin:top left;
 @media(max-width:720px){
   body.embed-board .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
 }
+body.embed-preview header,
+body.embed-preview .tabs,
+body.embed-preview #tab-ledger,
+body.embed-preview .edit-panel,
+body.embed-preview .layout > div:first-child,
+body.embed-preview #statusline{display:none!important}
+body.embed-preview .main{padding:0;max-width:none}
+body.embed-preview .panel{box-shadow:none;border-radius:0;padding:0;background:#ececec}
+body.embed-preview #tab-board{display:block!important}
+body.embed-preview .layout{display:block}
+body.embed-preview .board-wrap{padding:12px 12px 0;display:flex;flex-direction:column;align-items:center;background:#ececec;overflow:auto}
+body.embed-preview .board.a4-board{transform:scale(.52);transform-origin:top center;margin:0 auto -95mm;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd;position:sticky;bottom:0;z-index:5}
+body.embed-preview .preview-bar .btn{min-height:40px}
+@media(max-width:720px){
+  body.embed-preview .board.a4-board{transform:scale(.32);margin-bottom:-140mm}
+}
+body.embed-edit header,
+body.embed-edit .tabs,
+body.embed-edit #tab-ledger,
+body.embed-edit .layout > div:first-child,
+body.embed-edit #statusline{display:none!important}
+body.embed-edit .main{padding:0;max-width:none}
+body.embed-edit .panel{box-shadow:none;border-radius:0;padding:8px}
+body.embed-edit #tab-board{display:block!important}
+body.embed-edit .layout{display:block}
+body.embed-edit .edit-panel{margin-bottom:12px}
+body.embed-edit .board-wrap{padding:8px;background:#ececec;overflow:auto}
+body.embed-edit .board.a4-board{transform:scale(.38);transform-origin:top left;margin-bottom:-115mm}
+body.embed-edit #btnExportOne,
+body.embed-edit #btnExportAllEdits{display:none}
+@media(max-width:720px){
+  body.embed-edit .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
+}
 </style>
 <link rel="stylesheet" href="/assets/mobile-space.css">
 <link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
@@ -575,6 +609,36 @@ function switchTab(name){
   if(sop) sop.style.display=name==="sop"?"":"none";
   if(name==="board" && !currentId && rooms[0]) selectRoom(rooms[0].id);
 }
+async function exportBoardJpg(){
+  const r=rooms.find(x=>x.id===currentId); if(!r) return;
+  const el=document.getElementById("board");
+  if(typeof html2canvas!=="function"){ toast("缺少 html2canvas"); return; }
+  toast("正在生成 JPG…");
+  try{
+    const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+    const a=document.createElement("a");
+    a.href=canvas.toDataURL("image/jpeg",0.92);
+    a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+    a.click();
+    toast("JPG 已导出");
+  }catch(err){
+    console.error(err);
+    toast("导出失败，可改用打印");
+  }
+}
+function setupPreviewBar(){
+  if(!/preview=1/.test(location.search)) return;
+  const host=document.querySelector("#tab-board .layout > div:last-child");
+  if(!host || document.getElementById("previewBar")) return;
+  const bar=document.createElement("div");
+  bar.id="previewBar";
+  bar.className="preview-bar no-print";
+  bar.innerHTML=`<button class="btn btn-primary" type="button" id="btnPreviewJpg">下载 JPG</button>
+    <button class="btn btn-secondary" type="button" id="btnPreviewPrint">打印信息牌</button>`;
+  host.appendChild(bar);
+  document.getElementById("btnPreviewJpg").onclick=exportBoardJpg;
+  document.getElementById("btnPreviewPrint").onclick=()=>window.print();
+}
 function init(){
   RAW = loadRawData();
   if(!RAW || !Array.isArray(RAW.rooms) || !RAW.rooms.length){
@@ -613,6 +677,7 @@ function init(){
     saveOverrides(o); renderBoard(r); renderRoomList(); renderLedger();
     document.getElementById("editHint").textContent="已保存到本机浏览器";
     toast("已保存本地调整");
+    if(window.parent!==window) window.parent.postMessage("lab-board-saved","*");
   };
   document.getElementById("btnReset").onclick=()=>{
     if(!currentId) return;
@@ -620,23 +685,7 @@ function init(){
     applyOverrides(); selectRoom(currentId); renderLedger(); toast("已恢复台账原值");
   };
   document.getElementById("btnPrint").onclick=()=>window.print();
-  document.getElementById("btnExportJpg").onclick=async ()=>{
-    const r=rooms.find(x=>x.id===currentId); if(!r) return;
-    const el=document.getElementById("board");
-    if(typeof html2canvas!=="function"){ toast("缺少 html2canvas，请用同目录打开页面"); return; }
-    toast("正在生成 JPG…");
-    try{
-      const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
-      const a=document.createElement("a");
-      a.href=canvas.toDataURL("image/jpeg",0.92);
-      a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
-      a.click();
-      toast("JPG 已导出");
-    }catch(err){
-      console.error(err);
-      toast("导出失败，可改用打印");
-    }
-  };
+  document.getElementById("btnExportJpg").onclick=exportBoardJpg;
   document.getElementById("btnExportOne").onclick=()=>{
     const r=rooms.find(x=>x.id===currentId); if(!r) return;
     const a=document.createElement("a");
@@ -674,10 +723,14 @@ try{
   }
   const inFrame=window.self!==window.top;
   const embedMode=inFrame||/embed=1/.test(location.search);
-  const boardOnly=/board=1/.test(location.search)||/embed=1/.test(location.search);
+  const previewOnly=/preview=1/.test(location.search);
+  const editOnly=/edit=1/.test(location.search);
+  const boardOnly=/board=1/.test(location.search);
   if(embedMode){
     document.body.classList.add("embed");
-    if(boardOnly) document.body.classList.add("embed-board");
+    if(previewOnly) document.body.classList.add("embed-preview");
+    else if(editOnly) document.body.classList.add("embed-edit");
+    else if(boardOnly) document.body.classList.add("embed-board");
     const fh=document.getElementById("fileHint");
     if(fh) fh.style.display="none";
   }else{
@@ -688,9 +741,11 @@ try{
     }
   }
   init();
+  setupPreviewBar();
   const qid=new URLSearchParams(location.search).get("id");
   if(qid && typeof rooms!=="undefined" && rooms.some(r=>r.id===qid)){
     switchTab("board"); selectRoom(qid);
+    setupPreviewBar();
   }
 }catch(err){
   console.error(err);

@@ -316,15 +316,13 @@
 
     function boardHtml(){
       if(!boardCode){
-        return '<p class="hint">本室尚未对齐实训编号，无法嵌入安全信息电子牌。请先在对齐表核对照。</p>';
+        return '<p class="hint">本室尚未对齐实训编号，无法展示安全信息电子牌。请先在对齐表核对照。</p>';
       }
-      const src = `../lab-grade-boards/home.html?embed=1&board=1&id=${encodeURIComponent(boardCode)}#${encodeURIComponent(boardCode)}`;
-      return `<div class="board-embed">
-        <div class="board-embed-head">
-          <h3>安全信息电子牌</h3>
-          <a class="btn sec" href="../lab-grade-boards/home.html?id=${esc(boardCode)}#${esc(boardCode)}" target="_blank" rel="noopener">打开完整信息牌</a>
-        </div>
-        <iframe class="board-frame" title="安全信息电子牌" src="${esc(src)}" loading="lazy"></iframe>
+      const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}`;
+      return `<div class="board-preview">
+        <h3>安全信息电子牌</h3>
+        <p class="hint">以下为成图预览，可下载 JPG 或打印张贴。字段编辑请前往「安全信息」页签。</p>
+        <iframe class="board-preview-frame" title="安全信息电子牌成图" src="${esc(src)}" loading="lazy"></iframe>
       </div>`;
     }
 
@@ -397,24 +395,10 @@
     const panels = {
       info: () => infoView(),
       safety: () => {
-        const imgHtml = signImgs.length
-          ? '<div class="signs">' + signImgs.map(s => {
-              const src = s.file ? '../lab-grade-boards/' + s.file : '';
-              return src ? `<img src="${esc(src)}" alt="${esc(s.label||'')}">` : '';
-            }).join('') + '</div>'
-          : '<p class="hint">未挂警示图标。</p>';
         if(!boardCode) return '<p class="hint">本教室尚未对齐实训安全台账。</p>';
-        const v = vals();
-        return tablePairs([
-          ['实验级别', v.level],['类别', v.category],
-          ['危险源', lab.hazard],['防护要点', lab.protect],
-          ['应急处置', lab.fire],['防范措施', lab.measures],
-          ['管理员', (v.admin_name||'')+' '+(v.admin_phone||'')],
-          ['责任教师', (v.teacher_name||'')+' '+(v.teacher_phone||'')]
-        ]) + '<h3 style="margin-top:14px">危险源分项</h3>' + listOrDash(lab.hazard_points)
-          + '<h3>防护要点分项</h3>' + listOrDash(lab.protect_points)
-          + '<h3>警示图标</h3>' + imgHtml
-          + `<p class="hint" style="margin-top:12px"><a href="../lab-grade-boards/home.html?id=${esc(boardCode)}#${esc(boardCode)}" target="_blank" rel="noopener">打开 A4 安全信息牌</a></p>`;
+        const src = `../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}`;
+        return `<p class="hint">在此编辑信息牌字段（等级、类别、负责人、事故诱因、防护措施、灭火要点等）。保存后「基础信息」页将显示最新成图。</p>
+          <iframe class="board-edit-frame" title="安全信息牌编辑" src="${esc(src)}" loading="lazy"></iframe>`;
       },
       schedule: () => `<p class="hint">对接超星课表后按课次/开放时段自动同步。</p>
         <table class="data"><thead><tr><th>使用人</th><th>课程</th><th>人数</th><th>起止时间</th><th>异常</th></tr></thead>
@@ -682,4 +666,13 @@
   const page = document.body.dataset.page;
   if(page==='catalog') renderCatalog();
   else if(page==='room') renderRoom(document.body.dataset.room);
+
+  window.addEventListener('message', e => {
+    if(e.data !== 'lab-board-saved') return;
+    const frame = document.querySelector('.board-preview-frame');
+    if(!frame) return;
+    const url = frame.src;
+    frame.src = '';
+    frame.src = url;
+  });
 })();
