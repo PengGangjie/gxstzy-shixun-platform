@@ -159,6 +159,20 @@ label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
 body.embed header{padding:10px 14px}
 body.embed header h1{font-size:1.05rem}
 body.embed .file-hint{display:none!important}
+body.embed-board header,
+body.embed-board .tabs,
+body.embed-board #tab-ledger,
+body.embed-board .layout > .list,
+body.embed-board .actions,
+body.embed-board #statusline{display:none!important}
+body.embed-board .main{padding:0;max-width:none}
+body.embed-board .panel{box-shadow:none;border-radius:0;padding:8px;background:#d8d8d8}
+body.embed-board #tab-board{display:block!important}
+body.embed-board .board-wrap{padding:8px}
+body.embed-board .board.a4-board{transform:scale(.42);transform-origin:top left;margin-bottom:-110mm}
+@media(max-width:720px){
+  body.embed-board .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
+}
 </style>
 <link rel="stylesheet" href="/assets/mobile-space.css">
 <link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
@@ -660,8 +674,10 @@ try{
   }
   const inFrame=window.self!==window.top;
   const embedMode=inFrame||/embed=1/.test(location.search);
+  const boardOnly=/board=1/.test(location.search)||/embed=1/.test(location.search);
   if(embedMode){
     document.body.classList.add("embed");
+    if(boardOnly) document.body.classList.add("embed-board");
     const fh=document.getElementById("fileHint");
     if(fh) fh.style.display="none";
   }else{
@@ -672,6 +688,10 @@ try{
     }
   }
   init();
+  const qid=new URLSearchParams(location.search).get("id");
+  if(qid && typeof rooms!=="undefined" && rooms.some(r=>r.id===qid)){
+    switchTab("board"); selectRoom(qid);
+  }
 }catch(err){
   console.error(err);
   showBootError(err);

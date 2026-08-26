@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from typing import Any, Union
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from logto import LogtoClient, LogtoConfig, Storage, UserInfoScope
@@ -23,6 +23,7 @@ from .roles import (
     normalize_role,
     public_user,
 )
+from . import room_store
 
 PUBLIC_PREFIXES = (
     "/health",
@@ -353,6 +354,144 @@ async def admin_set_role(sub: str, body: SetRoleBody, request: Request):
         return JSONResponse({"detail": f"更新失败：{exc}"}, status_code=500)
 
     return {"ok": True, "user": public_user(updated)}
+
+
+class RoomOverridesBody(BaseModel):
+    overrides: dict[str, Any] = Field(default_factory=dict)
+
+
+class RoomPhotoBody(BaseModel):
+    data_url: str
+    caption: str | None = None
+
+
+class RoomEquipImportBody(BaseModel):
+    rows: list[dict[str, Any]] = Field(default_factory=list)
+
+
+def _actor_label(user: dict[str, Any] | None) -> str | None:
+    if not user:
+        return None
+    return user.get("email") or user.get("name") or user.get("logto_sub")
+
+
+def _parse_equip_upload(filename: str, raw: bytes) -> list[dict[str, Any]]:
+    name = (filename or "").lower()
+    if name.endswith(".csv") or name.endswith(".txt"):
+        text = raw.decode("utf-8-sig", errors="replace")
+        lines = [ln for ln in text.splitlines() if ln.strip()]
+        if not lines:
+            return []
+        import csv
+        from io import StringIO
+
+        reader = csv.DictReader(StringIO("\n".join(lines)))
+        return [dict(row) for row in reader]
+    if name.endswith(".xlsx") or name.endswith(".xlsm"):
+        from io import BytesIO
+
+        from openpyxl import load_workbook
+
+        wb = load_workbook(BytesIO(raw), read_only=True, data_only=True)
+        ws = wb.active
+        rows_iter = ws.iter_rows(values_only=True)
+        header = [str(c or "").strip() for c in next(rows_iter, [])]
+        out: list[dict[str, Any]] = []
+        for row in rows_iter:
+            item = {
+                header[i]: ("" if row[i] is None else str(row[i]).strip())
+                for i in range(min(len(header), len(row)))
+                if header[i]
+            }
+            if any(item.values()):
+                out.append(item)
+        return out
+    raise ValueError("请上传 .xlsx 或 .csv 文件")
+
+
+@app.get("/api/rooms/{room_id}/state")
+async def room_state(room_id: str, request: Request):
+    user = load_db_user(request)
+    if not user:
+        return JSONResponse({"detail": "未登录"}, status_code=401)
+    try:
+        return room_store.get_room_state(room_id)
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"读取失败：{exc}"}, status_code=500)
+
+
+@app.put("/api/rooms/{room_id}/overrides")
+async def room_save_overrides(room_id: str, body: RoomOverridesBody, request: Request):
+    user = load_db_user(request)
+    err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    try:
+        return room_store.save_overrides(room_id, body.overrides, _actor_label(user))
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"保存失败：{exc}"}, status_code=500)
+
+
+@app.post("/api/rooms/{room_id}/photos")
+async def room_add_photo(room_id: str, body: RoomPhotoBody, request: Request):
+    user = load_db_user(request)
+    err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    try:
+        photo = room_store.add_photo(
+            room_id, body.data_url, body.caption, _actor_label(user)
+        )
+        return {"ok": True, "photo": photo}
+    except ValueError as exc:
+        return JSONResponse({"detail": str(exc)}, status_code=400)
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"上传失败：{exc}"}, status_code=500)
+
+
+@app.delete("/api/rooms/{room_id}/photos/{photo_id}")
+async def room_del_photo(room_id: str, photo_id: int, request: Request):
+    user = load_db_user(request)
+    err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    try:
+        room_store.delete_photo(room_id, photo_id)
+        return {"ok": True}
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"删除失败：{exc}"}, status_code=500)
+
+
+@app.post("/api/rooms/{room_id}/equipment")
+async def room_set_equipment(room_id: str, body: RoomEquipImportBody, request: Request):
+    user = load_db_user(request)
+    err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    try:
+        equipment = room_store.replace_equipment(room_id, body.rows or [])
+        return {"ok": True, "count": len(equipment), "equipment": equipment}
+    except ValueError as exc:
+        return JSONResponse({"detail": str(exc)}, status_code=400)
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"保存失败：{exc}"}, status_code=500)
+
+
+@app.post("/api/rooms/{room_id}/equipment/import")
+async def room_import_equipment(room_id: str, request: Request, file: UploadFile = File(...)):
+    user = load_db_user(request)
+    err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    try:
+        raw = await file.read()
+        rows = _parse_equip_upload(file.filename or "equip.csv", raw)
+        equipment = room_store.replace_equipment(room_id, rows)
+        return {"ok": True, "count": len(equipment), "equipment": equipment}
+    except ValueError as exc:
+        return JSONResponse({"detail": str(exc)}, status_code=400)
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse({"detail": f"导入失败：{exc}"}, status_code=500)
 
 
 @app.get("/admin")

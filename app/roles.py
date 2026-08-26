@@ -73,6 +73,7 @@ def capabilities(user: dict[str, Any] | None) -> set[str]:
             "cockpit.read",
             "users.manage_all",
             "admin.panel",
+            "rooms.write",
         }
     elif role == "college_admin":
         caps |= {
@@ -83,11 +84,12 @@ def capabilities(user: dict[str, Any] | None) -> set[str]:
             "shixun_ke.read",
             "cockpit.read",
             "users.manage_college",
+            "rooms.write",
         }
     elif role == "lab_tech":
-        caps |= {"yishi.read", "ledger.read", "ledger.write", "cockpit.read"}
+        caps |= {"yishi.read", "ledger.read", "ledger.write", "cockpit.read", "rooms.write"}
     elif role == "teacher":
-        caps |= {"yishi.read", "ledger.read", "cockpit.read"}
+        caps |= {"yishi.read", "ledger.read", "cockpit.read", "rooms.write"}
     # student：仅基础学习向
     return caps
 

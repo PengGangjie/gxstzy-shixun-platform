@@ -6,6 +6,37 @@
   const ALIGN = {code:'编号对齐', name:'名称对齐', room_no:'门牌对齐', jw_only:'仅教务', lab_only:'仅实训'};
   const ALIGN_CLS = {code:'b-ok', name:'b-ok', room_no:'b-ok', jw_only:'b-jw', lab_only:'b-lab'};
 
+  const EDIT_FIELDS = [
+    {key:'jw_name', label:'教室名称', group:'jw'},
+    {key:'type', label:'教室类型', group:'jw'},
+    {key:'enabled', label:'是否启用', group:'jw'},
+    {key:'dept', label:'管理部门', group:'jw'},
+    {key:'class_cap', label:'最大上课容纳', group:'jw'},
+    {key:'exam_cap', label:'考场容纳', group:'jw'},
+    {key:'multimedia', label:'多媒体', group:'jw'},
+    {key:'monitor', label:'监控', group:'jw'},
+    {key:'ac', label:'空调', group:'jw'},
+    {key:'ac_count', label:'空调数量', group:'jw'},
+    {key:'seat_layout', label:'座位排布', group:'jw'},
+    {key:'area', label:'面积', group:'jw'},
+    {key:'pc_count', label:'电脑数量', group:'jw'},
+    {key:'asset_value', label:'资产总值', group:'jw'},
+    {key:'door_no', label:'门牌号', group:'jw'},
+    {key:'desc', label:'教室描述', group:'jw'},
+    {key:'lab_name', label:'实训室名称', group:'lab'},
+    {key:'building', label:'楼栋', group:'lab'},
+    {key:'floor', label:'楼层', group:'lab'},
+    {key:'room_no', label:'房号', group:'lab'},
+    {key:'admin_name', label:'管理员', group:'lab'},
+    {key:'admin_phone', label:'管理员电话', group:'lab'},
+    {key:'teacher_name', label:'责任教师', group:'lab'},
+    {key:'teacher_phone', label:'责任教师电话', group:'lab'},
+    {key:'dean_name', label:'院长', group:'lab'},
+    {key:'dean_phone', label:'院长电话', group:'lab'},
+    {key:'level', label:'风险等级', group:'lab'},
+    {key:'category', label:'分类', group:'lab'}
+  ];
+
   function esc(s){
     return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
@@ -18,6 +49,7 @@
     return 'b-off';
   }
   function roomUrl(id){ return id + '.html'; }
+  function lsKey(kind, id){ return 'gxstzy-room-'+kind+'-'+id; }
 
   function renderCatalog(){
     const qEl = document.getElementById('q');
@@ -94,12 +126,98 @@
     return '<ul>' + arr.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>';
   }
 
+  function baseVals(r){
+    const jw = r.jw || {};
+    const lab = r.lab || {};
+    return {
+      jw_name: jw.jw_name || r.display_name || '',
+      type: jw.type || r.type || '',
+      enabled: jw.enabled || r.enabled || '',
+      dept: jw.dept || jw.tag || '',
+      class_cap: jw.class_cap || r.class_cap || '',
+      exam_cap: jw.exam_cap || r.exam_cap || '',
+      multimedia: jw.multimedia || '',
+      monitor: jw.monitor || '',
+      ac: jw.ac || '',
+      ac_count: jw.ac_count || '',
+      seat_layout: jw.seat_layout || '',
+      area: jw.area || '',
+      pc_count: jw.pc_count || '',
+      asset_value: jw.asset_value || '',
+      door_no: jw.door_no || '',
+      desc: jw.desc || '',
+      lab_name: lab.name || '',
+      building: lab.building || r.building || '',
+      floor: lab.floor || r.floor || '',
+      room_no: lab.room_no || r.room_no || '',
+      admin_name: lab.admin_name || '',
+      admin_phone: lab.admin_phone || '',
+      teacher_name: lab.teacher_name || '',
+      teacher_phone: lab.teacher_phone || '',
+      dean_name: lab.dean_name || '',
+      dean_phone: lab.dean_phone || '',
+      level: lab.level || r.level || '',
+      category: lab.category || r.category || ''
+    };
+  }
+
+  function mergedVals(r, overrides){
+    return Object.assign({}, baseVals(r), overrides || {});
+  }
+
+  async function apiMe(){
+    try{
+      const res = await fetch('/api/me', {credentials:'same-origin'});
+      return await res.json();
+    }catch(_){ return {authenticated:false}; }
+  }
+
+  async function loadState(roomId){
+    try{
+      const res = await fetch('/api/rooms/' + encodeURIComponent(roomId) + '/state', {credentials:'same-origin'});
+      if(res.status === 401) return {overrides:{}, photos:[], equipment:[], offline:true, needLogin:true};
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data = await res.json();
+      data.offline = false;
+      return data;
+    }catch(_){
+      const local = JSON.parse(localStorage.getItem(lsKey('state', roomId))||'null');
+      return local || {overrides:{}, photos:[], equipment:[], offline:true};
+    }
+  }
+
+  function saveLocalState(roomId, state){
+    localStorage.setItem(lsKey('state', roomId), JSON.stringify({
+      overrides: state.overrides || {},
+      photos: state.photos || [],
+      equipment: state.equipment || []
+    }));
+  }
+
+  function compressImage(file, maxSide, quality){
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        const scale = Math.min(1, maxSide / Math.max(w, h));
+        w = Math.round(w * scale); h = Math.round(h * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('读图失败')); };
+      img.src = url;
+    });
+  }
+
   function renderRoom(id){
     const r = byId[id];
     const root = document.getElementById('app');
     if(!r){ root.innerHTML = '<div class="wrap"><div class="empty">未找到该教室。</div></div>'; return; }
     document.title = r.display_name + ' · 教室分室';
-    const jw = r.jw || {};
     const lab = r.lab || {};
     const chemTab = r.has_chem ? '' : 'display:none';
     const yishi = (r.yishi && r.yishi.files) || [];
@@ -107,6 +225,10 @@
     const signImgs = []
       .concat(signs.prohibit||[], signs.warning||[], signs.instruct||[])
       .slice(0, 12);
+    const boardCode = lab.sys_code || r.sys_code || '';
+
+    let state = {overrides:{}, photos:[], equipment:[], canWrite:false, me:null};
+    let editing = false;
 
     root.innerHTML = `
       <header class="top"><div class="top-inner">
@@ -117,7 +239,7 @@
         <nav>
           <a href="index.html">教室目录</a>
           <a href="../广西生态工程职业技术学院-教务处-实训科管理平台.html">平台首页</a>
-          ${lab.sys_code ? `<a href="../lab-grade-boards/home.html?id=${esc(lab.sys_code)}">安全信息牌</a>` : ''}
+          ${boardCode ? `<a href="../lab-grade-boards/home.html?id=${esc(boardCode)}#${esc(boardCode)}" target="_blank" rel="noopener">安全信息牌</a>` : ''}
         </nav>
       </div></header>
       <div class="wrap">
@@ -127,23 +249,11 @@
             ${r.level?`<span class="badge ${lvCls(r.level)}">${esc(r.level)}</span>`:''}
             <span class="badge b-ok">${esc(r.type||'')}</span>
             <h2>${esc(r.display_name)}</h2>
-            <div class="kv">
-              ${kv('教务编号', r.jw_code)}
-              ${kv('实训编号', r.sys_code)}
-              ${kv('校区 / 楼栋', [r.campus,r.building,r.floor].filter(Boolean).join(' · '))}
-              ${kv('门牌', r.room_no)}
-              ${kv('上课容量', r.class_cap)}
-              ${kv('安全类别', r.category)}
-            </div>
+            <div class="kv" id="room-kv"></div>
           </div>
           <div class="qrbox"><div id="qr"></div><p>本教室专属界面</p></div>
         </div>
-        <div class="status-row">
-          <span>超星课表：待对接</span>
-          <span>资产系统：待对接（可 Excel 导入）</span>
-          <span>万欣安全台账：${lab.sys_code?'已关联':'未关联'}</span>
-          <span>一室一表：${yishi.length?'有档案':'待补'}</span>
-        </div>
+        <div class="status-row" id="status-row"></div>
         <div class="tabs" id="tabs">
           <button data-tab="info" class="active">基础信息</button>
           <button data-tab="safety">安全信息</button>
@@ -162,40 +272,130 @@
         <section class="panel" data-panel="scan"></section>
         <section class="panel" data-panel="inspect"></section>
         <section class="panel" data-panel="chem"></section>
-        <p class="foot-note">模块按《实训室系统模块需求表》规划：综合信息页签仅展示；编辑回安全信息 / 扫码登记 / 危化品等对应模块。数据真源：腾讯文档教室对齐表 + 分级分类台账。</p>
+        <p class="foot-note">可编辑字段、教室照片与仪器台账写入云端（Turso）；未登录或离线时回落本机缓存。电子牌与分级分类台账同源。</p>
       </div>`;
 
+    function vals(){ return mergedVals(r, state.overrides); }
+
+    function paintHead(){
+      const v = vals();
+      root.querySelector('#room-kv').innerHTML =
+        kv('教务编号', r.jw_code) + kv('实训编号', r.sys_code || boardCode) +
+        kv('校区 / 楼栋', [r.campus, v.building, v.floor].filter(Boolean).join(' · ')) +
+        kv('门牌', v.room_no || v.door_no) + kv('上课容量', v.class_cap) + kv('安全类别', v.category);
+      const st = root.querySelector('#status-row');
+      const writeHint = state.canWrite ? '可编辑' : (state.me && state.me.authenticated ? '只读（需教务/学院/实验员/教师）' : '登录后可编辑');
+      st.innerHTML = `
+        <span>电子牌：${boardCode?'已关联':'未关联'}</span>
+        <span>照片：${(state.photos||[]).length} 张</span>
+        <span>仪器：${(state.equipment||[]).length} 条</span>
+        <span>${writeHint}</span>
+        <span>一室一表：${yishi.length?'有档案':'待补'}</span>`;
+    }
+
+    function photosHtml(){
+      const list = state.photos || [];
+      const imgs = list.length
+        ? `<div class="photo-grid">${list.map(p => `
+            <figure class="photo-card">
+              <img src="${esc(p.data_url)}" alt="${esc(p.caption||'教室照片')}">
+              <figcaption>${esc(p.caption||'教室环境')}${state.canWrite?` <button type="button" class="linkish" data-del-photo="${p.id}">删除</button>`:''}</figcaption>
+            </figure>`).join('')}</div>`
+        : '<p class="hint">暂无教室照片。可用手机拍照上传展示环境。</p>';
+      const up = state.canWrite
+        ? `<div class="actions photo-actions">
+            <label class="btn sec file-btn">拍照 / 上传图片
+              <input id="photo-input" type="file" accept="image/*" capture="environment" hidden>
+            </label>
+            <input id="photo-caption" type="text" placeholder="照片说明（可选）" style="max-width:220px">
+            <span class="hint" id="photo-status"></span>
+          </div>`
+        : '';
+      return up + imgs;
+    }
+
+    function boardHtml(){
+      if(!boardCode){
+        return '<p class="hint">本室尚未对齐实训编号，无法嵌入安全信息电子牌。请先在对齐表核对照。</p>';
+      }
+      const src = `../lab-grade-boards/home.html?embed=1&board=1&id=${encodeURIComponent(boardCode)}#${encodeURIComponent(boardCode)}`;
+      return `<div class="board-embed">
+        <div class="board-embed-head">
+          <h3>安全信息电子牌</h3>
+          <a class="btn sec" href="../lab-grade-boards/home.html?id=${esc(boardCode)}#${esc(boardCode)}" target="_blank" rel="noopener">打开完整信息牌</a>
+        </div>
+        <iframe class="board-frame" title="安全信息电子牌" src="${esc(src)}" loading="lazy"></iframe>
+      </div>`;
+    }
+
+    function infoView(){
+      const v = vals();
+      const yishiHtml = yishi.length
+        ? yishi.map(f => `<li><a href="${esc(f.href)}" target="_blank" rel="noopener">${esc(f.title||'一室一表')}</a></li>`).join('')
+        : '<p class="hint">尚未关联一室一表主文件。</p>';
+      const editBtn = state.canWrite
+        ? `<button type="button" class="btn" id="btn-edit-info">${editing?'取消编辑':'编辑本室信息'}</button>
+           ${editing?'<button type="button" class="btn" id="btn-save-info">保存修改</button>':''}`
+        : (state.needLogin || !(state.me&&state.me.authenticated)
+          ? '<a class="btn sec" href="/sign-in?next='+encodeURIComponent(location.pathname)+'">登录后编辑</a>'
+          : '<span class="hint">当前角色不可编辑</span>');
+
+      if(editing){
+        const fields = EDIT_FIELDS.map(f => `
+          <div><label class="f">${esc(f.label)}</label>
+          <input type="text" name="${esc(f.key)}" value="${esc(v[f.key]||'')}"></div>`).join('');
+        return `<div class="actions">${editBtn}</div>
+          <form id="edit-info-form" class="form-grid" style="margin-top:12px">${fields}</form>
+          <p class="hint">保存后覆盖写入云端，并与下方展示合并（教务编号等主键不可改）。</p>`;
+      }
+
+      return `<div class="actions" style="margin-bottom:12px">${editBtn}</div>`
+        + boardHtml()
+        + '<h3 style="margin-top:18px">教室图片</h3>' + photosHtml()
+        + '<h3 style="margin-top:18px">教务系统</h3>'
+        + tablePairs([
+          ['教室编号', r.jw_code],['教室名称', v.jw_name],['教室类型', v.type],
+          ['是否启用', v.enabled],['管理部门', v.dept],
+          ['最大上课容纳', v.class_cap],['考场容纳', v.exam_cap],
+          ['多媒体', v.multimedia],['监控', v.monitor],
+          ['空调', (v.ac||'') + (v.ac_count?(' × '+v.ac_count):'')],
+          ['座位排布', v.seat_layout],['面积', v.area],['电脑数量', v.pc_count],
+          ['资产总值', v.asset_value],['门牌号', v.door_no],['教室描述', v.desc]
+        ])
+        + '<h3 style="margin-top:16px">实训系统</h3>'
+        + (boardCode || lab.sys_code ? tablePairs([
+          ['系统编号', boardCode || lab.sys_code],['实训室名称', v.lab_name],
+          ['楼栋 / 楼层 / 房号', [v.building,v.floor,v.room_no].filter(Boolean).join(' · ')],
+          ['管理员', (v.admin_name||'')+' '+(v.admin_phone||'')],
+          ['责任教师', (v.teacher_name||'')+' '+(v.teacher_phone||'')],
+          ['院长', (v.dean_name||'')+' '+(v.dean_phone||'')],
+          ['风险等级', v.level],['分类', v.category]
+        ]) : '<p class="hint">教务有教室记录，分级分类台账尚未对齐到本编号。</p>')
+        + '<h3 style="margin-top:16px">一室一表档案</h3>' + (yishi.length?`<ul>${yishiHtml}</ul>`:yishiHtml);
+    }
+
+    function equipView(){
+      const rows = state.equipment || [];
+      const body = rows.length
+        ? rows.map(x => `<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${esc(x.model)}</td><td>${esc(x.status)}</td><td>${esc(x.risk_note)}</td></tr>`).join('')
+        : '<tr><td colspan="5">暂无设备台账。请上传 Excel/CSV 更新。</td></tr>';
+      const tools = state.canWrite
+        ? `<div class="actions">
+            <a class="btn sec" href="data:text/csv;charset=utf-8,${encodeURIComponent('仪器编号,名称,型号,状态,风险提示\nEQ-001,示例设备,型号A,正常,注意散热')}" download="仪器导入模板_${r.id}.csv">下载 CSV 模板</a>
+            <label class="btn file-btn">Excel / CSV 上传更新
+              <input id="equip-file" type="file" accept=".xlsx,.xlsm,.csv,.txt" hidden>
+            </label>
+            <span class="hint" id="equip-status"></span>
+          </div>
+          <p class="hint">表头建议：仪器编号、名称、型号、状态、风险提示。上传后整表替换本室仪器列表。</p>`
+        : '<p class="hint">登录且具备编辑权限后可 Excel 更新仪器台账。</p>';
+      return tools
+        + `<table class="data"><thead><tr><th>仪器编号</th><th>名称</th><th>型号</th><th>状态</th><th>风险提示</th></tr></thead>
+           <tbody>${body}</tbody></table>`;
+    }
+
     const panels = {
-      info: () => {
-        const yishiHtml = yishi.length
-          ? yishi.map(f => `<li><a href="${esc(f.href)}" target="_blank" rel="noopener">${esc(f.title||'一室一表')}</a></li>`).join('')
-          : '<p class="hint">尚未关联一室一表主文件。</p>';
-        return `<div class="mod-grid">
-          <div class="mod"><h4>实验室综合信息</h4><p>多页签展示，编辑回原模块。本页为该分室专属界面。</p></div>
-          <div class="mod"><h4>安全信息电子牌</h4><p>扫码查看分级分类、危险源与责任人，与台账同步。</p></div>
-          <div class="mod"><h4>数据交互</h4><p>预留超星课表、资产接口与 Excel 导入。</p></div>
-        </div>`
-          + '<h3>教务系统</h3>'
-          + tablePairs([
-            ['教室编号', jw.jw_code],['教室名称', jw.jw_name],['教室类型', jw.type],
-            ['是否启用', jw.enabled],['管理部门', jw.dept||jw.tag],
-            ['最大上课容纳', jw.class_cap],['考场容纳', jw.exam_cap],
-            ['多媒体', jw.multimedia],['监控', jw.monitor],['空调', (jw.ac||'') + (jw.ac_count?(' × '+jw.ac_count):'')],
-            ['座位排布', jw.seat_layout],['面积', jw.area],['电脑数量', jw.pc_count],
-            ['资产总值', jw.asset_value],['是否考场', jw.as_exam],['门牌号', jw.door_no],
-            ['教室描述', jw.desc]
-          ])
-          + '<h3 style="margin-top:16px">实训系统</h3>'
-          + (lab.sys_code ? tablePairs([
-            ['系统编号', lab.sys_code],['实训室名称', lab.name],['楼栋 / 楼层 / 房号', [lab.building,lab.floor,lab.room_no].filter(Boolean).join(' · ')],
-            ['管理员', (lab.admin_name||'')+' '+ (lab.admin_phone||'')],
-            ['责任教师', (lab.teacher_name||'')+' '+(lab.teacher_phone||'')],
-            ['院长', (lab.dean_name||'')+' '+(lab.dean_phone||'')],
-            ['风险等级', lab.level],['分类', lab.category]
-          ]) : '<p class="hint">教务有教室记录，分级分类台账尚未对齐到本编号。请在对齐表中核对照。</p>')
-          + '<h3 style="margin-top:16px">一室一表档案</h3>' + (yishi.length?`<ul>${yishiHtml}</ul>`:yishiHtml)
-          + '<h3 style="margin-top:16px">教室图片</h3><p class="hint">教务字段「教室图片」当前为空。上传后在本页签展示环境照片（需求表 3.1）。</p>';
-      },
+      info: () => infoView(),
       safety: () => {
         const imgHtml = signImgs.length
           ? '<div class="signs">' + signImgs.map(s => {
@@ -203,48 +403,174 @@
               return src ? `<img src="${esc(src)}" alt="${esc(s.label||'')}">` : '';
             }).join('') + '</div>'
           : '<p class="hint">未挂警示图标。</p>';
-        if(!lab.sys_code) return '<p class="hint">本教室尚未对齐实训安全台账，安全信息页签待编号对齐后自动同步。</p>';
+        if(!boardCode) return '<p class="hint">本教室尚未对齐实训安全台账。</p>';
+        const v = vals();
         return tablePairs([
-          ['实验级别', lab.level],['类别', lab.category],
+          ['实验级别', v.level],['类别', v.category],
           ['危险源', lab.hazard],['防护要点', lab.protect],
           ['应急处置', lab.fire],['防范措施', lab.measures],
-          ['管理员', (lab.admin_name||'')+' '+(lab.admin_phone||'')],
-          ['责任教师', (lab.teacher_name||'')+' '+(lab.teacher_phone||'')]
+          ['管理员', (v.admin_name||'')+' '+(v.admin_phone||'')],
+          ['责任教师', (v.teacher_name||'')+' '+(v.teacher_phone||'')]
         ]) + '<h3 style="margin-top:14px">危险源分项</h3>' + listOrDash(lab.hazard_points)
           + '<h3>防护要点分项</h3>' + listOrDash(lab.protect_points)
           + '<h3>警示图标</h3>' + imgHtml
-          + (lab.sys_code ? `<p class="hint" style="margin-top:12px"><a href="../lab-grade-boards/home.html?id=${esc(lab.sys_code)}">打开 A4 安全信息牌</a> · 二维码与后台数据同源。</p>` : '');
+          + `<p class="hint" style="margin-top:12px"><a href="../lab-grade-boards/home.html?id=${esc(boardCode)}#${esc(boardCode)}" target="_blank" rel="noopener">打开 A4 安全信息牌</a></p>`;
       },
-      schedule: () => `<p class="hint">对接超星课表后按课次/开放时段自动同步。字段：使用人、课程名称、上课人数、起止时间、异常情况。</p>
+      schedule: () => `<p class="hint">对接超星课表后按课次/开放时段自动同步。</p>
         <table class="data"><thead><tr><th>使用人</th><th>课程</th><th>人数</th><th>起止时间</th><th>异常</th></tr></thead>
         <tbody><tr><td colspan="5">暂无课表数据（超星接口未开通）</td></tr></tbody></table>`,
-      equip: () => `<p class="hint">仪器设备页签补充风险提示。资产系统未开放前，可用 Excel 批量导入；开放后走数据平台同步。</p>
-        <table class="data"><thead><tr><th>仪器编号</th><th>名称</th><th>型号</th><th>状态</th><th>风险提示</th></tr></thead>
-        <tbody><tr><td colspan="5">暂无设备台账</td></tr></tbody></table>
-        <div class="actions"><button class="btn sec" type="button" disabled>Excel 导入（待开通）</button></div>`,
-      access: () => `<p class="hint">集中展示本室准入证书状态、有效期与安全承诺书，支持按姓名检索。</p>
-        <div class="filters" style="grid-template-columns:1fr auto"><input id="acc-q" type="search" placeholder="按人员姓名检索"><button class="btn sec" type="button">检索</button></div>
+      equip: () => equipView(),
+      access: () => `<p class="hint">集中展示本室准入证书状态、有效期与安全承诺书。</p>
         <table class="data"><thead><tr><th>姓名</th><th>身份</th><th>准入证书</th><th>有效期</th><th>承诺书</th></tr></thead>
-        <tbody><tr><td colspan="5">暂无准入记录（待学习通 / 安全准入模块回写）</td></tr></tbody></table>`,
+        <tbody><tr><td colspan="5">暂无准入记录</td></tr></tbody></table>`,
       scan: () => scanForm(r),
       inspect: () => inspectForm(r),
       chem: () => r.has_chem
-        ? `<p>本室为化学类或含化学品危险源，启用危化品与物资管理页签（申购→入库→领用→归还→库存→危废）。</p>
-           <div class="mod-grid">
-             <div class="mod"><h4>库存</h4><p>分库库存、预警数量待危化品模块开通后同步。</p></div>
-             <div class="mod"><h4>领用 / 归还</h4><p>管制类需双人认证，对齐「五双」。</p></div>
-             <div class="mod"><h4>废弃物</h4><p>分类、回收桶与处理明细按实验室归集。</p></div>
-           </div>
+        ? `<p>本室启用危化品与物资管理页签。</p>
            <table class="data"><thead><tr><th>品名</th><th>规格</th><th>库存</th><th>预警</th><th>存放</th></tr></thead>
            <tbody><tr><td colspan="5">暂无在库危化品记录</td></tr></tbody></table>`
         : '<p class="hint">本室未启用危化品模块。</p>'
     };
 
-    function paint(name){
+    function paint(name, force){
       const el = root.querySelector('[data-panel="'+name+'"]');
-      if(el && !el.dataset.ready){ el.innerHTML = panels[name](); el.dataset.ready = '1'; }
+      if(!el) return;
+      if(force) el.dataset.ready = '';
+      if(el.dataset.ready) return;
+      el.innerHTML = panels[name]();
+      el.dataset.ready = '1';
+      bindPanel(name, el);
     }
-    paint('info');
+
+    function bindPanel(name, el){
+      if(name === 'info'){
+        const editBtn = el.querySelector('#btn-edit-info');
+        if(editBtn) editBtn.onclick = () => { editing = !editing; paint('info', true); };
+        const saveBtn = el.querySelector('#btn-save-info');
+        if(saveBtn) saveBtn.onclick = () => saveOverrides(el);
+        const photoInput = el.querySelector('#photo-input');
+        if(photoInput) photoInput.onchange = () => uploadPhoto(el, photoInput);
+        el.querySelectorAll('[data-del-photo]').forEach(btn => {
+          btn.onclick = () => delPhoto(btn.getAttribute('data-del-photo'));
+        });
+      }
+      if(name === 'equip'){
+        const file = el.querySelector('#equip-file');
+        if(file) file.onchange = () => importEquip(el, file);
+      }
+    }
+
+    async function saveOverrides(el){
+      const form = el.querySelector('#edit-info-form');
+      if(!form) return;
+      const fd = new FormData(form);
+      const overrides = {};
+      EDIT_FIELDS.forEach(f => { overrides[f.key] = String(fd.get(f.key) || '').trim(); });
+      try{
+        const res = await fetch('/api/rooms/' + encodeURIComponent(r.id) + '/overrides', {
+          method:'PUT', credentials:'same-origin',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({overrides})
+        });
+        if(!res.ok){
+          const err = await res.json().catch(()=>({}));
+          alert(err.detail || '保存失败');
+          return;
+        }
+        const data = await res.json();
+        state.overrides = data.overrides || overrides;
+      }catch(_){
+        state.overrides = overrides;
+        saveLocalState(r.id, state);
+        alert('云端不可用，已写入本机缓存');
+      }
+      editing = false;
+      paintHead();
+      paint('info', true);
+      paint('safety', true);
+    }
+
+    async function uploadPhoto(el, input){
+      const file = input.files && input.files[0];
+      if(!file) return;
+      const status = el.querySelector('#photo-status');
+      const caption = (el.querySelector('#photo-caption')||{}).value || '';
+      if(status) status.textContent = '压缩中…';
+      try{
+        const data_url = await compressImage(file, 1280, 0.72);
+        if(status) status.textContent = '上传中…';
+        const res = await fetch('/api/rooms/' + encodeURIComponent(r.id) + '/photos', {
+          method:'POST', credentials:'same-origin',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({data_url, caption})
+        });
+        if(!res.ok){
+          const err = await res.json().catch(()=>({}));
+          throw new Error(err.detail || '上传失败');
+        }
+        const data = await res.json();
+        state.photos = [data.photo].concat(state.photos || []);
+        saveLocalState(r.id, state);
+        if(status) status.textContent = '已上传';
+        paintHead();
+        paint('info', true);
+      }catch(err){
+        if(status) status.textContent = String(err.message || err);
+        alert(String(err.message || err));
+      }finally{
+        input.value = '';
+      }
+    }
+
+    async function delPhoto(pid){
+      if(!confirm('删除这张照片？')) return;
+      try{
+        const res = await fetch('/api/rooms/' + encodeURIComponent(r.id) + '/photos/' + pid, {
+          method:'DELETE', credentials:'same-origin'
+        });
+        if(!res.ok){
+          const err = await res.json().catch(()=>({}));
+          throw new Error(err.detail || '删除失败');
+        }
+      }catch(err){
+        alert(String(err.message || err));
+        return;
+      }
+      state.photos = (state.photos || []).filter(p => String(p.id) !== String(pid));
+      saveLocalState(r.id, state);
+      paintHead();
+      paint('info', true);
+    }
+
+    async function importEquip(el, input){
+      const file = input.files && input.files[0];
+      if(!file) return;
+      const status = el.querySelector('#equip-status');
+      if(status) status.textContent = '导入中…';
+      try{
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetch('/api/rooms/' + encodeURIComponent(r.id) + '/equipment/import', {
+          method:'POST', credentials:'same-origin', body: fd
+        });
+        if(!res.ok){
+          const err = await res.json().catch(()=>({}));
+          throw new Error(err.detail || '导入失败');
+        }
+        const data = await res.json();
+        state.equipment = data.equipment || [];
+        saveLocalState(r.id, state);
+        if(status) status.textContent = '已更新 ' + (data.count||0) + ' 条';
+        paintHead();
+        paint('equip', true);
+      }catch(err){
+        if(status) status.textContent = String(err.message || err);
+        alert(String(err.message || err));
+      }finally{
+        input.value = '';
+      }
+    }
+
     root.querySelector('#tabs').addEventListener('click', e => {
       const b = e.target.closest('button'); if(!b) return;
       const name = b.dataset.tab;
@@ -257,15 +583,27 @@
     if(qrEl && window.QRCode){
       new QRCode(qrEl, {text: location.href, width:132, height:132, correctLevel: QRCode.CorrectLevel.M});
     }
-  }
 
-  function lsKey(kind, id){ return 'gxstzy-room-'+kind+'-'+id; }
+    (async function boot(){
+      const me = await apiMe();
+      state.me = me;
+      state.canWrite = !!(me && me.authenticated && (me.capabilities||[]).includes('rooms.write'));
+      const remote = await loadState(r.id);
+      state.overrides = remote.overrides || {};
+      state.photos = remote.photos || [];
+      state.equipment = remote.equipment || [];
+      state.needLogin = !!remote.needLogin;
+      state.offline = !!remote.offline;
+      paintHead();
+      paint('info', true);
+    })();
+  }
 
   function scanForm(r){
     const saved = JSON.parse(localStorage.getItem(lsKey('scan', r.id))||'[]');
     const rows = saved.length ? saved.map(x => `<tr><td>${esc(x.no)}</td><td>${esc(x.name)}</td><td>${esc(x.device)}</td><td>${esc(x.start)}</td><td>${esc(x.status)}</td></tr>`).join('')
-      : '<tr><td colspan="5">暂无扫码登记。以下为本地演示，开通后对接超星身份与教师核验。</td></tr>';
-    return `<p class="hint">学生扫设备二维码登记：身份由超星静默校验；提交后推送教师核验。本页先提供本室演示闭环。</p>
+      : '<tr><td colspan="5">暂无扫码登记。</td></tr>';
+    return `<p class="hint">学生扫设备二维码登记（本页提供演示闭环）。</p>
       <form id="scan-form">
         <div class="form-grid">
           <div><label class="f">学号</label><input name="sid" type="text" required></div>
@@ -275,10 +613,6 @@
           <div><label class="f">预估时长（分钟）</label><input name="mins" type="number" min="1" value="90"></div>
           <div><label class="f">指导教师</label><input name="teacher" type="text"></div>
         </div>
-        <label class="f" style="margin-top:8px">开机前状态</label>
-        <label class="chk"><input type="checkbox" name="st" value="外观完好">外观完好、无明显损坏</label>
-        <label class="chk"><input type="checkbox" name="st" value="配件缺失">电源线/配件缺失</label>
-        <label class="chk"><input type="checkbox" name="st" value="表面破损">表面有破损痕迹</label>
         <label class="chk"><input type="checkbox" name="agree" required>已阅读实验室安全操作规范</label>
         <div class="actions"><button class="btn" type="submit">提交登记</button></div>
       </form>
@@ -289,8 +623,8 @@
   function inspectForm(r){
     const saved = JSON.parse(localStorage.getItem(lsKey('inspect', r.id))||'[]');
     const rows = saved.length ? saved.map(x => `<tr><td>${esc(x.time)}</td><td>${esc(x.who)}</td><td>${esc(x.items)}</td><td>${esc(x.result)}</td></tr>`).join('')
-      : '<tr><td colspan="4">暂无检查记录。日检下沉到本分室后在此归集。</td></tr>';
-    return `<p class="hint">关联「查询统计-按实验室显示」后自动同步检查时间、检查人、隐患、整改与复查。</p>
+      : '<tr><td colspan="4">暂无检查记录。</td></tr>';
+    return `<p class="hint">日检下沉到本分室后在此归集。</p>
       <form id="insp-form">
         <div class="form-grid">
           <div><label class="f">检查人</label><input name="who" type="text" required></div>
@@ -299,7 +633,6 @@
         <label class="chk"><input type="checkbox" name="it" value="断电">离开断电 / 电源规范</label>
         <label class="chk"><input type="checkbox" name="it" value="通道">应急通道畅通</label>
         <label class="chk"><input type="checkbox" name="it" value="灭火器">灭火器在位有效</label>
-        <label class="chk"><input type="checkbox" name="it" value="危化">危化品柜上锁（如有）</label>
         <div><label class="f">隐患说明</label><textarea name="note" rows="2"></textarea></div>
         <div class="actions"><button class="btn" type="submit">登记本室日检</button></div>
       </form>
@@ -318,14 +651,14 @@
         name: fd.get('name'),
         device: fd.get('device'),
         start: new Date().toISOString().slice(0,16).replace('T',' '),
-        status: [...form.querySelectorAll('input[name=st]:checked')].map(x=>x.value).join('、') || '外观完好'
+        status: '外观完好'
       };
       const arr = JSON.parse(localStorage.getItem(lsKey('scan', id))||'[]');
       arr.unshift(rec);
       localStorage.setItem(lsKey('scan', id), JSON.stringify(arr.slice(0,50)));
       form.reset();
-      document.querySelector('[data-panel="scan"]').dataset.ready = '';
-      document.querySelector('[data-tab="scan"]').click();
+      const panel = document.querySelector('[data-panel="scan"]');
+      if(panel){ panel.dataset.ready=''; document.querySelector('[data-tab="scan"]').click(); }
     }
     if(form.id==='insp-form'){
       e.preventDefault();
@@ -341,8 +674,8 @@
       arr.unshift(rec);
       localStorage.setItem(lsKey('inspect', id), JSON.stringify(arr.slice(0,50)));
       form.reset();
-      document.querySelector('[data-panel="inspect"]').dataset.ready = '';
-      document.querySelector('[data-tab="inspect"]').click();
+      const panel = document.querySelector('[data-panel="inspect"]');
+      if(panel){ panel.dataset.ready=''; document.querySelector('[data-tab="inspect"]').click(); }
     }
   });
 
