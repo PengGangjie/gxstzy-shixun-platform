@@ -342,6 +342,7 @@
         <div class="board-toolbar">
           <button type="button" class="btn sec" id="btn-board-dl" disabled>下载 JPG</button>
           <button type="button" class="btn sec" id="btn-board-print" disabled>打印 A4</button>
+          <span class="hint" id="board-shot-meta"></span>
         </div>
         <iframe class="board-render-frame" title="信息牌渲染" src="${esc(src)}" tabindex="-1" aria-hidden="true"></iframe>
       </div>`;
@@ -383,13 +384,15 @@
       const viewport = el.querySelector('#board-viewport');
       const dl = el.querySelector('#btn-board-dl');
       const printBtn = el.querySelector('#btn-board-print');
-      const showShot = url => {
+      const showShot = (url, w, h) => {
         if(!url || !img) return;
         img.src = url;
         img.classList.remove('hidden');
         if(loading) loading.classList.add('hidden');
         if(dl) dl.disabled = false;
         if(printBtn) printBtn.disabled = false;
+        const meta = el.querySelector('#board-shot-meta');
+        if(meta && w && h) meta.textContent = `高清成图 ${w}×${h}，与「安全信息」导出 JPG 同源`;
       };
       el._boardShowShot = showShot;
       if(viewport) viewport.onclick = () => { if(img && img.src) openBoardLightbox(img.src); };
@@ -795,7 +798,7 @@
     }
     if(data && data.type === 'lab-board-image'){
       const panel = document.querySelector('[data-panel="info"]');
-      if(panel && panel._boardShowShot) panel._boardShowShot(data.url);
+      if(panel && panel._boardShowShot) panel._boardShowShot(data.url, data.w, data.h);
     }
   });
 })();
