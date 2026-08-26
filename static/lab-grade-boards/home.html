@@ -422,21 +422,31 @@ function fireChecks(r){
 function contactRow(role, name, phone){
   return `<div class="prow"><span class="role">${esc(role)}</span><span class="nm">${esc(name||"—")}</span><span class="ph">${esc(phone||"—")}</span></div>`;
 }
+function roomPageUrl(r){
+  const id=String(r.id||r.sys_code||"").trim();
+  if(!id) return "";
+  const root=location.pathname.replace(/\/lab-grade-boards\/[^/]*$/,"").replace(/\/$/,"");
+  return location.origin+root+"/rooms/"+encodeURIComponent(id)+".html";
+}
 function renderQr(text){
   const box=document.getElementById("qrMount");
   if(!box) return;
   box.innerHTML="";
   box.classList.remove("filled");
-  const payload=String(text||"lab").slice(0,200);
+  const payload=String(text||"").trim();
+  if(!payload){
+    box.innerHTML=`<div class="qr-ph">暂无教室页面<br/>待编号对齐</div>`;
+    return;
+  }
   try{
     if(typeof QRCode==="function"){
       new QRCode(box,{text:payload,width:120,height:120,correctLevel:QRCode.CorrectLevel?QRCode.CorrectLevel.L:1});
       box.classList.add("filled");
     }else{
-      box.innerHTML=`<div class="qr-ph">实验室二维码<br/>预留空位</div>`;
+      box.innerHTML=`<div class="qr-ph">教室专属界面<br/>扫码进入</div>`;
     }
   }catch(e){
-    box.innerHTML=`<div class="qr-ph">实验室二维码<br/>预留空位</div>`;
+    box.innerHTML=`<div class="qr-ph">教室专属界面<br/>扫码进入</div>`;
   }
 }
 function renderBoard(r){
@@ -448,7 +458,7 @@ function renderBoard(r){
   const board=document.getElementById("board");
   board.className="board a4-board";
   board.style.borderColor=border;
-  const qrText=`${RAW.stats?.tencent_url||""}\n${r.sys_code}\n${r.college}\n${r.name}\n${r.room_no}`;
+  const qrUrl=roomPageUrl(r);
   board.innerHTML=`
   <div class="bleft">
     <div class="info">
@@ -468,7 +478,7 @@ function renderBoard(r){
     </div>
   </div>
   <div class="bright">
-    <div class="rblk qr-slot"><div class="rh y">实验室二维码<small>Laboratory QR Code · 预留</small></div><div class="rb"><div class="qrbox" id="qrMount"><div class="qr-ph">实验室二维码<br/>预留空位</div></div></div></div>
+    <div class="rblk qr-slot"><div class="rh y">实验室二维码<small>Laboratory QR Code · 教室专属界面</small></div><div class="rb"><div class="qrbox" id="qrMount"><div class="qr-ph">教室专属界面<br/>扫码进入</div></div></div></div>
     <div class="rblk"><div class="rh b">紧急联系电话<small>Emergency Contact</small></div><div class="rb"><div class="phones">
       ${contactRow("安全责任教师", r.teacher_name||r.owner, r.teacher_phone||r.phone)}
       ${contactRow("实训管理员", r.admin_name, r.admin_phone)}
@@ -480,7 +490,7 @@ function renderBoard(r){
     <div class="rblk"><div class="rh r">安全风险等级<small>Safety Risk Level</small></div><div class="rb"><div class="lvbig" style="color:${border}">${esc(r.level)}</div></div></div>
     <div class="rblk"><div class="rh c">实验室风险类别<small>Laboratory Risk Category</small></div><div class="rb"><div class="catbig">${esc(r.category)}</div></div></div>
   </div>`;
-  renderQr(qrText);
+  renderQr(qrUrl);
 }
 function filtered(){
   const q=(document.getElementById("q").value||"").trim().toLowerCase();
