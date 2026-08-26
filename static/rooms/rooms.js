@@ -293,35 +293,50 @@
         <span>一室一表：${yishi.length?'有档案':'待补'}</span>`;
     }
 
-    function photosHtml(){
+    function photosCarouselHtml(){
       const list = state.photos || [];
-      const imgs = list.length
-        ? `<div class="photo-grid">${list.map(p => `
-            <figure class="photo-card">
-              <img src="${esc(p.data_url)}" alt="${esc(p.caption||'教室照片')}">
-              <figcaption>${esc(p.caption||'教室环境')}${state.canWrite?` <button type="button" class="linkish" data-del-photo="${p.id}">删除</button>`:''}</figcaption>
-            </figure>`).join('')}</div>`
-        : '<p class="hint">暂无教室照片。可用手机拍照上传展示环境。</p>';
       const up = state.canWrite
         ? `<div class="actions photo-actions">
-            <label class="btn sec file-btn">拍照 / 上传图片
+            <label class="btn sec file-btn">拍照 / 上传
               <input id="photo-input" type="file" accept="image/*" capture="environment" hidden>
             </label>
-            <input id="photo-caption" type="text" placeholder="照片说明（可选）" style="max-width:220px">
+            <input id="photo-caption" type="text" placeholder="照片说明（可选）">
             <span class="hint" id="photo-status"></span>
           </div>`
         : '';
-      return up + imgs;
+      if(!list.length){
+        return up + '<div class="photo-carousel empty"><p class="hint">暂无教室照片，可用手机拍照上传展示环境。</p></div>';
+      }
+      const slides = list.map((p, i) => `
+        <figure class="carousel-slide${i===0?' active':''}">
+          <img src="${esc(p.data_url)}" alt="${esc(p.caption||'教室照片')}">
+          <figcaption>${esc(p.caption||'教室环境')}${state.canWrite?` <button type="button" class="linkish" data-del-photo="${p.id}">删除</button>`:''}</figcaption>
+        </figure>`).join('');
+      const dots = list.map((_, i) => `<button type="button" class="carousel-dot${i===0?' active':''}" aria-label="第 ${i+1} 张"></button>`).join('');
+      const nav = list.length > 1
+        ? `<button type="button" class="carousel-btn prev" aria-label="上一张">‹</button>
+           <button type="button" class="carousel-btn next" aria-label="下一张">›</button>
+           <div class="carousel-dots">${dots}</div>`
+        : '';
+      return up + `<div class="photo-carousel" id="photo-carousel">${slides}${nav}</div>`;
     }
 
-    function boardHtml(){
+    function moduleBlock(title, inner){
+      return `<section class="info-module">
+        <h3>${esc(title)}</h3>
+        <div class="info-module-body">${inner}</div>
+      </section>`;
+    }
+
+    function boardHtml(compact){
       if(!boardCode){
         return '<p class="hint">本室尚未对齐实训编号，无法展示安全信息电子牌。请先在对齐表核对照。</p>';
       }
       const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}`;
+      const hint = compact ? '' : '<p class="hint">成图可下载 JPG 或打印；编辑请前往「安全信息」。</p>';
       return `<div class="board-preview">
         <h3>安全信息电子牌</h3>
-        <p class="hint">以下为成图预览，可下载 JPG 或打印张贴。字段编辑请前往「安全信息」页签。</p>
+        ${hint}
         <iframe class="board-preview-frame" title="安全信息电子牌成图" src="${esc(src)}" loading="lazy"></iframe>
       </div>`;
     }
@@ -347,29 +362,38 @@
           <p class="hint">保存后覆盖写入云端，并与下方展示合并（教务编号等主键不可改）。</p>`;
       }
 
-      return `<div class="actions" style="margin-bottom:12px">${editBtn}</div>`
-        + boardHtml()
-        + '<h3 style="margin-top:18px">教室图片</h3>' + photosHtml()
-        + '<h3 style="margin-top:18px">教务系统</h3>'
-        + tablePairs([
-          ['教室编号', r.jw_code],['教室名称', v.jw_name],['教室类型', v.type],
-          ['是否启用', v.enabled],['管理部门', v.dept],
-          ['最大上课容纳', v.class_cap],['考场容纳', v.exam_cap],
-          ['多媒体', v.multimedia],['监控', v.monitor],
-          ['空调', (v.ac||'') + (v.ac_count?(' × '+v.ac_count):'')],
-          ['座位排布', v.seat_layout],['面积', v.area],['电脑数量', v.pc_count],
-          ['资产总值', v.asset_value],['门牌号', v.door_no],['教室描述', v.desc]
-        ])
-        + '<h3 style="margin-top:16px">实训系统</h3>'
-        + (boardCode || lab.sys_code ? tablePairs([
-          ['系统编号', boardCode || lab.sys_code],['实训室名称', v.lab_name],
-          ['楼栋 / 楼层 / 房号', [v.building,v.floor,v.room_no].filter(Boolean).join(' · ')],
-          ['管理员', (v.admin_name||'')+' '+(v.admin_phone||'')],
-          ['责任教师', (v.teacher_name||'')+' '+(v.teacher_phone||'')],
-          ['院长', (v.dean_name||'')+' '+(v.dean_phone||'')],
-          ['风险等级', v.level],['分类', v.category]
-        ]) : '<p class="hint">教务有教室记录，分级分类台账尚未对齐到本编号。</p>')
-        + '<h3 style="margin-top:16px">一室一表档案</h3>' + (yishi.length?`<ul>${yishiHtml}</ul>`:yishiHtml);
+      return `<div class="actions info-actions">${editBtn}</div>
+        <div class="info-layout">
+          <div class="info-top-grid">
+            <div class="info-col-board">${boardHtml(true)}</div>
+            <div class="info-col-photos">
+              <div class="photo-panel">
+                <h3>教室图片</h3>
+                ${photosCarouselHtml()}
+              </div>
+            </div>
+          </div>
+          <div class="info-bottom-grid">
+            ${moduleBlock('教务系统', tablePairs([
+              ['教室编号', r.jw_code],['教室名称', v.jw_name],['教室类型', v.type],
+              ['是否启用', v.enabled],['管理部门', v.dept],
+              ['最大上课容纳', v.class_cap],['考场容纳', v.exam_cap],
+              ['多媒体', v.multimedia],['监控', v.monitor],
+              ['空调', (v.ac||'') + (v.ac_count?(' × '+v.ac_count):'')],
+              ['座位排布', v.seat_layout],['面积', v.area],['电脑数量', v.pc_count],
+              ['资产总值', v.asset_value],['门牌号', v.door_no],['教室描述', v.desc]
+            ]))}
+            ${moduleBlock('实训系统', boardCode || lab.sys_code ? tablePairs([
+              ['系统编号', boardCode || lab.sys_code],['实训室名称', v.lab_name],
+              ['楼栋 / 楼层 / 房号', [v.building,v.floor,v.room_no].filter(Boolean).join(' · ')],
+              ['管理员', (v.admin_name||'')+' '+(v.admin_phone||'')],
+              ['责任教师', (v.teacher_name||'')+' '+(v.teacher_phone||'')],
+              ['院长', (v.dean_name||'')+' '+(v.dean_phone||'')],
+              ['风险等级', v.level],['分类', v.category]
+            ]) : '<p class="hint">教务有教室记录，分级分类台账尚未对齐到本编号。</p>')}
+          </div>
+          <div class="info-yishi">${moduleBlock('一室一表档案', yishi.length?`<ul class="yishi-list">${yishiHtml}</ul>`:yishiHtml)}</div>
+        </div>`;
     }
 
     function equipView(){
@@ -426,6 +450,33 @@
       bindPanel(name, el);
     }
 
+    function initPhotoCarousel(el){
+      const carousel = el.querySelector('#photo-carousel');
+      if(!carousel || carousel.classList.contains('empty')) return;
+      const slides = [...carousel.querySelectorAll('.carousel-slide')];
+      if(!slides.length) return;
+      let idx = slides.findIndex(s => s.classList.contains('active'));
+      if(idx < 0) idx = 0;
+      const dots = [...carousel.querySelectorAll('.carousel-dot')];
+      const show = i => {
+        idx = (i + slides.length) % slides.length;
+        slides.forEach((s, j) => s.classList.toggle('active', j === idx));
+        dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+      };
+      const prev = carousel.querySelector('.carousel-btn.prev');
+      const next = carousel.querySelector('.carousel-btn.next');
+      if(prev) prev.onclick = () => show(idx - 1);
+      if(next) next.onclick = () => show(idx + 1);
+      dots.forEach((d, j) => { d.onclick = () => show(j); });
+      if(slides.length > 1){
+        let timer = setInterval(() => show(idx + 1), 6000);
+        carousel.addEventListener('mouseenter', () => clearInterval(timer));
+        carousel.addEventListener('mouseleave', () => {
+          timer = setInterval(() => show(idx + 1), 6000);
+        });
+      }
+    }
+
     function bindPanel(name, el){
       if(name === 'info'){
         const editBtn = el.querySelector('#btn-edit-info');
@@ -437,6 +488,7 @@
         el.querySelectorAll('[data-del-photo]').forEach(btn => {
           btn.onclick = () => delPhoto(btn.getAttribute('data-del-photo'));
         });
+        initPhotoCarousel(el);
       }
       if(name === 'equip'){
         const file = el.querySelector('#equip-file');
