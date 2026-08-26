@@ -328,17 +328,80 @@
       </section>`;
     }
 
-    function boardHtml(compact){
+    function boardHtml(){
       if(!boardCode){
         return '<p class="hint">本室尚未对齐实训编号，无法展示安全信息电子牌。请先在对齐表核对照。</p>';
       }
       const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}`;
-      const hint = compact ? '' : '<p class="hint">成图可下载 JPG 或打印；编辑请前往「安全信息」。</p>';
       return `<div class="board-preview">
         <h3>安全信息电子牌</h3>
-        ${hint}
-        <iframe class="board-preview-frame" title="安全信息电子牌成图" src="${esc(src)}" loading="lazy"></iframe>
+        <div class="board-viewport" id="board-viewport" title="点击放大查看">
+          <p class="hint board-loading">正在生成信息牌…</p>
+          <img class="board-shot hidden" id="board-shot" alt="安全信息电子牌">
+        </div>
+        <div class="board-toolbar">
+          <button type="button" class="btn sec" id="btn-board-dl" disabled>下载 JPG</button>
+          <button type="button" class="btn sec" id="btn-board-print" disabled>打印 A4</button>
+        </div>
+        <iframe class="board-render-frame" title="信息牌渲染" src="${esc(src)}" tabindex="-1" aria-hidden="true"></iframe>
       </div>`;
+    }
+
+    function printBoardA4(src){
+      if(!src) return;
+      const w = window.open('', '_blank');
+      if(!w){ alert('请允许弹出窗口以打印'); return; }
+      w.document.open();
+      w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>安全信息电子牌</title><style>@page{size:A4 landscape;margin:0}html,body{margin:0;padding:0;width:100%;height:100%}img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body></body></html>');
+      w.document.close();
+      const img = w.document.createElement('img');
+      img.onload = () => { w.focus(); w.print(); setTimeout(() => w.close(), 400); };
+      img.src = src;
+      w.document.body.appendChild(img);
+    }
+
+    function openBoardLightbox(src){
+      let lb = document.getElementById('board-lightbox');
+      if(!lb){
+        lb = document.createElement('div');
+        lb.id = 'board-lightbox';
+        lb.className = 'board-lightbox';
+        lb.hidden = true;
+        lb.innerHTML = '<button type="button" class="board-lightbox-close" aria-label="关闭">×</button><img alt="安全信息电子牌">';
+        lb.addEventListener('click', e => {
+          if(e.target === lb || e.target.classList.contains('board-lightbox-close')) lb.hidden = true;
+        });
+        document.body.appendChild(lb);
+      }
+      lb.querySelector('img').src = src;
+      lb.hidden = false;
+    }
+
+    function initBoardViewer(el){
+      const img = el.querySelector('#board-shot');
+      const loading = el.querySelector('.board-loading');
+      const viewport = el.querySelector('#board-viewport');
+      const dl = el.querySelector('#btn-board-dl');
+      const printBtn = el.querySelector('#btn-board-print');
+      const showShot = url => {
+        if(!url || !img) return;
+        img.src = url;
+        img.classList.remove('hidden');
+        if(loading) loading.classList.add('hidden');
+        if(dl) dl.disabled = false;
+        if(printBtn) printBtn.disabled = false;
+      };
+      el._boardShowShot = showShot;
+      if(viewport) viewport.onclick = () => { if(img && img.src) openBoardLightbox(img.src); };
+      if(dl) dl.onclick = e => {
+        e.stopPropagation();
+        if(!img || !img.src) return;
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.download = (boardCode || r.id).replace(/[\\/:*?"<>|]/g, '_') + '_安全信息牌.jpg';
+        a.click();
+      };
+      if(printBtn) printBtn.onclick = e => { e.stopPropagation(); if(img && img.src) printBoardA4(img.src); };
     }
 
     function infoView(){
@@ -365,7 +428,7 @@
       return `<div class="actions info-actions">${editBtn}</div>
         <div class="info-layout">
           <div class="info-top-grid">
-            <div class="info-col-board">${boardHtml(true)}</div>
+            <div class="info-col-board">${boardHtml()}</div>
             <div class="info-col-photos">
               <div class="photo-panel">
                 <h3>教室图片</h3>
@@ -489,6 +552,7 @@
           btn.onclick = () => delPhoto(btn.getAttribute('data-del-photo'));
         });
         initPhotoCarousel(el);
+        initBoardViewer(el);
       }
       if(name === 'equip'){
         const file = el.querySelector('#equip-file');
@@ -720,11 +784,18 @@
   else if(page==='room') renderRoom(document.body.dataset.room);
 
   window.addEventListener('message', e => {
-    if(e.data !== 'lab-board-saved') return;
-    const frame = document.querySelector('.board-preview-frame');
-    if(!frame) return;
-    const url = frame.src;
-    frame.src = '';
-    frame.src = url;
+    const data = e.data;
+    if(data === 'lab-board-saved'){
+      const frame = document.querySelector('.board-render-frame');
+      if(!frame) return;
+      const url = frame.src;
+      frame.src = '';
+      frame.src = url;
+      return;
+    }
+    if(data && data.type === 'lab-board-image'){
+      const panel = document.querySelector('[data-panel="info"]');
+      if(panel && panel._boardShowShot) panel._boardShowShot(data.url);
+    }
   });
 })();

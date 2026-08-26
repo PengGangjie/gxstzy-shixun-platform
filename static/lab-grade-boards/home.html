@@ -183,13 +183,12 @@ body.embed-preview .main{padding:0;max-width:none}
 body.embed-preview .panel{box-shadow:none;border-radius:0;padding:0;background:#ececec}
 body.embed-preview #tab-board{display:block!important}
 body.embed-preview .layout{display:block}
-body.embed-preview .board-wrap{padding:12px 12px 0;display:flex;flex-direction:column;align-items:center;background:#ececec;overflow:auto}
-body.embed-preview .board.a4-board{transform:scale(.52);transform-origin:top center;margin:0 auto -95mm;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd;position:sticky;bottom:0;z-index:5}
+body.embed-preview .board-wrap{padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;background:#ececec}
+body.embed-preview .board-wrap .board.a4-board{display:none}
+body.embed-preview .board-shot-img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#ececec}
+body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd}
 body.embed-preview .preview-bar .btn{min-height:40px}
-@media(max-width:720px){
-  body.embed-preview .board.a4-board{transform:scale(.32);margin-bottom:-140mm}
-}
+body.embed-preview-in-parent .preview-bar{display:none!important}
 body.embed-edit header,
 body.embed-edit .tabs,
 body.embed-edit #tab-ledger,
@@ -591,6 +590,7 @@ function selectRoom(id){
   renderBoard(r);
   renderRoomList();
   history.replaceState(null,"",`#${encodeURIComponent(id)}`);
+  if(/preview=1/.test(location.search)) publishBoardPreview();
 }
 function readFormInto(r){
   r.name=document.getElementById("e_name").value.trim();
@@ -621,6 +621,15 @@ function switchTab(name){
 }
 async function exportBoardJpg(){
   const r=rooms.find(x=>x.id===currentId); if(!r) return;
+  const shot=document.getElementById("boardShotImg");
+  if(shot && shot.src){
+    const a=document.createElement("a");
+    a.href=shot.src;
+    a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+    a.click();
+    toast("JPG 已导出");
+    return;
+  }
   const el=document.getElementById("board");
   if(typeof html2canvas!=="function"){ toast("缺少 html2canvas"); return; }
   toast("正在生成 JPG…");
@@ -636,8 +645,34 @@ async function exportBoardJpg(){
     toast("导出失败，可改用打印");
   }
 }
+async function publishBoardPreview(){
+  if(!/preview=1/.test(location.search)) return;
+  const el=document.getElementById("board");
+  const wrap=el?.closest(".board-wrap");
+  if(!el||!wrap||typeof html2canvas!=="function") return;
+  await new Promise(r=>setTimeout(r,480));
+  try{
+    const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+    const url=canvas.toDataURL("image/jpeg",0.92);
+    let img=document.getElementById("boardShotImg");
+    if(!img){
+      img=document.createElement("img");
+      img.id="boardShotImg";
+      img.className="board-shot-img";
+      img.alt="安全信息电子牌";
+      wrap.insertBefore(img, el);
+    }
+    img.src=url;
+    if(window.parent!==window){
+      window.parent.postMessage({type:"lab-board-image", url, id:currentId}, "*");
+    }
+  }catch(err){
+    console.error(err);
+  }
+}
 function setupPreviewBar(){
   if(!/preview=1/.test(location.search)) return;
+  if(window.parent!==window) return;
   const host=document.querySelector("#tab-board .layout > div:last-child");
   if(!host || document.getElementById("previewBar")) return;
   const bar=document.createElement("div");
@@ -688,6 +723,7 @@ function init(){
     document.getElementById("editHint").textContent="已保存到本机浏览器";
     toast("已保存本地调整");
     if(window.parent!==window) window.parent.postMessage("lab-board-saved","*");
+    if(/preview=1/.test(location.search)) publishBoardPreview();
   };
   document.getElementById("btnReset").onclick=()=>{
     if(!currentId) return;
@@ -738,7 +774,10 @@ try{
   const boardOnly=/board=1/.test(location.search);
   if(embedMode){
     document.body.classList.add("embed");
-    if(previewOnly) document.body.classList.add("embed-preview");
+    if(previewOnly){
+      document.body.classList.add("embed-preview");
+      if(window.parent!==window) document.body.classList.add("embed-preview-in-parent");
+    }
     else if(editOnly) document.body.classList.add("embed-edit");
     else if(boardOnly) document.body.classList.add("embed-board");
     const fh=document.getElementById("fileHint");
