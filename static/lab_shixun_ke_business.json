@@ -2,7 +2,7 @@
   "title": "实训管理科任务列表2026P",
   "kdocs_url": "https://www.kdocs.cn/l/chrXS9aemNK0",
   "source_file": "c:\\Users\\tokij\\WPSDrive\\1062544086\\WPS云盘\\实训管理科任务列表2026P.xlsx",
-  "generated_at": "2026-07-17 11:56",
+  "generated_at": "2026-09-01 21:35",
   "tabs": {
     "work_list": {
       "title": "教务处-实训管理科-具体工作清单",
@@ -606,7 +606,7 @@
             "lab_equipment": "兰艳",
             "internship": "兰艳",
             "skills_competition": "兰艳",
-            "industry_coop": "薛娟萍",
+            "industry_coop": "兰艳",
             "modern_apprenticeship": "兰艳",
             "one_plus_x": "兰艳",
             "teaching": "薛娟萍"
@@ -735,27 +735,83 @@
       "lab_staff": [
         {
           "seq": "1",
+          "college": "林业工程学院",
+          "name": "兰俊幸",
+          "phone": "15778825948",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "林业工程学院",
+          "name": "兰健花",
+          "phone": "13978038367",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "林业工程学院",
+          "name": "庞小莉",
+          "phone": "15723726397",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "林业工程学院",
+          "name": "梁馨尹",
+          "phone": "13877349693",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "林业工程学院",
+          "name": "漆江",
+          "phone": "18684838678",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "林业工程学院",
+          "name": "谭海峰",
+          "phone": "13657724379",
+          "note": "日常卫生管理、安全等级、危化品管理、实训室维修等"
+        },
+        {
+          "seq": "2",
+          "college": "经济贸易学院",
+          "name": "李曼媛",
+          "phone": "18877228067",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "经济贸易学院",
+          "name": "陈尚强",
+          "phone": "13617801312",
+          "note": null
+        },
+        {
+          "seq": "3",
+          "college": "园林与城乡规划学院",
+          "name": "农兰相",
+          "phone": "15677258913",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "园林与城乡规划学院",
+          "name": "陈日美",
+          "phone": "13457226686",
+          "note": null
+        },
+        {
+          "seq": "4",
           "college": "工业与艺术设计学院",
           "name": "贾丰恺",
           "phone": "19142826654",
           "note": null
         },
         {
-          "seq": "2",
-          "college": "智能制造与设备学院",
-          "name": "施华龙",
-          "phone": "15177747257",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "智能制造与设备学院",
-          "name": "王述业",
-          "phone": "15278879187",
-          "note": null
-        },
-        {
-          "seq": "3",
+          "seq": "5",
           "college": "旅游与交通管理学院",
           "name": "莫晓宁",
           "phone": "18007723870",
@@ -776,84 +832,7 @@
           "note": "日常卫生管理、安全等级、危化品管理、实训室维修等"
         },
         {
-          "seq": "4",
-          "college": "生态环境保护学院",
-          "name": "廖华珍",
-          "phone": "19167069667",
-          "note": "项目采购、验收、制度及文件、设备管理"
-        },
-        {
-          "seq": null,
-          "college": "生态环境保护学院",
-          "name": "龙迪",
-          "phone": "19167052516",
-          "note": "日常卫生管理、安全等级、危化品管理、实训室维修等"
-        },
-        {
-          "seq": "5",
-          "college": "林业工程学院",
-          "name": "庞小莉",
-          "phone": "15723726397",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "林业工程学院",
-          "name": "梁馨尹",
-          "phone": "13877349693",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "林业工程学院",
-          "name": "兰俊幸",
-          "phone": "15778825948",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "林业工程学院",
-          "name": "兰健花",
-          "phone": "13978038367",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "林业工程学院",
-          "name": "漆江",
-          "phone": "18684838678",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "林业工程学院",
-          "name": "谭海峰",
-          "phone": "13657724379",
-          "note": "日常卫生管理、安全等级、危化品管理、实训室维修等"
-        },
-        {
           "seq": "6",
-          "college": "园林与城乡规划学院",
-          "name": "陈日美",
-          "phone": "13457226686",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "园林与城乡规划学院",
-          "name": "农兰相",
-          "phone": "15677258913",
-          "note": null
-        },
-        {
-          "seq": "7",
-          "college": "汽车与信息工程学院",
-          "name": "黄焕华",
-          "phone": "19167039202",
-          "note": null
-        },
-        {
-          "seq": null,
           "college": "汽车与信息工程学院",
           "name": "农金桥",
           "phone": "18007723271",
@@ -869,36 +848,57 @@
         {
           "seq": null,
           "college": "汽车与信息工程学院",
-          "name": "韦宏洋",
-          "phone": "18775244833",
-          "note": null
-        },
-        {
-          "seq": null,
-          "college": "汽车与信息工程学院",
           "name": "朱羽晨",
           "phone": "18778921072",
           "note": null
         },
         {
-          "seq": "8",
-          "college": "经济贸易学院",
-          "name": "李曼媛",
-          "phone": "18877228067",
+          "seq": null,
+          "college": "汽车与信息工程学院",
+          "name": "雷靖咚",
+          "phone": null,
           "note": null
         },
         {
           "seq": null,
-          "college": "经济贸易学院",
-          "name": "陈尚强",
-          "phone": "13617801312",
+          "college": "汽车与信息工程学院",
+          "name": "韦宏洋",
+          "phone": "18775244833",
           "note": null
         },
         {
-          "seq": "9",
+          "seq": "7",
           "college": "建筑与道桥工程学院",
           "name": "唐健灵",
           "phone": "15676267331",
+          "note": null
+        },
+        {
+          "seq": "8",
+          "college": "生态环境保护学院",
+          "name": "廖华珍",
+          "phone": "19167069667",
+          "note": "项目采购、验收、制度及文件、设备管理"
+        },
+        {
+          "seq": null,
+          "college": "生态环境保护学院",
+          "name": "龙迪",
+          "phone": "19167052516",
+          "note": "日常卫生管理、安全等级、危化品管理、实训室维修等"
+        },
+        {
+          "seq": "9",
+          "college": "智能制造与装备学院",
+          "name": "施华龙",
+          "phone": "15177747257",
+          "note": null
+        },
+        {
+          "seq": null,
+          "college": "智能制造与装备学院",
+          "name": "王述业",
+          "phone": "15278879187",
           "note": null
         },
         {
@@ -907,9 +907,17 @@
           "name": "荣柳枝",
           "phone": "13677727470",
           "note": "器材管理员"
+        },
+        {
+          "seq": null,
+          "college": "通识教育学院",
+          "name": "韦祖田",
+          "phone": null,
+          "note": null
         }
       ],
       "lab_staff_title": "二级学院实验员（实验室管理员）",
+      "lab_staff_note": "名单口径：2026年7月30日–8月1日全区高校实验室安全管理培训班暨现场会（线上）登记表中职务为「实验员」的人员；联系电话沿用业务对接表已有号码。",
       "source_file": "c:\\Users\\tokij\\WPSDrive\\1062544086\\WPS云盘\\实训管理科任务列表2026P.xlsx",
       "source_sheet": "业务对接学院"
     },

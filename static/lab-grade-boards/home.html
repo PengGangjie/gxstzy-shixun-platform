@@ -159,53 +159,6 @@ label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
 body.embed header{padding:10px 14px}
 body.embed header h1{font-size:1.05rem}
 body.embed .file-hint{display:none!important}
-body.embed-board header,
-body.embed-board .tabs,
-body.embed-board #tab-ledger,
-body.embed-board .layout > .list,
-body.embed-board .actions,
-body.embed-board #statusline{display:none!important}
-body.embed-board .main{padding:0;max-width:none}
-body.embed-board .panel{box-shadow:none;border-radius:0;padding:8px;background:#d8d8d8}
-body.embed-board #tab-board{display:block!important}
-body.embed-board .board-wrap{padding:8px}
-body.embed-board .board.a4-board{transform:scale(.42);transform-origin:top left;margin-bottom:-110mm}
-@media(max-width:720px){
-  body.embed-board .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
-}
-body.embed-preview header,
-body.embed-preview .tabs,
-body.embed-preview #tab-ledger,
-body.embed-preview .edit-panel,
-body.embed-preview .layout > div:first-child,
-body.embed-preview #statusline{display:none!important}
-body.embed-preview .main{padding:0;max-width:none}
-body.embed-preview .panel{box-shadow:none;border-radius:0;padding:0;background:#ececec}
-body.embed-preview #tab-board{display:block!important}
-body.embed-preview .layout{display:block}
-body.embed-preview .board-wrap{padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;background:#ececec}
-body.embed-preview .board-wrap .board.a4-board{display:none}
-body.embed-preview .board-shot-img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#ececec}
-body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd}
-body.embed-preview .preview-bar .btn{min-height:40px}
-body.embed-preview-in-parent .preview-bar{display:none!important}
-body.embed-edit header,
-body.embed-edit .tabs,
-body.embed-edit #tab-ledger,
-body.embed-edit .layout > div:first-child,
-body.embed-edit #statusline{display:none!important}
-body.embed-edit .main{padding:0;max-width:none}
-body.embed-edit .panel{box-shadow:none;border-radius:0;padding:8px}
-body.embed-edit #tab-board{display:block!important}
-body.embed-edit .layout{display:block}
-body.embed-edit .edit-panel{margin-bottom:12px}
-body.embed-edit .board-wrap{padding:8px;background:#ececec;overflow:auto}
-body.embed-edit .board.a4-board{transform:scale(.38);transform-origin:top left;margin-bottom:-115mm}
-body.embed-edit #btnExportOne,
-body.embed-edit #btnExportAllEdits{display:none}
-@media(max-width:720px){
-  body.embed-edit .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
-}
 </style>
 <link rel="stylesheet" href="/assets/mobile-space.css">
 <link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
@@ -320,14 +273,11 @@ body.embed-edit #btnExportAllEdits{display:none}
 const STORE_KEY = "gxstzy_lab_board_overrides_v1";
 const PAGE_SIZE = 40;
 const LIST_SIZE = 80;
-const BOARD_EXPORT_MIN_WIDTH = 3840;
-const BOARD_JPEG_QUALITY = 0.95;
 let RAW = null;
 let rooms = [];
 let currentId = null;
 let ICON_META = {};
 let ledgerPage = 0;
-let boardShotCache = null;
 
 function showBootError(err){
   const box=document.getElementById("bootError");
@@ -394,18 +344,24 @@ function protectGraphics(pp, mandatory){
     out.push({id,label:label||ICON_META[id]?.label||id,file:iconFile(id)});
   };
   (pp||[]).forEach(p=>{
-    if(/断电|离开|电源/.test(p)) push("power", shortCap(p,8)||"离开断电");
+    if(/断电|离开|电源|插头/.test(p)) push("power", "必须拔出插头");
     else if(/眼镜|护目/.test(p)) push("goggles", "必须戴防护眼镜");
+    else if(/面罩/.test(p)) push("faceshield", "必须戴防护面罩");
     else if(/手套/.test(p)) push("gloves", "必须戴防护手套");
-    else if(/口罩|面罩/.test(p)) push("mask", "必须戴防护口罩");
-    else if(/鞋套|劳保鞋|防护鞋/.test(p)) push("shoe", "必须戴鞋套");
-    else if(/持证|上岗/.test(p)) push("cert", "必须持证上岗");
+    else if(/防毒|面具/.test(p)) push("respirator", "必须戴防毒面具");
+    else if(/口罩|防尘/.test(p)) push("mask", "必须戴口罩");
+    else if(/鞋套|劳保鞋|防护鞋/.test(p)) push("shoe", "必须穿防护鞋");
+    else if(/持证|上岗|说明书/.test(p)) push("rule", "必须阅读使用说明书");
     else if(/加锁|双锁/.test(p)) push("lock", "必须加锁");
-    else if(/绝缘/.test(p)) push("insul", "必须穿戴绝缘用品");
+    else if(/绝缘|防护服/.test(p)) push("insul", "必须穿防护服");
     else if(/安全带/.test(p)) push("belt", "必须系安全带");
-    else if(/严格|规范|要求使用|按要求|未经允许/.test(p)) push("rule", shortCap(p,8)||"规范操作");
-    else if(/防护|劳保|穿戴/.test(p)) push("goggles", shortCap(p,8)||"个体防护");
-    else push("rule", shortCap(p,8)||"规范操作");
+    else if(/洗手/.test(p)) push("wash", "必须洗手");
+    else if(/通风/.test(p)) push("vent", "必须通风");
+    else if(/接地/.test(p)) push("ground", "必须接地");
+    else if(/安全帽/.test(p)) push("helmet", "必须戴安全帽");
+    else if(/严格|规范|要求使用|按要求|未经允许/.test(p)) push("rule", "必须阅读使用说明书");
+    else if(/防护|劳保|穿戴/.test(p)) push("goggles", "必须戴防护眼镜");
+    else push("rule", "必须阅读使用说明书");
   });
   (mandatory||[]).forEach(s=>push(s.id, s.label));
   return out.slice(0,6);
@@ -570,7 +526,6 @@ function renderRoomList(){
 }
 function selectRoom(id){
   currentId=id;
-  boardShotCache=null;
   const r=rooms.find(x=>x.id===id); if(!r) return;
   document.getElementById("e_name").value=r.name;
   document.getElementById("e_sys").value=r.sys_code;
@@ -594,7 +549,6 @@ function selectRoom(id){
   renderBoard(r);
   renderRoomList();
   history.replaceState(null,"",`#${encodeURIComponent(id)}`);
-  if(/preview=1/.test(location.search)) publishBoardPreview();
 }
 function readFormInto(r){
   r.name=document.getElementById("e_name").value.trim();
@@ -622,107 +576,6 @@ function switchTab(name){
   const sop=document.getElementById("tab-sop");
   if(sop) sop.style.display=name==="sop"?"":"none";
   if(name==="board" && !currentId && rooms[0]) selectRoom(rooms[0].id);
-}
-function boardFileName(r){
-  return `${(r?.sys_code||r?.name||"安全信息牌").replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
-}
-async function captureBoardCanvas(){
-  const el=document.getElementById("board");
-  if(!el) throw new Error("信息牌未渲染");
-  if(typeof html2canvas!=="function") throw new Error("缺少 html2canvas");
-  const stash={
-    display:el.style.display,position:el.style.position,left:el.style.left,top:el.style.top,
-    transform:el.style.transform,visibility:el.style.visibility,margin:el.style.margin,zIndex:el.style.zIndex
-  };
-  el.style.display="grid";
-  el.style.position="fixed";
-  el.style.left="-20000px";
-  el.style.top="0";
-  el.style.transform="none";
-  el.style.visibility="visible";
-  el.style.margin="0";
-  el.style.zIndex="-1";
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-  const baseW=el.offsetWidth||Math.round(297*96/25.4);
-  const baseH=el.offsetHeight||Math.round(210*96/25.4);
-  const scale=Math.max(4, Math.ceil(BOARD_EXPORT_MIN_WIDTH/baseW));
-  try{
-    return await html2canvas(el,{
-      scale,backgroundColor:"#ffffff",useCORS:true,logging:false,
-      width:baseW,height:baseH,windowWidth:baseW,windowHeight:baseH
-    });
-  }finally{
-    el.style.display=stash.display;
-    el.style.position=stash.position;
-    el.style.left=stash.left;
-    el.style.top=stash.top;
-    el.style.transform=stash.transform;
-    el.style.visibility=stash.visibility;
-    el.style.margin=stash.margin;
-    el.style.zIndex=stash.zIndex;
-  }
-}
-async function renderBoardShot(options={}){
-  const force=!!options.force;
-  const silent=!!options.silent;
-  if(!force && boardShotCache && boardShotCache.id===currentId) return boardShotCache.url;
-  if(!silent) toast("正在生成 4K 成图…");
-  await new Promise(r=>setTimeout(r,360));
-  const canvas=await captureBoardCanvas();
-  const url=canvas.toDataURL("image/jpeg", BOARD_JPEG_QUALITY);
-  boardShotCache={id:currentId,url,w:canvas.width,h:canvas.height};
-  if(/preview=1/.test(location.search)){
-    const el=document.getElementById("board");
-    const wrap=el?.closest(".board-wrap");
-    if(wrap){
-      let img=document.getElementById("boardShotImg");
-      if(!img){
-        img=document.createElement("img");
-        img.id="boardShotImg";
-        img.className="board-shot-img";
-        img.alt="安全信息电子牌";
-        wrap.insertBefore(img, el);
-      }
-      img.src=url;
-      if(window.parent!==window){
-        window.parent.postMessage({type:"lab-board-image",url,id:currentId,w:canvas.width,h:canvas.height},"*");
-      }
-    }
-  }
-  if(!silent) toast(`成图 ${canvas.width}×${canvas.height}`);
-  return url;
-}
-async function exportBoardJpg(){
-  const r=rooms.find(x=>x.id===currentId); if(!r) return;
-  try{
-    const url=await renderBoardShot({force:!boardShotCache || boardShotCache.id!==currentId});
-    const a=document.createElement("a");
-    a.href=url;
-    a.download=boardFileName(r);
-    a.click();
-    toast(`JPG 已导出（${boardShotCache.w}×${boardShotCache.h}）`);
-  }catch(err){
-    console.error(err);
-    toast("导出失败，可改用打印");
-  }
-}
-async function publishBoardPreview(){
-  if(!/preview=1/.test(location.search)) return;
-  try{ await renderBoardShot({force:true, silent:true}); }catch(err){ console.error(err); }
-}
-function setupPreviewBar(){
-  if(!/preview=1/.test(location.search)) return;
-  if(window.parent!==window) return;
-  const host=document.querySelector("#tab-board .layout > div:last-child");
-  if(!host || document.getElementById("previewBar")) return;
-  const bar=document.createElement("div");
-  bar.id="previewBar";
-  bar.className="preview-bar no-print";
-  bar.innerHTML=`<button class="btn btn-primary" type="button" id="btnPreviewJpg">下载 JPG</button>
-    <button class="btn btn-secondary" type="button" id="btnPreviewPrint">打印信息牌</button>`;
-  host.appendChild(bar);
-  document.getElementById("btnPreviewJpg").onclick=exportBoardJpg;
-  document.getElementById("btnPreviewPrint").onclick=()=>window.print();
 }
 function init(){
   RAW = loadRawData();
@@ -760,11 +613,8 @@ function init(){
       protect_points:r.protect_points,hazard_points:r.hazard_points,measure_points:r.measure_points
     };
     saveOverrides(o); renderBoard(r); renderRoomList(); renderLedger();
-    boardShotCache=null;
     document.getElementById("editHint").textContent="已保存到本机浏览器";
     toast("已保存本地调整");
-    if(window.parent!==window) window.parent.postMessage("lab-board-saved","*");
-    if(/preview=1/.test(location.search)) publishBoardPreview();
   };
   document.getElementById("btnReset").onclick=()=>{
     if(!currentId) return;
@@ -772,7 +622,23 @@ function init(){
     applyOverrides(); selectRoom(currentId); renderLedger(); toast("已恢复台账原值");
   };
   document.getElementById("btnPrint").onclick=()=>window.print();
-  document.getElementById("btnExportJpg").onclick=exportBoardJpg;
+  document.getElementById("btnExportJpg").onclick=async ()=>{
+    const r=rooms.find(x=>x.id===currentId); if(!r) return;
+    const el=document.getElementById("board");
+    if(typeof html2canvas!=="function"){ toast("缺少 html2canvas，请用同目录打开页面"); return; }
+    toast("正在生成 JPG…");
+    try{
+      const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      const a=document.createElement("a");
+      a.href=canvas.toDataURL("image/jpeg",0.92);
+      a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+      a.click();
+      toast("JPG 已导出");
+    }catch(err){
+      console.error(err);
+      toast("导出失败，可改用打印");
+    }
+  };
   document.getElementById("btnExportOne").onclick=()=>{
     const r=rooms.find(x=>x.id===currentId); if(!r) return;
     const a=document.createElement("a");
@@ -810,17 +676,8 @@ try{
   }
   const inFrame=window.self!==window.top;
   const embedMode=inFrame||/embed=1/.test(location.search);
-  const previewOnly=/preview=1/.test(location.search);
-  const editOnly=/edit=1/.test(location.search);
-  const boardOnly=/board=1/.test(location.search);
   if(embedMode){
     document.body.classList.add("embed");
-    if(previewOnly){
-      document.body.classList.add("embed-preview");
-      if(window.parent!==window) document.body.classList.add("embed-preview-in-parent");
-    }
-    else if(editOnly) document.body.classList.add("embed-edit");
-    else if(boardOnly) document.body.classList.add("embed-board");
     const fh=document.getElementById("fileHint");
     if(fh) fh.style.display="none";
   }else{
@@ -831,12 +688,6 @@ try{
     }
   }
   init();
-  setupPreviewBar();
-  const qid=new URLSearchParams(location.search).get("id");
-  if(qid && typeof rooms!=="undefined" && rooms.some(r=>r.id===qid)){
-    switchTab("board"); selectRoom(qid);
-    setupPreviewBar();
-  }
 }catch(err){
   console.error(err);
   showBootError(err);

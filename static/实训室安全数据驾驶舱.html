@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>实训室安全数据驾驶舱 · 广西生态工程职业技术学院</title>
 <meta name="description" content="广西生态工程职业技术学院实训室安全数据驾驶舱（动态），可作校园门户外链。">
+<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
 <style>
 :root {
   --primary:#008742;--primary-dark:#006B35;--primary-light:#008842;
@@ -21,6 +24,10 @@ a{color:var(--primary);text-decoration:none} a:hover{color:var(--primary-light)}
 .link-top ul.credit{flex:0 0 auto;margin-left:auto;flex-wrap:nowrap;white-space:nowrap}
 .link-top li{padding:0 14px;line-height:48px;color:#2d2d2d}
 .link-top ul.credit li{padding:0 10px;font-size:13px;color:#666}
+.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0;margin-right:4px}
+.product-brand:hover{color:var(--primary)}
+.product-mark{width:28px;height:28px;display:block;border:none;background:transparent}
+.product-name{font-size:14px;font-weight:600;white-space:nowrap}
 .site-logo{padding:42px 0 36px;background:var(--primary) url("assets/logo_bg.png") no-repeat top center/cover}
 .site-logo .web{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
 .site-logo a.logo img{max-width:864px;width:100%;height:auto;display:block}
@@ -114,7 +121,8 @@ body.ledger-boards-on .list-con > .web{max-width:1480px}
 .wl-task-note{margin-top:8px;padding:8px 10px;background:#fff;border-radius:4px;font-size:13px;color:var(--muted);border-left:2px solid #ddd}
 .wl-footnote{margin-top:16px;padding:12px 14px;background:#fffbe6;border:1px solid #f0e6a6;border-radius:6px;font-size:13px;color:#666}
 .liaison-section{margin-top:28px;padding-top:20px;border-top:2px solid var(--bg-light)}
-.liaison-section h3{font-size:18px;color:var(--primary);font-weight:normal;margin-bottom:12px}
+.liaison-section h3{font-size:18px;color:var(--primary);font-weight:normal;margin-bottom:8px}
+.liaison-staff-note{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.55}
 .liaison-staff-table td.phone{white-space:nowrap;font-family:Consolas,monospace;font-size:13px}
 .liaison-staff-table .staff-name{color:var(--primary)}
 .liaison-view-switch{display:flex;gap:8px;margin-bottom:12px}
@@ -303,14 +311,13 @@ body.cockpit-standalone .cockpit-dynamic-wrap{margin-top:0;padding-top:0;border-
 body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
 @media(max-width:1100px){.home-staff-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.cockpit-body{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.layout{flex-direction:column}.list-left{width:100%}.site-logo .searchbox{width:100%}.site-logo .searchbox .search-inner{width:100%}.home-bottom{grid-template-columns:1fr}.home-staff-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.portal-btns a{width:96px}.cockpit-body{grid-template-columns:1fr}.cockpit-kpi{grid-template-columns:1fr}.link-top .web{flex-wrap:wrap}.link-top ul.credit{width:100%;justify-content:flex-end}}
+@media(max-width:720px){html,body{overflow-x:hidden}body{padding-bottom:env(safe-area-inset-bottom,0px)}.link-top ul.credit{display:none}.product-name{display:none}.link-top li{padding:0 8px;line-height:40px;font-size:13px}.site-logo{padding:20px 0 16px}.site-logo a.logo img{max-width:100%;height:auto}.navbar{top:env(safe-area-inset-top,0px)}.navbar ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}.navbar li a{height:48px;line-height:48px;padding:0 12px;font-size:14px}.list-right{padding:16px 14px 24px}.college-block table,.shixun-ke-table,.liaison-staff-table{font-size:13px}input,select,textarea,button{font-size:16px}}
 </style>
 <link rel="stylesheet" href="/assets/mobile-space.css">
-<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body class="cockpit-standalone">
 <div class="link-top"><div class="web">
-  <a class="product-brand" href="/"><img class="product-mark" src="/brand/app-logo-mark.svg" width="28" height="28" alt=""><span class="product-name">实验室管理平台</span></a>
+  <a class="product-brand" href="广西生态工程职业技术学院-教务处-实训科管理平台.html"><img class="product-mark" src="/brand/app-logo-mark.svg" width="28" height="28" alt=""><span class="product-name">实验室管理平台</span></a>
   <ul class="nav-links"><li><a href="https://www.gxstzy.cn/index.htm" target="_blank" rel="noopener">学校首页</a></li>
   <li><a href="http://www.gxstzy.cn/jwc" target="_blank" rel="noopener">教务处</a></li>
   <li><a href="https://jwgl.gxstzy.cn/admin/?loginType=1&loginImage1=&loginImage2=&loginImage4=c1d823ab0c0f47e7a8243ee2730e3b03&sfkqcas=https%3A%2F%2Fcas.gxstzy.cn%2FlyuapServer%2Flogout%3Fservice%3Dhttps%3A%2F%2Fjwgl.gxstzy.cn%2Fadmin%2Fcaslogin" target="_blank" rel="noopener">教务系统</a></li>
@@ -409,8 +416,8 @@ body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
           <h3>建档与主文件缺口</h3>
           <div class="cockpit-vbars">
             <div class="cockpit-vbar"><span class="vn">303</span><div class="col" style="height:72px"></div><span class="vl">一室一表建档</span></div>
-            <div class="cockpit-vbar"><span class="vn">253</span><div class="col c2" style="height:60px"></div><span class="vl">已关联主文件</span></div>
-            <div class="cockpit-vbar"><span class="vn">106</span><div class="col c3" style="height:25px"></div><span class="vl">主文件缺失</span></div>
+            <div class="cockpit-vbar"><span class="vn">266</span><div class="col c2" style="height:63px"></div><span class="vl">已关联主文件</span></div>
+            <div class="cockpit-vbar"><span class="vn">92</span><div class="col c3" style="height:22px"></div><span class="vl">主文件缺失</span></div>
           </div>
           <div class="cockpit-modules">
             <a href="platform-03-yishi.html">一室一表</a>
@@ -511,7 +518,7 @@ body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
 </script>
 
 <script id="lab-baseline-data" type="application/json">{"generated_at": "2026-07-17T11:55:59", "source": {"ledger": "C:\\00CS\\text\\output\\shixunshi-fenjifenlei-taizhang\\学校实训室分级分类管理台账-合并.xlsx", "tencent_docs": "https://docs.qq.com/sheet/DR2JLZ2NFYVhVWFRv?tab=000001", "yishi_dir": "c:\\00教务处\\B 实训室管理\\2026年7月迎检材料\\一室一表汇总", "date": "2026年7月", "calibrated_from": "tencent_docs", "filing_i_ii": "c:\\00教务处\\B 实训室管理\\2026年7月迎检材料\\A0-报送教育厅材料5.30\\附表1.2 高等学校实验室安全分级分类信息备案表（2026年）.xlsx", "filing_title": "附表1.2 高等学校Ⅰ级（重大风险）、Ⅱ级（高风险）实验室信息备案表（2026年）", "high_risk_authority": "filing_1_2", "risk_level_note": "Ⅰ/Ⅱ级以附表1.2备案为准；Ⅲ/Ⅳ级对齐迎检报送正文（22/321）"}, "total_rooms": 354, "by_college": {"汽信学院": 66, "建工学院": 48, "经贸学院": 45, "旅游学院": 43, "林学院": 42, "园林学院": 29, "设计学院": 28, "环保学院": 28, "智造学院": 20, "通识学院": 5}, "by_risk_level": {"Ⅰ级": 4, "Ⅱ级": 7, "Ⅲ级": 22, "Ⅳ级": 321}, "by_category": {"其他类": 305, "基础实验室": 20, "化学类": 13, "机电类": 10, "None": 4, "生物类": 2}, "by_campus": {"西校区": 283, "东校区": 71}, "high_risk_i_ii_count": 11, "high_risk_by_college": {"旅游学院": 5, "环保学院": 3, "林学院": 3}, "high_risk_rooms": [{"seq": 1, "school": "广西生态工程职业技术学院", "location": "东校区第七教学楼烹饪实训室7202室", "name": "第七教学楼烹饪实训室7202室", "campus": "东校区", "category": "其他类", "risk_level": "Ⅰ级", "hazards": "使用明火设备14台", "responsible": "干莉娜", "college": "旅游学院", "college_full": "旅游与交通管理学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 2, "school": "广西生态工程职业技术学院", "location": "东校区第七教学楼烹饪实训室7203室", "name": "第七教学楼烹饪实训室7203室", "campus": "东校区", "category": "其他类", "risk_level": "Ⅰ级", "hazards": "使用明火设备14台", "responsible": "干莉娜", "college": "旅游学院", "college_full": "旅游与交通管理学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 3, "school": "广西生态工程职业技术学院", "location": "东区第七教学楼烹饪实训室403室", "name": "第七教学楼烹饪实训室403室", "campus": "东校区", "category": "其他类", "risk_level": "Ⅰ级", "hazards": "使用明火设备16台，加热设备2台", "responsible": "干莉娜", "college": "旅游学院", "college_full": "旅游与交通管理学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 4, "school": "广西生态工程职业技术学院", "location": "西校区3号教学楼南楼304室", "name": "3号教学楼南楼304室", "campus": "西校区", "category": "化学类", "risk_level": "Ⅰ级", "hazards": "存储易燃易爆化学品总量大于50kg、存储一般危化品总量大于50kg", "responsible": "陈福坤", "college": "环保学院", "college_full": "生态环境保护学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 5, "school": "广西生态工程职业技术学院", "location": "西校区第四教学楼4516室", "name": "第四教学楼4516室", "campus": "西校区", "category": "基础实验室", "risk_level": "Ⅱ级", "hazards": "使用第一类压力容器，使用加热设备", "responsible": "黎良财", "college": "林学院", "college_full": "林业工程学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 6, "school": "广西生态工程职业技术学院", "location": "西校区实训基地食用菌高产栽培实训基地", "name": "实训基地食用菌高产栽培实训基地", "campus": "西校区", "category": "基础实验室", "risk_level": "Ⅱ级", "hazards": "使用第一类压力容器，使用加热设备", "responsible": "黎良财", "college": "林学院", "college_full": "林业工程学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 7, "school": "广西生态工程职业技术学院", "location": "西校区实训基地植物组培教学工厂", "name": "实训基地植物组培教学工厂", "campus": "西校区", "category": "基础实验室", "risk_level": "Ⅱ级", "hazards": "使用第一类压力容器", "responsible": "黎良财", "college": "林学院", "college_full": "林业工程学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 8, "school": "广西生态工程职业技术学院", "location": "西校区2号教学楼212室", "name": "2号教学楼212室", "campus": "西校区", "category": "机电类", "risk_level": "Ⅱ级", "hazards": "使用第一类压力容器4台；使用加热设备数量3~5台", "responsible": "干莉娜", "college": "旅游学院", "college_full": "旅游与交通管理学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 9, "school": "广西生态工程职业技术学院", "location": "东校区第七教学楼7302室", "name": "第七教学楼7302室", "campus": "东校区", "category": "其他类", "risk_level": "Ⅱ级", "hazards": "使用明火设备6台，加热设备6台", "responsible": "干莉娜", "college": "旅游学院", "college_full": "旅游与交通管理学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 10, "school": "广西生态工程职业技术学院", "location": "西校区3号教学楼南楼104室", "name": "3号教学楼南楼104室", "campus": "西校区", "category": "机电类", "risk_level": "Ⅱ级", "hazards": "高压容器、设备用电、加热设备", "responsible": "陈福坤", "college": "环保学院", "college_full": "生态环境保护学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}, {"seq": 11, "school": "广西生态工程职业技术学院", "location": "西校区3号教学楼北楼103室", "name": "3号教学楼北楼103室", "campus": "西校区", "category": "其他类", "risk_level": "Ⅱ级", "hazards": "3瓶二氧化硫气瓶", "responsible": "陈福坤", "college": "环保学院", "college_full": "生态环境保护学院", "safety_dept": "教务处", "school_contact": "李鹏宇", "school_contact_phone": "13557025911", "supervisor": "广西壮族自治区教育厅", "remark": null, "source": "附表1.2备案表"}], "by_hazard_type": {"用电/电器": 133, "管理与行为隐患": 133, "（未填报）": 88, "加热/高温": 25, "机械伤害": 18, "压力容器/气瓶": 6, "玻璃器皿": 5, "化学品": 2, "生物安全": 1, "其他隐患": 1}, "by_hazard_raw_top": {"人员操作不规范行为": 127, "设备与环境存在隐患": 127, "安全管理层面存在漏洞": 127, "用电": 87, "电器故障": 25, "机械损伤": 18, "电器短路": 18, "加热设备烫伤": 17, "加热设备": 8, "人的不安全行为": 6, "设备与材料隐患": 6, "应急通道受阻": 6, "管理缺陷": 6, "玻璃器皿碎裂": 5, "油锅起火": 4, "烟道起火": 4, "压力容器": 3, "化学品腐蚀": 2, "气体泄漏": 2, "用电安全": 2, "无人机电池充电及电池存放可能带来的消防安全": 1, "微生物": 1, "有机溶剂泄漏": 1, "高压容器": 1}, "yishi_room_count_by_college": {"林学院": 41, "通识学院": 5, "经贸学院": 44, "园林学院": 36, "设计学院": 26, "旅游学院": 40, "汽信学院": 43, "建工学院": 30, "环保学院": 27, "智造学院": 11}, "yishi_room_count_total": 303, "college_count": 10, "high_risk_by_category": {"其他类": 5, "基础实验室": 3, "机电类": 2, "化学类": 1}, "high_risk_by_campus": {"西校区": 7, "东校区": 4}, "high_risk_hazard_types": {"加热设备": 6, "压力容器": 5, "明火/烹饪": 4, "危化品": 1, "用电/电器": 1, "气瓶/气体": 1}, "filing_i_count": 4, "filing_ii_count": 7}</script>
-<script id="lab-docs-stats-data" type="application/json">{"regulations": 48, "ledger_rooms": 354, "rooms_total": 483, "rooms_with_yishi": 389, "yishi_folders": 360, "yishi_with_primary": 253, "yishi_missing_primary": 106, "yishi_files": 690}</script>
+<script id="lab-docs-stats-data" type="application/json">{"regulations": 53, "ledger_rooms": 354, "rooms_total": 486, "rooms_with_yishi": 392, "yishi_folders": 359, "yishi_with_primary": 266, "yishi_missing_primary": 92, "yishi_files": 689}</script>
 <script>
 (function(){
   const mount=document.getElementById('cockpit-mount');

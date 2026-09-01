@@ -849,285 +849,617 @@
   ],
   "signs": [
     {
-      "id": "png_01",
-      "file": "signs/lab_01_当心触电.png",
+      "id": "no_smoke",
+      "file": "signs/no_smoke.png",
+      "label": "禁止吸烟",
+      "kind": "prohibit",
+      "tags": [
+        "易燃",
+        "消防",
+        "通用"
+      ],
+      "src_name": "no_smoke"
+    },
+    {
+      "id": "no_fire",
+      "file": "signs/no_fire.png",
+      "label": "禁止烟火",
+      "kind": "prohibit",
+      "tags": [
+        "易燃",
+        "危化",
+        "消防",
+        "加热"
+      ],
+      "src_name": "no_fire"
+    },
+    {
+      "id": "no_ignition",
+      "file": "signs/no_ignition.png",
+      "label": "禁止带火种",
+      "kind": "prohibit",
+      "tags": [
+        "易燃",
+        "危化",
+        "消防"
+      ],
+      "src_name": "no_ignition"
+    },
+    {
+      "id": "no_water",
+      "file": "signs/no_water.png",
+      "label": "禁止用水灭火",
+      "kind": "prohibit",
+      "tags": [
+        "用电",
+        "通用"
+      ],
+      "src_name": "no_water"
+    },
+    {
+      "id": "no_flammable",
+      "file": "signs/no_flammable.png",
+      "label": "禁止放置易燃物",
+      "kind": "prohibit",
+      "tags": [
+        "易燃",
+        "危化",
+        "消防"
+      ],
+      "src_name": "no_flammable"
+    },
+    {
+      "id": "no_start",
+      "file": "signs/no_start.png",
+      "label": "禁止启动",
+      "kind": "prohibit",
+      "tags": [
+        "机电",
+        "机械"
+      ],
+      "src_name": "no_start"
+    },
+    {
+      "id": "no_switch",
+      "file": "signs/no_switch.png",
+      "label": "禁止合闸",
+      "kind": "prohibit",
+      "tags": [
+        "用电",
+        "高压"
+      ],
+      "src_name": "no_switch"
+    },
+    {
+      "id": "no_touch",
+      "file": "signs/no_touch.png",
+      "label": "禁止靠近",
+      "kind": "prohibit",
+      "tags": [
+        "用电",
+        "高压"
+      ],
+      "src_name": "no_touch"
+    },
+    {
+      "id": "no_enter",
+      "file": "signs/no_enter.png",
+      "label": "禁止入内",
+      "kind": "prohibit",
+      "tags": [
+        "特种",
+        "生物",
+        "辐射"
+      ],
+      "src_name": "no_enter"
+    },
+    {
+      "id": "no_climb",
+      "file": "signs/no_climb.png",
+      "label": "禁止攀登",
+      "kind": "prohibit",
+      "tags": [
+        "危险作业",
+        "高处"
+      ],
+      "src_name": "no_climb"
+    },
+    {
+      "id": "no_contact",
+      "file": "signs/no_contact.png",
+      "label": "禁止触摸",
+      "kind": "prohibit",
+      "tags": [
+        "用电",
+        "机械",
+        "加热"
+      ],
+      "src_name": "no_contact"
+    },
+    {
+      "id": "no_food",
+      "file": "signs/no_food.png",
+      "label": "禁止饮用",
+      "kind": "prohibit",
+      "tags": [
+        "危化",
+        "生物",
+        "用电",
+        "通用"
+      ],
+      "src_name": "no_food"
+    },
+    {
+      "id": "no_throw",
+      "file": "signs/no_throw.png",
+      "label": "禁止抛物",
+      "kind": "prohibit",
+      "tags": [
+        "高处",
+        "危险作业"
+      ],
+      "src_name": "no_throw"
+    },
+    {
+      "id": "no_overload",
+      "file": "signs/no_overload.png",
+      "label": "禁止放置重物",
+      "kind": "prohibit",
+      "tags": [
+        "特种",
+        "起重"
+      ],
+      "src_name": "no_overload"
+    },
+    {
+      "id": "no_hotwork",
+      "file": "signs/no_hotwork.png",
+      "label": "禁止动火作业",
+      "kind": "prohibit",
+      "tags": [
+        "易燃",
+        "消防",
+        "危化"
+      ],
+      "src_name": "no_hotwork"
+    },
+    {
+      "id": "safe",
+      "file": "signs/safe.png",
+      "label": "注意安全",
+      "kind": "warning",
+      "tags": [
+        "用电",
+        "机械",
+        "通用"
+      ],
+      "src_name": "safe"
+    },
+    {
+      "id": "fire",
+      "file": "signs/fire.png",
+      "label": "当心火灾",
+      "kind": "warning",
+      "tags": [
+        "消防",
+        "易燃",
+        "加热"
+      ],
+      "src_name": "fire"
+    },
+    {
+      "id": "explode",
+      "file": "signs/explode.png",
+      "label": "当心爆炸",
+      "kind": "warning",
+      "tags": [
+        "易燃",
+        "危化"
+      ],
+      "src_name": "explode"
+    },
+    {
+      "id": "shock",
+      "file": "signs/shock.png",
       "label": "当心触电",
       "kind": "warning",
       "tags": [
         "用电",
-        "高压",
-        "机电",
-        "触电"
+        "通用"
       ],
-      "src_name": "0 (2).png"
+      "src_name": "shock"
     },
     {
-      "id": "png_02",
-      "file": "signs/lab_02_当心机械伤人.png",
+      "id": "mech",
+      "file": "signs/mech.png",
       "label": "当心机械伤人",
       "kind": "warning",
       "tags": [
         "机械",
-        "机电",
-        "机加工"
-      ],
-      "src_name": "0 (3).png"
-    },
-    {
-      "id": "png_03",
-      "file": "signs/lab_03_小心夹手.png",
-      "label": "小心夹手",
-      "kind": "warning",
-      "tags": [
-        "机械",
         "机电"
       ],
-      "src_name": "0 (4).png"
+      "src_name": "mech"
     },
     {
-      "id": "png_04",
-      "file": "signs/lab_04_止步高压危险.png",
-      "label": "止步高压危险",
+      "id": "falling",
+      "file": "signs/falling.png",
+      "label": "当心落物",
       "kind": "warning",
       "tags": [
-        "高压",
-        "用电",
-        "机电"
+        "特种",
+        "起重"
       ],
-      "src_name": "0 (5).png"
+      "src_name": "falling"
     },
     {
-      "id": "png_05",
-      "file": "signs/lab_05_当心腐蚀.png",
-      "label": "当心腐蚀",
-      "kind": "warning",
-      "tags": [
-        "危化",
-        "腐蚀",
-        "化学"
-      ],
-      "src_name": "0 (7).png"
-    },
-    {
-      "id": "png_06",
-      "file": "signs/lab_06_视频监控区域.png",
-      "label": "视频监控区域",
-      "kind": "warning",
-      "tags": [
-        "监控",
-        "高风险"
-      ],
-      "src_name": "0 (8).png"
-    },
-    {
-      "id": "png_07",
-      "file": "signs/lab_07_禁止攀登.png",
-      "label": "禁止攀登",
-      "kind": "prohibit",
-      "tags": [
-        "高处",
-        "危险作业"
-      ],
-      "src_name": "0 (10).png"
-    },
-    {
-      "id": "png_08",
-      "file": "signs/lab_08_安全用电.png",
-      "label": "安全用电",
-      "kind": "warning",
-      "tags": [
-        "用电",
-        "机电"
-      ],
-      "src_name": "0 (12).png"
-    },
-    {
-      "id": "png_09",
-      "file": "signs/lab_09_注意防尘.png",
-      "label": "注意防尘",
-      "kind": "warning",
-      "tags": [
-        "粉尘",
-        "机电"
-      ],
-      "src_name": "0 (15).png"
-    },
-    {
-      "id": "png_10",
-      "file": "signs/lab_10_请勿高空抛物.png",
-      "label": "请勿高空抛物",
-      "kind": "prohibit",
-      "tags": [
-        "高处",
-        "危险作业"
-      ],
-      "src_name": "0 (20).png"
-    },
-    {
-      "id": "png_11",
-      "file": "signs/lab_11_禁止超载.png",
-      "label": "禁止超载",
-      "kind": "prohibit",
-      "tags": [
-        "起重",
-        "特种设备"
-      ],
-      "src_name": "0 (21).png"
-    },
-    {
-      "id": "png_12",
-      "file": "signs/lab_12_当心吊物.png",
+      "id": "crane",
+      "file": "signs/crane.png",
       "label": "当心吊物",
       "kind": "warning",
       "tags": [
-        "起重",
-        "吊装",
-        "危险作业"
+        "特种",
+        "起重"
       ],
-      "src_name": "0 (22).png"
+      "src_name": "crane"
     },
     {
-      "id": "png_13",
-      "file": "signs/lab_13_注意高温.png",
-      "label": "注意高温",
+      "id": "burn",
+      "file": "signs/burn.png",
+      "label": "当心烫伤",
       "kind": "warning",
       "tags": [
         "加热",
         "高温",
         "烫伤"
       ],
-      "src_name": "0 (25).png"
+      "src_name": "burn"
     },
     {
-      "id": "png_14",
-      "file": "signs/lab_14_严禁烟火.png",
-      "label": "严禁烟火",
-      "kind": "prohibit",
-      "tags": [
-        "危化",
-        "易燃",
-        "气瓶",
-        "加热",
-        "消防"
-      ],
-      "src_name": "0 (26).png"
-    },
-    {
-      "id": "png_15",
-      "file": "signs/lab_15_注意安全.png",
-      "label": "注意安全",
+      "id": "hot",
+      "file": "signs/hot.png",
+      "label": "当心高温表面",
       "kind": "warning",
       "tags": [
-        "通用"
+        "加热",
+        "高温",
+        "烫伤"
       ],
-      "src_name": "0 (28).png"
+      "src_name": "hot"
     },
     {
-      "id": "png_16",
-      "file": "signs/lab_16_触电危险严禁靠近.png",
-      "label": "触电危险严禁靠近",
-      "kind": "prohibit",
+      "id": "trip",
+      "file": "signs/trip.png",
+      "label": "当心绊倒",
+      "kind": "warning",
+      "tags": [
+        "场所"
+      ],
+      "src_name": "trip"
+    },
+    {
+      "id": "gas_cyl",
+      "file": "signs/gas_cyl.png",
+      "label": "当心高压气瓶",
+      "kind": "warning",
+      "tags": [
+        "气瓶",
+        "特种"
+      ],
+      "src_name": "gas_cyl"
+    },
+    {
+      "id": "asphyxia",
+      "file": "signs/asphyxia.png",
+      "label": "当心窒息",
+      "kind": "warning",
+      "tags": [
+        "危化",
+        "气瓶"
+      ],
+      "src_name": "asphyxia"
+    },
+    {
+      "id": "corr",
+      "file": "signs/corr.png",
+      "label": "当心腐蚀",
+      "kind": "warning",
+      "tags": [
+        "危化",
+        "腐蚀"
+      ],
+      "src_name": "corr"
+    },
+    {
+      "id": "toxic",
+      "file": "signs/toxic.png",
+      "label": "当心中毒",
+      "kind": "warning",
+      "tags": [
+        "危化",
+        "有毒"
+      ],
+      "src_name": "toxic"
+    },
+    {
+      "id": "infect",
+      "file": "signs/infect.png",
+      "label": "当心生物危害",
+      "kind": "warning",
+      "tags": [
+        "生物"
+      ],
+      "src_name": "infect"
+    },
+    {
+      "id": "safe_elec",
+      "file": "signs/safe_elec.png",
+      "label": "当心电缆",
+      "kind": "warning",
       "tags": [
         "用电",
-        "高压"
+        "通用"
       ],
-      "src_name": "0 (29).png"
+      "src_name": "safe_elec"
     },
     {
-      "id": "png_17",
-      "file": "signs/lab_17_必须系安全带.png",
+      "id": "crush",
+      "file": "signs/crush.png",
+      "label": "当心挤压",
+      "kind": "warning",
+      "tags": [
+        "机械",
+        "机电"
+      ],
+      "src_name": "crush"
+    },
+    {
+      "id": "pinch",
+      "file": "signs/pinch.png",
+      "label": "当心夹手",
+      "kind": "warning",
+      "tags": [
+        "机械",
+        "机电"
+      ],
+      "src_name": "pinch"
+    },
+    {
+      "id": "radiation",
+      "file": "signs/radiation.png",
+      "label": "当心电离辐射",
+      "kind": "warning",
+      "tags": [
+        "辐射"
+      ],
+      "src_name": "radiation"
+    },
+    {
+      "id": "laser",
+      "file": "signs/laser.png",
+      "label": "当心激光",
+      "kind": "warning",
+      "tags": [
+        "辐射",
+        "机电"
+      ],
+      "src_name": "laser"
+    },
+    {
+      "id": "slip",
+      "file": "signs/slip.png",
+      "label": "当心滑倒",
+      "kind": "warning",
+      "tags": [
+        "场所"
+      ],
+      "src_name": "slip"
+    },
+    {
+      "id": "goggles",
+      "file": "signs/goggles.png",
+      "label": "必须戴防护眼镜",
+      "kind": "mandatory",
+      "tags": [
+        "机械",
+        "危化",
+        "加热",
+        "通用"
+      ],
+      "src_name": "goggles"
+    },
+    {
+      "id": "mask",
+      "file": "signs/mask.png",
+      "label": "必须戴口罩",
+      "kind": "mandatory",
+      "tags": [
+        "危化",
+        "生物",
+        "粉尘"
+      ],
+      "src_name": "mask"
+    },
+    {
+      "id": "respirator",
+      "file": "signs/respirator.png",
+      "label": "必须戴防毒面具",
+      "kind": "mandatory",
+      "tags": [
+        "危化",
+        "有毒"
+      ],
+      "src_name": "respirator"
+    },
+    {
+      "id": "ear",
+      "file": "signs/ear.png",
+      "label": "必须戴护耳器",
+      "kind": "mandatory",
+      "tags": [
+        "机械",
+        "机电"
+      ],
+      "src_name": "ear"
+    },
+    {
+      "id": "helmet",
+      "file": "signs/helmet.png",
+      "label": "必须戴安全帽",
+      "kind": "mandatory",
+      "tags": [
+        "机械",
+        "高处"
+      ],
+      "src_name": "helmet"
+    },
+    {
+      "id": "faceshield",
+      "file": "signs/faceshield.png",
+      "label": "必须戴防护面罩",
+      "kind": "mandatory",
+      "tags": [
+        "危化",
+        "加热",
+        "机械"
+      ],
+      "src_name": "faceshield"
+    },
+    {
+      "id": "belt",
+      "file": "signs/belt.png",
       "label": "必须系安全带",
       "kind": "mandatory",
       "tags": [
         "高处",
         "危险作业"
       ],
-      "src_name": "0 (30).png"
+      "src_name": "belt"
     },
     {
-      "id": "png_18",
-      "file": "signs/lab_18_有电危险闲人免进.png",
-      "label": "有电危险闲人免进",
-      "kind": "warning",
+      "id": "lock",
+      "file": "signs/lock.png",
+      "label": "必须加锁",
+      "kind": "mandatory",
+      "tags": [
+        "危化",
+        "特种",
+        "辐射"
+      ],
+      "src_name": "lock"
+    },
+    {
+      "id": "ground",
+      "file": "signs/ground.png",
+      "label": "必须接地",
+      "kind": "mandatory",
       "tags": [
         "用电",
-        "配电"
+        "高压"
       ],
-      "src_name": "0 (33).png"
+      "src_name": "ground"
     },
     {
-      "id": "png_19",
-      "file": "signs/lab_19_当心滑跌.png",
-      "label": "当心滑跌",
-      "kind": "warning",
+      "id": "power",
+      "file": "signs/power.png",
+      "label": "必须拔出插头",
+      "kind": "mandatory",
       "tags": [
-        "场所",
-        "卫生"
+        "用电",
+        "通用"
       ],
-      "src_name": "0 (37).png"
+      "src_name": "power"
     },
     {
-      "id": "png_20",
-      "file": "signs/lab_20_重点防火区域.png",
-      "label": "重点防火区域",
-      "kind": "warning",
+      "id": "guard",
+      "file": "signs/guard.png",
+      "label": "必须检查防护装置",
+      "kind": "mandatory",
       "tags": [
-        "消防",
-        "危化",
-        "易燃"
-      ],
-      "src_name": "0 (39).png"
-    },
-    {
-      "id": "png_21",
-      "file": "signs/lab_21_当心火灾.png",
-      "label": "当心火灾",
-      "kind": "warning",
-      "tags": [
-        "消防",
-        "加热",
-        "易燃"
-      ],
-      "src_name": "0 (41).png"
-    },
-    {
-      "id": "png_22",
-      "file": "signs/lab_22_危险有毒物质.png",
-      "label": "危险有毒物质",
-      "kind": "warning",
-      "tags": [
-        "危化",
-        "有毒",
-        "生物",
-        "中毒"
-      ],
-      "src_name": "0 (43).png"
-    },
-    {
-      "id": "png_23",
-      "file": "signs/lab_23_非工作人员禁止入内.png",
-      "label": "非工作人员禁止入内",
-      "kind": "prohibit",
-      "tags": [
-        "准入",
-        "辐射",
-        "生物",
+        "机械",
         "特种"
       ],
-      "src_name": "0 (49).png"
+      "src_name": "guard"
     },
     {
-      "id": "png_24",
-      "file": "signs/lab_24_仓库重地严禁烟火.png",
-      "label": "仓库重地严禁烟火",
-      "kind": "prohibit",
+      "id": "vent",
+      "file": "signs/vent.png",
+      "label": "必须通风",
+      "kind": "mandatory",
       "tags": [
         "危化",
-        "仓储",
-        "易燃",
-        "消防"
+        "粉尘"
       ],
-      "src_name": "0 (50).png"
+      "src_name": "vent"
+    },
+    {
+      "id": "rule",
+      "file": "signs/rule.png",
+      "label": "必须阅读使用说明书",
+      "kind": "mandatory",
+      "tags": [
+        "用电",
+        "机械",
+        "通用"
+      ],
+      "src_name": "rule"
+    },
+    {
+      "id": "cyl_fix",
+      "file": "signs/cyl_fix.png",
+      "label": "必须固定气瓶",
+      "kind": "mandatory",
+      "tags": [
+        "气瓶",
+        "特种"
+      ],
+      "src_name": "cyl_fix"
+    },
+    {
+      "id": "insul",
+      "file": "signs/insul.png",
+      "label": "必须穿防护服",
+      "kind": "mandatory",
+      "tags": [
+        "用电",
+        "危化",
+        "高压"
+      ],
+      "src_name": "insul"
+    },
+    {
+      "id": "gloves",
+      "file": "signs/gloves.png",
+      "label": "必须戴防护手套",
+      "kind": "mandatory",
+      "tags": [
+        "危化",
+        "生物",
+        "加热"
+      ],
+      "src_name": "gloves"
+    },
+    {
+      "id": "shoe",
+      "file": "signs/shoe.png",
+      "label": "必须穿防护鞋",
+      "kind": "mandatory",
+      "tags": [
+        "生物",
+        "危化",
+        "机械"
+      ],
+      "src_name": "shoe"
+    },
+    {
+      "id": "wash",
+      "file": "signs/wash.png",
+      "label": "必须洗手",
+      "kind": "mandatory",
+      "tags": [
+        "生物",
+        "危化"
+      ],
+      "src_name": "wash"
     }
   ],
   "firePoints": [

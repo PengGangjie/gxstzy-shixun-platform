@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>实训管理科业务 · 广西生态工程职业技术学院-教务处-实训科管理平台</title>
+<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
 <style>
 :root {
   --primary:#008742;--primary-dark:#006B35;--primary-light:#008842;
@@ -20,6 +23,10 @@ a{color:var(--primary);text-decoration:none} a:hover{color:var(--primary-light)}
 .link-top ul.credit{flex:0 0 auto;margin-left:auto;flex-wrap:nowrap;white-space:nowrap}
 .link-top li{padding:0 14px;line-height:48px;color:#2d2d2d}
 .link-top ul.credit li{padding:0 10px;font-size:13px;color:#666}
+.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0;margin-right:4px}
+.product-brand:hover{color:var(--primary)}
+.product-mark{width:28px;height:28px;display:block;border:none;background:transparent}
+.product-name{font-size:14px;font-weight:600;white-space:nowrap}
 .site-logo{padding:42px 0 36px;background:var(--primary) url("assets/logo_bg.png") no-repeat top center/cover}
 .site-logo .web{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
 .site-logo a.logo img{max-width:864px;width:100%;height:auto;display:block}
@@ -113,7 +120,8 @@ body.ledger-boards-on .list-con > .web{max-width:1480px}
 .wl-task-note{margin-top:8px;padding:8px 10px;background:#fff;border-radius:4px;font-size:13px;color:var(--muted);border-left:2px solid #ddd}
 .wl-footnote{margin-top:16px;padding:12px 14px;background:#fffbe6;border:1px solid #f0e6a6;border-radius:6px;font-size:13px;color:#666}
 .liaison-section{margin-top:28px;padding-top:20px;border-top:2px solid var(--bg-light)}
-.liaison-section h3{font-size:18px;color:var(--primary);font-weight:normal;margin-bottom:12px}
+.liaison-section h3{font-size:18px;color:var(--primary);font-weight:normal;margin-bottom:8px}
+.liaison-staff-note{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.55}
 .liaison-staff-table td.phone{white-space:nowrap;font-family:Consolas,monospace;font-size:13px}
 .liaison-staff-table .staff-name{color:var(--primary)}
 .liaison-view-switch{display:flex;gap:8px;margin-bottom:12px}
@@ -302,15 +310,14 @@ body.cockpit-standalone .cockpit-dynamic-wrap{margin-top:0;padding-top:0;border-
 body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
 @media(max-width:1100px){.home-staff-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.cockpit-body{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.layout{flex-direction:column}.list-left{width:100%}.site-logo .searchbox{width:100%}.site-logo .searchbox .search-inner{width:100%}.home-bottom{grid-template-columns:1fr}.home-staff-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.portal-btns a{width:96px}.cockpit-body{grid-template-columns:1fr}.cockpit-kpi{grid-template-columns:1fr}.link-top .web{flex-wrap:wrap}.link-top ul.credit{width:100%;justify-content:flex-end}}
+@media(max-width:720px){html,body{overflow-x:hidden}body{padding-bottom:env(safe-area-inset-bottom,0px)}.link-top ul.credit{display:none}.product-name{display:none}.link-top li{padding:0 8px;line-height:40px;font-size:13px}.site-logo{padding:20px 0 16px}.site-logo a.logo img{max-width:100%;height:auto}.navbar{top:env(safe-area-inset-top,0px)}.navbar ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}.navbar li a{height:48px;line-height:48px;padding:0 12px;font-size:14px}.list-right{padding:16px 14px 24px}.college-block table,.shixun-ke-table,.liaison-staff-table{font-size:13px}input,select,textarea,button{font-size:16px}}
 </style>
 
 <link rel="stylesheet" href="/assets/mobile-space.css">
-<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 <div class="link-top"><div class="web">
-  <a class="product-brand" href="/"><img class="product-mark" src="/brand/app-logo-mark.svg" width="28" height="28" alt=""><span class="product-name">实验室管理平台</span></a>
+  <a class="product-brand" href="广西生态工程职业技术学院-教务处-实训科管理平台.html"><img class="product-mark" src="/brand/app-logo-mark.svg" width="28" height="28" alt=""><span class="product-name">实验室管理平台</span></a>
   <ul class="nav-links"><li><a href="https://www.gxstzy.cn/index.htm" target="_blank" rel="noopener">学校首页</a></li>
   <li><a href="http://www.gxstzy.cn/jwc" target="_blank" rel="noopener">教务处</a></li>
   <li><a href="https://jwgl.gxstzy.cn/admin/?loginType=1&loginImage1=&loginImage2=&loginImage4=c1d823ab0c0f47e7a8243ee2730e3b03&sfkqcas=https%3A%2F%2Fcas.gxstzy.cn%2FlyuapServer%2Flogout%3Fservice%3Dhttps%3A%2F%2Fjwgl.gxstzy.cn%2Fadmin%2Fcaslogin" target="_blank" rel="noopener">教务系统</a></li>
@@ -502,6 +509,7 @@ body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
         <div class="shixun-ke-biz-filter" id="liaison-biz"></div>
         <div id="liaison-liaison-block"><div class="shixun-ke-table-wrap"><table class="shixun-ke-table"><thead id="liaison-thead"></thead><tbody id="liaison-tbody"></tbody></table></div></div>
         <div class="liaison-section" id="liaison-staff-block"><h3>${esc(tab.lab_staff_title||'二级学院实验员（实验室管理员）')}</h3>
+          ${tab.lab_staff_note?`<p class="liaison-staff-note">${esc(tab.lab_staff_note)}</p>`:''}
           <div class="shixun-ke-table-wrap"><table class="shixun-ke-table liaison-staff-table"><thead><tr><th style="width:22%">二级学院</th><th style="width:12%">实验员</th><th style="width:16%">联系方式</th><th>备注（职责）</th></tr></thead><tbody id="liaison-staff-body"></tbody></table></div></div>`;
       let activeBiz='all', activeView='both';
       const qEl=document.getElementById('liaison-q');const bizEl=document.getElementById('liaison-biz');
