@@ -260,22 +260,59 @@
 
   try { prunePhotoDataUrls(); } catch (_) {}
 
-  function compressImage(file, maxSide, quality){
+  const PHOTO_MAX_SIDE = 960;
+  const PHOTO_MAX_CHARS = 140000;
+  const PHOTO_START_QUALITY = 0.68;
+
+  function jpegKb(dataUrl){
+    return Math.max(1, Math.round((String(dataUrl||'').length * 3 / 4) / 1024));
+  }
+
+  function compressImage(file){
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        let w = img.width, h = img.height;
-        const scale = Math.min(1, maxSide / Math.max(w, h));
-        w = Math.round(w * scale); h = Math.round(h * scale);
+      const finish = (srcW, srcH, paint) => {
+        let maxSide = PHOTO_MAX_SIDE;
+        let quality = PHOTO_START_QUALITY;
+        let url = '';
+        for (let i = 0; i < 8; i++) {
+          const scale = Math.min(1, maxSide / Math.max(srcW, srcH, 1));
+          const w = Math.max(1, Math.round(srcW * scale));
+          const h = Math.max(1, Math.round(srcH * scale));
+          url = paint(w, h, quality);
+          if (url.length <= PHOTO_MAX_CHARS) break;
+          if (quality > 0.46) quality = Math.max(0.42, quality - 0.08);
+          else maxSide = Math.max(480, Math.round(maxSide * 0.82));
+        }
+        resolve(url);
+      };
+      const drawOn = (source, sw, sh) => (w, h, q) => {
         const canvas = document.createElement('canvas');
         canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        URL.revokeObjectURL(url);
-        resolve(canvas.toDataURL('image/jpeg', quality));
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(source, 0, 0, w, h);
+        return canvas.toDataURL('image/jpeg', q);
       };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('读图失败')); };
-      img.src = url;
+      if (typeof createImageBitmap === 'function') {
+        const opts = { imageOrientation: 'from-image' };
+        createImageBitmap(file, opts).then(bmp => {
+          finish(bmp.width, bmp.height, drawOn(bmp, bmp.width, bmp.height));
+          if (bmp.close) bmp.close();
+        }).catch(() => loadViaImg());
+        return;
+      }
+      function loadViaImg(){
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          finish(img.width, img.height, drawOn(img, img.width, img.height));
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('读图失败')); };
+        img.src = url;
+      }
+      loadViaImg();
     });
   }
 
@@ -367,11 +404,11 @@
               <input id="photo-input" type="file" accept="image/*" capture="environment" hidden>
             </label>
             <input id="photo-caption" type="text" placeholder="照片说明（可选）">
-            <span class="hint" id="photo-status"></span>
+            <span class="hint" id="photo-status">拍照后自动压缩到约 100KB</span>
           </div>`
         : '';
       if(!list.length){
-        return up + '<div class="photo-carousel empty"><p class="hint">暂无教室照片，可用手机拍照上传展示环境。</p></div>';
+        return up + '<div class="photo-carousel empty"><p class="hint">暂无教室照片。手机拍照后会自动压缩再上传，不占多少云端空间。</p></div>';
       }
       const slides = list.map((p, i) => `
         <figure class="carousel-slide${i===0?' active':''}">
@@ -677,8 +714,8 @@
       const caption = (el.querySelector('#photo-caption')||{}).value || '';
       if(status) status.textContent = '压缩中…';
       try{
-        const data_url = await compressImage(file, 1280, 0.72);
-        if(status) status.textContent = '上传中…';
+        const data_url = await compressImage(file);
+        if(status) status.textContent = '已压缩 ' + jpegKb(data_url) + ' KB，上传中…';
         const res = await fetch('/api/rooms/' + encodeURIComponent(r.id) + '/photos', {
           method:'POST', credentials:'same-origin',
           headers:{'Content-Type':'application/json'},
@@ -691,7 +728,7 @@
         const data = await res.json();
         state.photos = [data.photo].concat(state.photos || []);
         saveLocalState(r.id, state);
-        if(status) status.textContent = '已上传';
+        if(status) status.textContent = '已上传（' + jpegKb((data.photo||{}).data_url || data_url) + ' KB）';
         paintHead();
         paint('info', true);
       }catch(err){

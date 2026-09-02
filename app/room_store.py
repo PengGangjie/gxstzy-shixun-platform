@@ -2,19 +2,105 @@
 """分室可编辑数据：覆盖字段、教室照片、仪器台账（Turso）。"""
 from __future__ import annotations
 
+import base64
+import io
 import json
 from datetime import datetime, timezone
 from typing import Any
 
 from .db import turso_client
 
-MAX_PHOTO_CHARS = 700_000  # 压缩后 data URL 上限约 700KB
+MAX_PHOTO_CHARS = 160_000  # 压缩后 data URL 上限约 120KB JPEG
 MAX_PHOTOS_PER_ROOM = 12
 MAX_EQUIP_ROWS = 500
+PHOTO_MAX_SIDE = 960
+PHOTO_TARGET_BYTES = 90_000
 
 
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def optimize_photo_data_url(url: str) -> str:
+    """纠正方向、缩边、JPEG 复压，避免教室照片撑满 Turso。"""
+    raw_url = (url or "").strip()
+    if not raw_url.startswith("data:image/"):
+        raise ValueError("仅支持图片 data URL")
+    _, _, b64 = raw_url.partition(",")
+    if not b64:
+        raise ValueError("图片数据不完整")
+    try:
+        blob = base64.b64decode(b64, validate=False)
+    except Exception as exc:  # noqa: BLE001
+        raise ValueError("图片无法解码") from exc
+    try:
+        from PIL import Image, ImageOps
+    except ImportError as exc:
+        if len(raw_url) > MAX_PHOTO_CHARS:
+            raise ValueError("图片过大，请压缩后再传") from exc
+        return raw_url
+    try:
+        img = Image.open(io.BytesIO(blob))
+        img = ImageOps.exif_transpose(img)
+    except Exception as exc:  # noqa: BLE001
+        raise ValueError("不是有效图片") from exc
+    if img.mode in {"RGBA", "LA", "P"}:
+        rgba = img.convert("RGBA")
+        bg = Image.new("RGB", rgba.size, (255, 255, 255))
+        bg.paste(rgba, mask=rgba.split()[-1])
+        img = bg
+    elif img.mode != "RGB":
+        img = img.convert("RGB")
+
+    def encode(im: Image.Image, quality: int) -> bytes:
+        buf = io.BytesIO()
+        im.save(buf, format="JPEG", quality=quality, optimize=True, progressive=True)
+        return buf.getvalue()
+
+    w, h = img.size
+    side = max(w, h)
+    if side > PHOTO_MAX_SIDE:
+        scale = PHOTO_MAX_SIDE / side
+        img = img.resize(
+            (max(1, round(w * scale)), max(1, round(h * scale))),
+            Image.Resampling.LANCZOS,
+        )
+
+    quality = 72
+    jpeg = encode(img, quality)
+    while len(jpeg) > PHOTO_TARGET_BYTES and (quality > 42 or max(img.size) > 480):
+        if quality > 42:
+            quality -= 8
+        else:
+            nw, nh = img.size
+            img = img.resize(
+                (max(1, round(nw * 0.82)), max(1, round(nh * 0.82))),
+                Image.Resampling.LANCZOS,
+            )
+        jpeg = encode(img, quality)
+
+    out = "data:image/jpeg;base64," + base64.b64encode(jpeg).decode("ascii")
+    if len(out) > MAX_PHOTO_CHARS:
+        raise ValueError("图片过大，请换一张稍远一点拍的照片")
+    return out
+
+
+def recompress_existing_photos() -> dict[str, int]:
+    with turso_client() as client:
+        ensure_room_tables(client)
+        rows = client.execute("SELECT id, data_url FROM room_photos").rows
+        updated = 0
+        saved = 0
+        for pid, url in rows:
+            new = optimize_photo_data_url(url or "")
+            if len(new) < len(url or ""):
+                saved += len(url or "") - len(new)
+                client.execute(
+                    "UPDATE room_photos SET data_url = ? WHERE id = ?",
+                    [new, int(pid)],
+                )
+                updated += 1
+        return {"total": len(rows), "updated": updated, "saved_chars": saved}
 
 
 def ensure_room_tables(client) -> None:
@@ -167,11 +253,7 @@ def add_photo(
     by: str | None,
 ) -> dict[str, Any]:
     rid = (room_id or "").strip()
-    url = (data_url or "").strip()
-    if not url.startswith("data:image/"):
-        raise ValueError("仅支持图片 data URL")
-    if len(url) > MAX_PHOTO_CHARS:
-        raise ValueError("图片过大，请压缩后再传（建议手机拍照后自动压缩）")
+    url = optimize_photo_data_url(data_url)
     with turso_client() as client:
         ensure_room_tables(client)
         n = client.execute(
