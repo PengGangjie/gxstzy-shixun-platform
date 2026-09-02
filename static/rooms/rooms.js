@@ -398,7 +398,7 @@
       if(!boardCode){
         return '<p class="hint">本室尚未对齐实训编号，无法展示安全信息电子牌。请先在对齐表核对照。</p>';
       }
-      const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}`;
+      const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}&v=20260902b`;
       return `<div class="board-preview">
         <h3>安全信息电子牌</h3>
         <div class="board-viewport" id="board-viewport" title="点击放大查看">
@@ -452,6 +452,7 @@
       const printBtn = el.querySelector('#btn-board-print');
       const showShot = (url, w, h) => {
         if(!url || !img) return;
+        el._boardReady = true;
         img.src = url;
         img.classList.remove('hidden');
         if(loading) loading.classList.add('hidden');
@@ -460,7 +461,17 @@
         const meta = el.querySelector('#board-shot-meta');
         if(meta && w && h) meta.textContent = `高清成图 ${w}×${h}，与「安全信息」导出 JPG 同源`;
       };
+      const showBoardFail = (msg) => {
+        if(el._boardReady) return;
+        el._boardReady = true;
+        if(loading){
+          loading.classList.remove('hidden');
+          loading.innerHTML = `${esc(msg||'信息牌成图失败')} <a href="../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}" target="_blank" rel="noopener">打开可编辑信息牌</a>`;
+        }
+      };
       el._boardShowShot = showShot;
+      el._boardShowFail = showBoardFail;
+      window.setTimeout(() => showBoardFail('信息牌成图超时。'), 22000);
       if(viewport) viewport.onclick = () => { if(img && img.src) openBoardLightbox(img.src); };
       if(dl) dl.onclick = e => {
         e.stopPropagation();
@@ -552,7 +563,7 @@
       info: () => infoView(),
       safety: () => {
         if(!boardCode) return '<p class="hint">本教室尚未对齐实训安全台账。</p>';
-        const src = `../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}`;
+        const src = `../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}&v=20260902b`;
         return `<p class="hint">在此编辑信息牌字段（等级、类别、负责人、事故诱因、防护措施、灭火要点等）。保存后「基础信息」页将显示最新成图。</p>
           <iframe class="board-edit-frame" title="安全信息牌编辑" src="${esc(src)}" loading="lazy"></iframe>`;
       },
@@ -867,6 +878,10 @@
     if(data && data.type === 'lab-board-image'){
       const panel = document.querySelector('[data-panel="info"]');
       if(panel && panel._boardShowShot) panel._boardShowShot(data.url, data.w, data.h);
+    }
+    if(data && data.type === 'lab-board-image-error'){
+      const panel = document.querySelector('[data-panel="info"]');
+      if(panel && panel._boardShowFail) panel._boardShowFail(data.message || '信息牌成图失败');
     }
   });
 })();
