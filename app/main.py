@@ -25,6 +25,16 @@ from .roles import (
 )
 from . import room_store
 
+
+def _db_fail(prefix: str, exc: Exception) -> JSONResponse:
+    raw = str(exc)
+    if "quota" in raw.lower():
+        return JSONResponse(
+            {"detail": f"{prefix}云端数据库配额已满，请先删除部分教室照片后再试"},
+            status_code=507,
+        )
+    return JSONResponse({"detail": f"{prefix}{raw}"}, status_code=500)
+
 PUBLIC_PREFIXES = (
     "/health",
     "/sign-in",
@@ -417,7 +427,7 @@ async def room_state(room_id: str, request: Request):
     try:
         return room_store.get_room_state(room_id)
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"读取失败：{exc}"}, status_code=500)
+        return _db_fail("读取失败：", exc)
 
 
 @app.put("/api/rooms/{room_id}/overrides")
@@ -429,7 +439,7 @@ async def room_save_overrides(room_id: str, body: RoomOverridesBody, request: Re
     try:
         return room_store.save_overrides(room_id, body.overrides, _actor_label(user))
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"保存失败：{exc}"}, status_code=500)
+        return _db_fail("保存失败：", exc)
 
 
 @app.post("/api/rooms/{room_id}/photos")
@@ -446,7 +456,7 @@ async def room_add_photo(room_id: str, body: RoomPhotoBody, request: Request):
     except ValueError as exc:
         return JSONResponse({"detail": str(exc)}, status_code=400)
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"上传失败：{exc}"}, status_code=500)
+        return _db_fail("上传失败：", exc)
 
 
 @app.delete("/api/rooms/{room_id}/photos/{photo_id}")
@@ -459,7 +469,7 @@ async def room_del_photo(room_id: str, photo_id: int, request: Request):
         room_store.delete_photo(room_id, photo_id)
         return {"ok": True}
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"删除失败：{exc}"}, status_code=500)
+        return _db_fail("删除失败：", exc)
 
 
 @app.post("/api/rooms/{room_id}/equipment")
@@ -474,7 +484,7 @@ async def room_set_equipment(room_id: str, body: RoomEquipImportBody, request: R
     except ValueError as exc:
         return JSONResponse({"detail": str(exc)}, status_code=400)
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"保存失败：{exc}"}, status_code=500)
+        return _db_fail("保存失败：", exc)
 
 
 @app.post("/api/rooms/{room_id}/equipment/import")
@@ -491,7 +501,7 @@ async def room_import_equipment(room_id: str, request: Request, file: UploadFile
     except ValueError as exc:
         return JSONResponse({"detail": str(exc)}, status_code=400)
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse({"detail": f"导入失败：{exc}"}, status_code=500)
+        return _db_fail("导入失败：", exc)
 
 
 @app.get("/admin")

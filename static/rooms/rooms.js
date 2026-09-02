@@ -186,13 +186,79 @@
     }
   }
 
-  function saveLocalState(roomId, state){
-    localStorage.setItem(lsKey('state', roomId), JSON.stringify({
-      overrides: state.overrides || {},
-      photos: state.photos || [],
-      equipment: state.equipment || []
+  function isQuotaError(err){
+    const name = (err && err.name) || '';
+    const msg = String((err && err.message) || err || '');
+    return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || /quota/i.test(msg);
+  }
+
+  function explainErr(err){
+    const msg = String((err && err.message) || err || '');
+    if (isQuotaError(err) || /quota/i.test(msg)) {
+      return '存储配额已满。照片以云端为准：请刷新本页查看是否已上传；若仍没有，请先删除本室或其他教室的旧照片后再试。也可在浏览器设置中清除本站数据。';
+    }
+    return msg;
+  }
+
+  function photosMeta(photos){
+    return (photos || []).map(p => ({
+      id: p.id,
+      caption: p.caption || '',
+      uploaded_by: p.uploaded_by || null,
+      created_at: p.created_at || ''
     }));
   }
+
+  function prunePhotoDataUrls(){
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.indexOf('gxstzy-room-state-') === 0) keys.push(k);
+    }
+    keys.forEach(k => {
+      try {
+        const raw = JSON.parse(localStorage.getItem(k) || 'null');
+        if (!raw || !Array.isArray(raw.photos) || !raw.photos.length) return;
+        if (!raw.photos.some(p => p && p.data_url)) return;
+        raw.photos = photosMeta(raw.photos);
+        localStorage.setItem(k, JSON.stringify(raw));
+      } catch (err) {
+        if (isQuotaError(err)) {
+          try { localStorage.removeItem(k); } catch (_) {}
+        }
+      }
+    });
+  }
+
+  function saveLocalState(roomId, state){
+    const payload = JSON.stringify({
+      overrides: state.overrides || {},
+      photos: photosMeta(state.photos),
+      equipment: state.equipment || []
+    });
+    try {
+      localStorage.setItem(lsKey('state', roomId), payload);
+      return;
+    } catch (err) {
+      if (!isQuotaError(err)) return;
+    }
+    try { prunePhotoDataUrls(); } catch (_) {}
+    try {
+      localStorage.setItem(lsKey('state', roomId), payload);
+      return;
+    } catch (_) {}
+    try {
+      const drop = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.indexOf('gxstzy-room-') === 0 && k !== lsKey('state', roomId)) drop.push(k);
+      }
+      drop.forEach(k => localStorage.removeItem(k));
+      localStorage.setItem(lsKey('state', roomId), payload);
+    } catch (_) { /* 云端已写入即可，本机缓存可丢 */ }
+  }
+
+  try { prunePhotoDataUrls(); } catch (_) {}
 
   function compressImage(file, maxSide, quality){
     return new Promise((resolve, reject) => {
@@ -618,8 +684,9 @@
         paintHead();
         paint('info', true);
       }catch(err){
-        if(status) status.textContent = String(err.message || err);
-        alert(String(err.message || err));
+        const tip = explainErr(err);
+        if(status) status.textContent = tip;
+        alert(tip);
       }finally{
         input.value = '';
       }
@@ -636,7 +703,7 @@
           throw new Error(err.detail || '删除失败');
         }
       }catch(err){
-        alert(String(err.message || err));
+        alert(explainErr(err));
         return;
       }
       state.photos = (state.photos || []).filter(p => String(p.id) !== String(pid));
@@ -667,8 +734,9 @@
         paintHead();
         paint('equip', true);
       }catch(err){
-        if(status) status.textContent = String(err.message || err);
-        alert(String(err.message || err));
+        const tip = explainErr(err);
+        if(status) status.textContent = tip;
+        alert(tip);
       }finally{
         input.value = '';
       }
