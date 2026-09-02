@@ -68,6 +68,7 @@ STATIC_ASSET_SUFFIXES = (
     ".woff",
     ".woff2",
     ".map",
+    ".pdf",
 )
 
 settings = get_settings()
