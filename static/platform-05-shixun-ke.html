@@ -153,6 +153,8 @@ table th{background:var(--bg-light);font-weight:normal}
 .future-lab-mini-nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
 .future-lab-mini-nav a{padding:4px 12px;border:1px solid #b8e6c8;border-radius:16px;font-size:13px;background:#fff}
 .portal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+.ke-tools-title{font-size:18px;color:var(--primary);font-weight:normal;margin:22px 0 0;padding-top:16px;border-top:2px solid var(--bg-light)}
+.portal-cards a .ext{display:inline-block;margin-left:6px;font-size:12px;color:var(--muted)}
 .portal-cards a{display:block;padding:20px;background:#fff;border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--primary)}
 .portal-cards a:hover{background:var(--bg-light)}
 .portal-cards strong{display:block;font-size:17px;color:var(--primary);margin-bottom:6px;font-weight:normal}
@@ -346,10 +348,15 @@ body.cockpit-standalone .home-cockpit{box-shadow:0 2px 16px rgba(0,135,66,.08)}
 <div class="list-con"><div class="web">
   <div class="breadcrumb"><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">平台首页</a><span>/</span>实训管理科业务</div>
   <div class="layout">
-    <aside class="list-left"><div class="side-title">平台导航</div><ul><li class="side-group-title">平台模块</li><li><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">首页</a></li><li><a href="platform-01-regulations.html">制度汇总</a></li><li><a href="platform-02-inspection.html">迎检文件</a></li><li><a href="platform-03-yishi.html">一室一表</a></li><li><a href="platform-08-rooms.html">教室分室</a></li><li><a href="platform-04-ledger.html">日常管理台账检索</a></li><li><a href="platform-05-shixun-ke.html" class="active">实训管理科业务</a></li><li><a href="platform-06-xnfz.html">虚拟仿真实训室</a></li><li><a href="platform-07-future-lab.html">未来实训室模块</a></li><li class="side-group-title">KDocs 工作表</li><li><a href="#tab-college_liaison">业务对接学院</a></li><li><a href="#tab-liaison_staff">实验员/管理员</a></li><li><a href="#tab-work_list">具体工作清单</a></li><li><a href="#tab-online_forms">在线表格信息汇总</a></li><li><a href="#tab-work_log">工作记录</a></li><li><a href="#tab-accounts">相关账号</a></li><li><a href="#tab-office_stats">办公场所统计</a></li></ul></aside>
+    <aside class="list-left"><div class="side-title">平台导航</div><ul><li class="side-group-title">平台模块</li><li><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">首页</a></li><li><a href="platform-01-regulations.html">制度汇总</a></li><li><a href="platform-02-inspection.html">迎检文件</a></li><li><a href="platform-03-yishi.html">一室一表</a></li><li><a href="platform-08-rooms.html">教室分室</a></li><li><a href="platform-04-ledger.html">日常管理台账检索</a></li><li><a href="platform-05-shixun-ke.html" class="active">实训管理科业务</a></li><li><a href="platform-06-xnfz.html">虚拟仿真实训室</a></li><li><a href="platform-07-future-lab.html">未来实训室模块</a></li><li class="side-group-title">科内工具</li><li><a href="http://127.0.0.1:8000/hub" target="_blank" rel="noopener">获奖情况导航仓 ↗</a></li><li><a href="platform-05b-award-verify.html">竞赛核查智能体</a></li><li class="side-group-title">KDocs 工作表</li><li><a href="#tab-college_liaison">业务对接学院</a></li><li><a href="#tab-liaison_staff">实验员/管理员</a></li><li><a href="#tab-work_list">具体工作清单</a></li><li><a href="#tab-online_forms">在线表格信息汇总</a></li><li><a href="#tab-work_log">工作记录</a></li><li><a href="#tab-accounts">相关账号</a></li><li><a href="#tab-office_stats">办公场所统计</a></li></ul></aside>
     <main class="list-right">
 <h2 class="section-title">5 · 实训管理科业务</h2>
 <p>数据来源：<a href="https://www.kdocs.cn/l/chrXS9aemNK0" target="_blank" rel="noopener">实训管理科任务列表2026P（金山文档）</a>。默认展示<strong>业务对接学院</strong>查询。</p>
+<h3 class="ke-tools-title">科内工具</h3>
+<nav class="portal-cards" aria-label="科内工具入口">
+  <a href="http://127.0.0.1:8000/hub" target="_blank" rel="noopener"><strong>获奖情况导航仓<span class="ext">↗ 本机服务</span></strong><span>学生技能竞赛获奖驾驶舱：按学院 / 年份 / 级别 / 关键词检索，获奖排行与 11 学院腾讯在线表格直达，每周一 07:30 自动同步。</span></a>
+  <a href="platform-05b-award-verify.html"><strong>竞赛核查智能体</strong><span>获奖统计表自动核查：依据校政字〔2025〕62 / 63 / 64 号办法判定竞赛类别与级别，支持奖状照片 OCR 逐条比对。</span></a>
+</nav>
 <nav class="shixun-ke-tabs" id="shixun-ke-tabs"><button type="button" class="active" data-tab="college_liaison">业务对接学院</button><button type="button" class="" data-tab="work_list">具体工作清单</button><button type="button" class="" data-tab="online_forms">在线表格信息汇总</button><button type="button" class="" data-tab="work_log">工作记录</button><button type="button" class="" data-tab="accounts">相关账号</button><button type="button" class="" data-tab="office_stats">办公场所统计</button></nav>
 <div class="shixun-ke-panel active" id="tab-college_liaison" data-panel="college_liaison"></div><div class="shixun-ke-panel" id="tab-work_list" data-panel="work_list"></div><div class="shixun-ke-panel" id="tab-online_forms" data-panel="online_forms"></div><div class="shixun-ke-panel" id="tab-work_log" data-panel="work_log"></div><div class="shixun-ke-panel" id="tab-accounts" data-panel="accounts"></div><div class="shixun-ke-panel" id="tab-office_stats" data-panel="office_stats"></div>
 <div class="shixun-ke-kdocs">

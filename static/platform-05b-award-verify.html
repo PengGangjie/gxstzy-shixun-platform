@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>竞赛核查智能体 · 广西生态工程职业技术学院-教务处-实训科管理平台</title>
+<link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+<style>
+:root {
+  --primary:#008742;--primary-dark:#006B35;--primary-light:#008842;
+  --teal:#218483;--bg-page:#f4f4f4;--bg-light:#f1fff3;--text:#323232;--muted:#666;--border:#e5e5e5;--web-w:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:16px;color:var(--text);line-height:1.75;background:var(--bg-page)}
+a{color:var(--primary);text-decoration:none} a:hover{color:var(--primary-light)}
+.web{max-width:var(--web-w);margin:0 auto;padding:0 15px}
+.link-top{background:#fff;border-bottom:1px solid #eee;font-size:14px}
+.link-top .web{display:flex;justify-content:space-between;flex-wrap:nowrap;min-height:48px;align-items:center;gap:12px}
+.link-top ul{list-style:none;display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0}
+.link-top ul.nav-links{flex:1 1 auto;min-width:0}
+.link-top ul.credit{flex:0 0 auto;margin-left:auto;flex-wrap:nowrap;white-space:nowrap}
+.link-top li{padding:0 14px;line-height:48px;color:#2d2d2d}
+.link-top ul.credit li{padding:0 10px;font-size:13px;color:#666}
+.product-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#191919;flex-shrink:0;margin-right:4px}
+.product-brand:hover{color:var(--primary)}
+.product-mark{width:28px;height:28px;display:block;border:none;background:transparent}
+.product-name{font-size:14px;font-weight:600;white-space:nowrap}
+.site-logo{padding:42px 0 36px;background:var(--primary) url("assets/logo_bg.png") no-repeat top center/cover}
+.site-logo .web{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.site-logo a.logo img{max-width:864px;width:100%;height:auto;display:block}
+.doc-subbar{background:rgba(0,0,0,.12);border-top:1px solid rgba(255,255,255,.15)}
+.doc-subbar .web{display:flex;justify-content:space-between;flex-wrap:wrap;min-height:44px;align-items:center;color:#fff;font-size:14px}
+.navbar{background:#005c2d;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.navbar ul{list-style:none;display:flex;flex-wrap:wrap}
+.navbar li a{display:block;padding:0 14px;height:60px;line-height:60px;color:#fff;font-size:15px;white-space:nowrap}
+.navbar li a:hover,.navbar li a.active{background:#1b8650;color:#fff}
+.list-con{padding:24px 0 40px}
+.breadcrumb{background:#fff;height:56px;line-height:56px;padding:0 20px;margin-bottom:20px;font-size:14px;border-bottom:1px solid var(--border)}
+.breadcrumb span{margin:0 8px;color:var(--muted)}
+.layout{display:flex;gap:20px;align-items:flex-start}
+.list-left{width:220px;flex-shrink:0;background:#fff;border:1px solid var(--border)}
+.list-left .side-title{background:var(--primary);color:#fff;text-align:center;line-height:48px;font-size:17px}
+.list-left ul{list-style:none}
+.list-left li a{display:block;padding:12px 16px;font-size:14px;color:var(--text);border-bottom:1px dashed #eee;border-left:3px solid transparent}
+.list-left li a:hover,.list-left li a.active{color:var(--primary-light);background:var(--bg-light);border-left-color:var(--primary-light)}
+.list-left li.side-group-title{padding:10px 16px 6px;font-size:12px;color:var(--muted);background:#fafafa;border-bottom:1px solid #eee}
+.list-right{flex:1;min-width:0;background:#fff;border:1px solid var(--border);padding:24px 28px 32px}
+.section-title{font-size:22px;color:var(--primary);font-weight:normal;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--bg-light)}
+.list-right p.lead{margin-bottom:14px}
+.portal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+.portal-cards a{display:block;padding:20px;background:#fff;border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--primary)}
+.portal-cards a:hover{background:var(--bg-light)}
+.portal-cards strong{display:block;font-size:17px;color:var(--primary);margin-bottom:6px;font-weight:normal}
+.portal-cards span{font-size:13px;color:var(--muted)}
+.portal-cards em{display:block;font-style:normal;font-size:12px;color:var(--teal);margin-top:6px}
+.h3{font-size:18px;color:var(--primary);font-weight:normal;margin:26px 0 10px;padding-top:16px;border-top:2px solid var(--bg-light)}
+.flow-list{list-style:none;counter-reset:step;margin:12px 0}
+.flow-list li{position:relative;padding:10px 12px 10px 52px;border:1px solid var(--border);border-radius:6px;background:#fff;margin-bottom:8px}
+.flow-list li::before{counter-increment:step;content:counter(step);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;background:var(--primary);color:#fff;font-size:14px}
+.flow-list b{font-weight:600;color:var(--primary-dark)}
+.flow-list span{font-size:13px;color:var(--muted)}
+pre.code{background:#0e3a22;color:#d7efe0;padding:16px 18px;border-radius:8px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;font-size:13.5px;line-height:1.9;margin:12px 0}
+pre.code .c{color:#8fc7a6}
+.mark-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}
+.mark-row .mk{border:1px solid var(--border);border-radius:6px;padding:12px 14px;background:#fafafa}
+.mark-row .mk b{display:block;font-weight:600}
+.mark-row .mk span{font-size:13px;color:var(--muted)}
+.tool-note{background:var(--bg-light);border:1px solid #c8e6d0;border-radius:6px;padding:12px 16px;font-size:14px;margin:14px 0}
+.tool-note b{color:var(--primary-dark)}
+.tool-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.tool-actions a{display:inline-block;padding:10px 22px;border-radius:6px;font-size:15px}
+.tool-actions a.primary{background:var(--primary);color:#fff}
+.tool-actions a.primary:hover{background:var(--primary-dark);color:#fff}
+.tool-actions a.plain{border:1px solid var(--primary);color:var(--primary)}
+.foot{background:var(--teal);color:#fff;padding:28px 0;font-size:14px;line-height:1.9}
+.foot .web{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.foot img{max-height:50px;opacity:.95;display:block}
+.foot p{margin:0;color:#fff;opacity:.95}
+.bq{background:#1a1a1a;color:#999;font-size:13px;padding:14px 0}
+.bq .web{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.bq p{margin:0;color:#999}
+@media(max-width:900px){.layout{flex-direction:column}.list-left{width:100%}.link-top .web{flex-wrap:wrap}.link-top ul.credit{width:100%;justify-content:flex-end}}
+@media(max-width:720px){.link-top ul.credit{display:none}.product-name{display:none}.link-top li{padding:0 8px;line-height:40px;font-size:13px}.site-logo{padding:20px 0 16px}.site-logo a.logo img{max-width:100%;height:auto}.navbar ul{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}.navbar li a{height:48px;line-height:48px;padding:0 12px;font-size:14px}.list-right{padding:16px 14px 24px}}
+</style>
+
+<link rel="stylesheet" href="/assets/mobile-space.css">
+</head>
+<body>
+<div class="link-top"><div class="web">
+  <a class="product-brand" href="广西生态工程职业技术学院-教务处-实训科管理平台.html"><img class="product-mark" src="/brand/app-logo-mark.svg" width="28" height="28" alt=""><span class="product-name">实验室管理平台</span></a>
+  <ul class="nav-links"><li><a href="https://www.gxstzy.cn/index.htm" target="_blank" rel="noopener">学校首页</a></li>
+  <li><a href="http://www.gxstzy.cn/jwc" target="_blank" rel="noopener">教务处</a></li>
+  <li><a href="https://jwgl.gxstzy.cn/admin/?loginType=1&loginImage1=&loginImage2=&loginImage4=c1d823ab0c0f47e7a8243ee2730e3b03&sfkqcas=https%3A%2F%2Fcas.gxstzy.cn%2FlyuapServer%2Flogout%3Fservice%3Dhttps%3A%2F%2Fjwgl.gxstzy.cn%2Fadmin%2Fcaslogin" target="_blank" rel="noopener">教务系统</a></li>
+  <li><a href="https://sxxt.gxstzy.cn/lmsmini/default.html" target="_blank" rel="noopener">实训室管理系统</a></li>
+  <li><a href="实训室安全数据驾驶舱.html" target="_blank" rel="noopener">安全数据驾驶舱</a></li>
+  <li><a href="实训室分级分类台账_安全信息牌.html" target="_blank" rel="noopener">分级分类信息牌</a></li>
+  </ul>
+  <ul class="credit" aria-label="页面信息"><li>Builder+Architect：教务处-实训管理科-彭岗杰</li><li>2026年9月</li></ul>
+</div></div>
+<div class="site-logo"><div class="web">
+  <a class="logo" href="广西生态工程职业技术学院-教务处-实训科管理平台.html"><img src="assets/logo.png" alt="广西生态工程职业技术学院"></a>
+</div></div>
+<div class="doc-subbar"><div class="web"><strong>广西生态工程职业技术学院-教务处-实训科管理平台</strong><span>竞赛核查智能体</span></div></div>
+</div>
+<nav class="navbar"><div class="web"><ul class="clearfix"><li><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">首页</a></li><li><a href="platform-01-regulations.html">制度汇总</a></li><li><a href="platform-02-inspection.html">迎检文件</a></li><li><a href="platform-03-yishi.html">一室一表</a></li><li><a href="platform-08-rooms.html">教室分室</a></li><li><a href="platform-04-ledger.html">日常管理台账检索</a></li><li><a href="platform-05-shixun-ke.html" class="active">实训管理科业务</a></li><li><a href="platform-06-xnfz.html">虚拟仿真实训室</a></li><li><a href="platform-07-future-lab.html">未来实训室模块</a></li></ul></div></nav>
+<div class="list-con"><div class="web">
+  <div class="breadcrumb"><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">平台首页</a><span>/</span><a href="platform-05-shixun-ke.html">实训管理科业务</a><span>/</span>竞赛核查智能体</div>
+  <div class="layout">
+    <aside class="list-left"><div class="side-title">平台导航</div><ul><li class="side-group-title">平台模块</li><li><a href="广西生态工程职业技术学院-教务处-实训科管理平台.html">首页</a></li><li><a href="platform-01-regulations.html">制度汇总</a></li><li><a href="platform-02-inspection.html">迎检文件</a></li><li><a href="platform-03-yishi.html">一室一表</a></li><li><a href="platform-08-rooms.html">教室分室</a></li><li><a href="platform-04-ledger.html">日常管理台账检索</a></li><li><a href="platform-05-shixun-ke.html">实训管理科业务</a></li><li><a href="platform-06-xnfz.html">虚拟仿真实训室</a></li><li><a href="platform-07-future-lab.html">未来实训室模块</a></li><li class="side-group-title">科内工具</li><li><a href="http://127.0.0.1:8000/hub" target="_blank" rel="noopener">获奖情况导航仓 ↗</a></li><li><a href="platform-05b-award-verify.html" class="active">竞赛核查智能体</a></li></ul></aside>
+    <main class="list-right">
+<h2 class="section-title">竞赛核查智能体 · 获奖信息核验</h2>
+<p class="lead">帮教务处核对<strong>师生获奖统计表是否按三份红头文件填报准确</strong>，并自动回答老师关于竞赛类别、级别、奖金的询问。规则库判定为主、AI 补判为辅：能命中规则的行不调 AI（不花钱），未命中的行才批量送智谱 GLM 判定，且只发送赛事名称、赛项、主办单位、等次、级别五个字段，<strong>不含学生姓名等个人信息</strong>。</p>
+
+<h3 class="h3">规则知识库（判定依据，唯一口径）</h3>
+<nav class="portal-cards" aria-label="规则知识库">
+  <a href="platform-01-regulations.html"><strong>教师技能竞赛管理办法</strong><span>校政字〔2025〕62 号</span><em>级别体系：A1 / A2 / B1 / B2 / C</em></a>
+  <a href="platform-01-regulations.html"><strong>学生专业技能竞赛管理办法</strong><span>校政字〔2025〕63 号</span><em>级别体系：A1 / A2 / B1 / B2 / B3 / C</em></a>
+  <a href="platform-01-regulations.html"><strong>文化艺术体育类竞赛管理办法</strong><span>校政字〔2025〕64 号</span><em>国家级 A1/A2 · 省部级 B1/B2 · 市厅级及校级</em></a>
+</nav>
+<p class="tool-note">另附<b>教育厅年度竞赛目录</b>（2024 / 2025 / 2026 在册赛事参考）与三份办法<b>全文</b>，供引用原文条款。新年度目录用脚本一键入库。</p>
+
+<h3 class="h3">核查流程（verify_excel）</h3>
+<ol class="flow-list">
+  <li><b>表头自适应</b><br><span>识别赛事名称 / 赛项名称 / 主办单位 / 获奖等次 / 级别等列，常见别名已内置，各学院表格版式不同也能对齐</span></li>
+  <li><b>确定性预检</b><br><span>等次、级别能否识别；年份合理性；空值检查</span></li>
+  <li><b>规则快路径（不调 API）</b><br><span>三份办法的类别划分表做赛事名称精确 / 模糊匹配；主办单位提示；选拔赛降一级（如 A1 → B1）</span></li>
+  <li><b>AI 补判</b><br><span>规则未命中的行批量送智谱 GLM 判定，仅发送五个判定字段，不外泄个人信息</span></li>
+  <li><b>输出</b><br><span>带批注副本 + 核查报告，全部落在 output/ 目录，不改动原文件</span></li>
+</ol>
+
+<h3 class="h3">结果标记</h3>
+<div class="mark-row">
+  <div class="mk"><b>✅ 一致</b><span>填报的类别 / 级别与规则库判定相符</span></div>
+  <div class="mk"><b>❌ 不一致</b><span>附应填级别与条款依据，退回学院修正</span></div>
+  <div class="mk"><b>⚠️ 需人工确认</b><span>附原因（如赛事不在册、主办单位存疑）</span></div>
+</div>
+
+<h3 class="h3">常用命令</h3>
+<pre class="code"><span class="c"># 表格核查（多 sheet 自适应，输出带批注副本 + 报告到 output/）</span>
+python scripts/verify_excel.py "某获奖统计.xlsx"
+python scripts/verify_excel.py "表.xlsx" --no-api        <span class="c"># 不调 AI，纯规则判定</span>
+python scripts/verify_excel.py "表.xlsx" --sheet 林学院 --limit 20
+
+<span class="c"># 奖状照片批量识别 + 与表格逐条比对</span>
+python scripts/ocr_cert.py "奖状图片文件夹"
+python scripts/match_cert.py "表.xlsx" "output/奖状识别_xxx.json"
+
+<span class="c"># 新年度教育厅竞赛目录入库</span>
+python scripts/build_knowledge.py "新目录.pdf" 2027</pre>
+
+<h3 class="h3">怎么用</h3>
+<ul style="padding-left:22px;margin:8px 0">
+  <li><strong>ZCode 技能入口</strong>：在 ZCode 里直接说「核查一下这个表」「XX 竞赛什么级别」即可触发；</li>
+  <li><strong>命令行</strong>：在 <code>竞赛核查智能体/</code> 目录按上方命令执行；</li>
+  <li><strong>AI 补判与奖状识别</strong>：需在本机 <code>.env</code> 配置 <code>ZHIPUAI_API_KEY</code>（密钥本机保管，不提交、不外传）；不配置也能跑，未命中的行会标记「需人工审定」。</li>
+</ul>
+
+<h3 class="h3">与获奖情况导航仓的联动</h3>
+<p class="lead">导航仓（11 学院学生技能竞赛获奖驾驶舱）的获奖级别口径与本规则库<b>同源</b>：智能体的规则文件同步生成导航仓的判定标准，两套系统对「A1 / B1 / 等次归一（金奖→一等奖）」等口径保持一致，核查结论可直接对照导航仓数据复核。</p>
+<div class="tool-actions">
+  <a class="primary" href="http://127.0.0.1:8000/hub" target="_blank" rel="noopener">进入获奖情况导航仓 ↗</a>
+  <a class="plain" href="platform-05-shixun-ke.html">返回实训管理科业务</a>
+</div>
+</main>
+  </div>
+</div></div>
+
+<footer class="foot"><div class="web">
+  <div><img src="assets/foot_logo.png" alt="校徽"></div>
+  <div>
+    <p>广西生态工程职业技术学院 · 教务处</p>
+    <p>校训：树木树人 求实求新</p>
+  </div>
+</div></footer>
+<div class="bq"><div class="web">
+  <p>版权所有 © 广西生态工程职业技术学院</p>
+  <p>2026年9月 · 广西生态工程职业技术学院-教务处-实训科管理平台</p>
+</div></div>
+</body>
+</html>
