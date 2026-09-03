@@ -97,13 +97,14 @@ label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
 .slabel .cn{display:block;letter-spacing:.22em}
 .slabel .en{
   display:block;writing-mode:vertical-rl;text-orientation:mixed;
-  font-weight:600;letter-spacing:.08em;font-size:1.85mm;opacity:.92;margin-top:.2mm
+  font-weight:600;letter-spacing:.06em;font-size:2.3mm;opacity:1;margin-top:.2mm
 }
 .slabel.r{background:#c62828;color:#fff}
 .slabel.y{background:#f9a825;color:#1a1a1a}
 .slabel.b{background:#1565c0;color:#fff}
-.icons{display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;padding:2mm 2.2mm;align-content:center;background:transparent}
+.icons{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:1.6mm;padding:2mm 2.2mm;background:transparent}
 .ico{
+  width:27mm;flex:0 0 auto;
   border:1px solid rgba(0,0,0,.08);border-radius:1.2mm;background:rgba(255,255,255,.88);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:1.2mm .6mm .8mm;min-height:0;overflow:hidden
@@ -159,6 +160,53 @@ label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
 body.embed header{padding:10px 14px}
 body.embed header h1{font-size:1.05rem}
 body.embed .file-hint{display:none!important}
+body.embed-board header,
+body.embed-board .tabs,
+body.embed-board #tab-ledger,
+body.embed-board .layout > .list,
+body.embed-board .actions,
+body.embed-board #statusline{display:none!important}
+body.embed-board .main{padding:0;max-width:none}
+body.embed-board .panel{box-shadow:none;border-radius:0;padding:8px;background:#d8d8d8}
+body.embed-board #tab-board{display:block!important}
+body.embed-board .board-wrap{padding:8px}
+body.embed-board .board.a4-board{transform:scale(.42);transform-origin:top left;margin-bottom:-110mm}
+@media(max-width:720px){
+  body.embed-board .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
+}
+body.embed-preview header,
+body.embed-preview .tabs,
+body.embed-preview #tab-ledger,
+body.embed-preview .edit-panel,
+body.embed-preview .layout > div:first-child,
+body.embed-preview #statusline{display:none!important}
+body.embed-preview .main{padding:0;max-width:none}
+body.embed-preview .panel{box-shadow:none;border-radius:0;padding:0;background:#ececec}
+body.embed-preview #tab-board{display:block!important}
+body.embed-preview .layout{display:block}
+body.embed-preview .board-wrap{padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;background:#ececec}
+body.embed-preview .board-wrap .board.a4-board{display:none}
+body.embed-preview .board-shot-img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#ececec}
+body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd}
+body.embed-preview .preview-bar .btn{min-height:40px}
+body.embed-preview-in-parent .preview-bar{display:none!important}
+body.embed-edit header,
+body.embed-edit .tabs,
+body.embed-edit #tab-ledger,
+body.embed-edit .layout > div:first-child,
+body.embed-edit #statusline{display:none!important}
+body.embed-edit .main{padding:0;max-width:none}
+body.embed-edit .panel{box-shadow:none;border-radius:0;padding:8px}
+body.embed-edit #tab-board{display:block!important}
+body.embed-edit .layout{display:block}
+body.embed-edit .edit-panel{margin-bottom:12px}
+body.embed-edit .board-wrap{padding:8px;background:#ececec;overflow:auto}
+body.embed-edit .board.a4-board{transform:scale(.38);transform-origin:top left;margin-bottom:-115mm}
+body.embed-edit #btnExportOne,
+body.embed-edit #btnExportAllEdits{display:none}
+@media(max-width:720px){
+  body.embed-edit .board.a4-board{transform:scale(.28);margin-bottom:-150mm}
+}
 </style>
 <link rel="stylesheet" href="/assets/mobile-space.css">
 <link rel="icon" href="/brand/app-logo-mark.svg" type="image/svg+xml">
@@ -273,11 +321,14 @@ body.embed .file-hint{display:none!important}
 const STORE_KEY = "gxstzy_lab_board_overrides_v1";
 const PAGE_SIZE = 40;
 const LIST_SIZE = 80;
+const BOARD_EXPORT_MIN_WIDTH = 3840;
+const BOARD_JPEG_QUALITY = 0.95;
 let RAW = null;
 let rooms = [];
 let currentId = null;
 let ICON_META = {};
 let ledgerPage = 0;
+let boardShotCache = null;
 
 function showBootError(err){
   const box=document.getElementById("bootError");
@@ -295,7 +346,7 @@ function loadRawData(){
 }
 function toast(m){const t=document.getElementById("toast"); if(!t) return; t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
 function loadOverrides(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||"{}")}catch(e){return {}}}
-function saveOverrides(o){localStorage.setItem(STORE_KEY, JSON.stringify(o))}
+function saveOverrides(o){try{localStorage.setItem(STORE_KEY, JSON.stringify(o))}catch(e){console.warn("board overrides cache skipped", e)}}
 function applyOverrides(){
   const o=loadOverrides();
   rooms = RAW.rooms.map(r=>{
@@ -322,10 +373,7 @@ function iconFile(id){
   return m?.file || (`icons/${id}.png`);
 }
 function fillIcons(arr){
-  const a=[...(arr||[])];
-  while(a.length<6) a.push(null);
-  return a.slice(0,6).map(s=>{
-    if(!s) return `<div class="ico"><div style="height:16mm"></div><div class="cap" style="color:#ccc">—</div></div>`;
+  return [...(arr||[])].slice(0,6).map(s=>{
     const label=s.label||ICON_META[s.id]?.label||s.id;
     const src=s.file||iconFile(s.id);
     return `<div class="ico" title="${esc(label)}"><img src="${esc(src)}" alt="${esc(label)}"/><div class="cap">${esc(label)}</div></div>`;
@@ -526,6 +574,7 @@ function renderRoomList(){
 }
 function selectRoom(id){
   currentId=id;
+  boardShotCache=null;
   const r=rooms.find(x=>x.id===id); if(!r) return;
   document.getElementById("e_name").value=r.name;
   document.getElementById("e_sys").value=r.sys_code;
@@ -549,6 +598,7 @@ function selectRoom(id){
   renderBoard(r);
   renderRoomList();
   history.replaceState(null,"",`#${encodeURIComponent(id)}`);
+  if(/preview=1/.test(location.search)) publishBoardPreview();
 }
 function readFormInto(r){
   r.name=document.getElementById("e_name").value.trim();
@@ -576,6 +626,117 @@ function switchTab(name){
   const sop=document.getElementById("tab-sop");
   if(sop) sop.style.display=name==="sop"?"":"none";
   if(name==="board" && !currentId && rooms[0]) selectRoom(rooms[0].id);
+}
+function boardFileName(r){
+  return `${(r?.sys_code||r?.name||"安全信息牌").replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+}
+async function captureBoardCanvas(){
+  const el=document.getElementById("board");
+  if(!el) throw new Error("信息牌未渲染");
+  if(typeof html2canvas!=="function") throw new Error("缺少 html2canvas");
+  const stash={
+    display:el.style.display,position:el.style.position,left:el.style.left,top:el.style.top,
+    transform:el.style.transform,visibility:el.style.visibility,margin:el.style.margin,zIndex:el.style.zIndex
+  };
+  el.style.display="grid";
+  el.style.position="fixed";
+  el.style.left="-20000px";
+  el.style.top="0";
+  el.style.transform="none";
+  el.style.visibility="visible";
+  el.style.margin="0";
+  el.style.zIndex="-1";
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  const baseW=el.offsetWidth||Math.round(297*96/25.4);
+  const baseH=el.offsetHeight||Math.round(210*96/25.4);
+  const previewInParent=/preview=1/.test(location.search) && window.parent!==window;
+  const scale=previewInParent
+    ? Math.max(1.25, Math.min(2, 1600/baseW))
+    : Math.max(4, Math.ceil(BOARD_EXPORT_MIN_WIDTH/baseW));
+  try{
+    return await html2canvas(el,{
+      scale,backgroundColor:"#ffffff",useCORS:true,logging:false,
+      width:baseW,height:baseH,windowWidth:baseW,windowHeight:baseH
+    });
+  }finally{
+    el.style.display=stash.display;
+    el.style.position=stash.position;
+    el.style.left=stash.left;
+    el.style.top=stash.top;
+    el.style.transform=stash.transform;
+    el.style.visibility=stash.visibility;
+    el.style.margin=stash.margin;
+    el.style.zIndex=stash.zIndex;
+  }
+}
+async function renderBoardShot(options={}){
+  const force=!!options.force;
+  const silent=!!options.silent;
+  if(!force && boardShotCache && boardShotCache.id===currentId) return boardShotCache.url;
+  if(!silent) toast("正在生成信息牌成图…");
+  await new Promise(r=>setTimeout(r,280));
+  const canvas=await captureBoardCanvas();
+  const url=canvas.toDataURL("image/jpeg", BOARD_JPEG_QUALITY);
+  boardShotCache={id:currentId,url,w:canvas.width,h:canvas.height};
+  if(/preview=1/.test(location.search)){
+    const el=document.getElementById("board");
+    const wrap=el?.closest(".board-wrap");
+    if(wrap){
+      let img=document.getElementById("boardShotImg");
+      if(!img){
+        img=document.createElement("img");
+        img.id="boardShotImg";
+        img.className="board-shot-img";
+        img.alt="安全信息电子牌";
+        wrap.insertBefore(img, el);
+      }
+      img.src=url;
+      if(window.parent!==window){
+        window.parent.postMessage({type:"lab-board-image",url,id:currentId,w:canvas.width,h:canvas.height},"*");
+      }
+    }
+  }
+  if(!silent) toast(`成图 ${canvas.width}×${canvas.height}`);
+  return url;
+}
+async function exportBoardJpg(){
+  const r=rooms.find(x=>x.id===currentId); if(!r) return;
+  try{
+    const url=await renderBoardShot({force:!boardShotCache || boardShotCache.id!==currentId});
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=boardFileName(r);
+    a.click();
+    toast(`JPG 已导出（${boardShotCache.w}×${boardShotCache.h}）`);
+  }catch(err){
+    console.error(err);
+    toast("导出失败，可改用打印");
+  }
+}
+async function publishBoardPreview(){
+  if(!/preview=1/.test(location.search)) return;
+  try{
+    await renderBoardShot({force:true, silent:true});
+  }catch(err){
+    console.error(err);
+    if(window.parent!==window){
+      window.parent.postMessage({type:"lab-board-image-error",id:currentId,message:String(err&&err.message||err)},"*");
+    }
+  }
+}
+function setupPreviewBar(){
+  if(!/preview=1/.test(location.search)) return;
+  if(window.parent!==window) return;
+  const host=document.querySelector("#tab-board .layout > div:last-child");
+  if(!host || document.getElementById("previewBar")) return;
+  const bar=document.createElement("div");
+  bar.id="previewBar";
+  bar.className="preview-bar no-print";
+  bar.innerHTML=`<button class="btn btn-primary" type="button" id="btnPreviewJpg">下载 JPG</button>
+    <button class="btn btn-secondary" type="button" id="btnPreviewPrint">打印信息牌</button>`;
+  host.appendChild(bar);
+  document.getElementById("btnPreviewJpg").onclick=exportBoardJpg;
+  document.getElementById("btnPreviewPrint").onclick=()=>window.print();
 }
 function init(){
   RAW = loadRawData();
@@ -615,6 +776,9 @@ function init(){
     saveOverrides(o); renderBoard(r); renderRoomList(); renderLedger();
     document.getElementById("editHint").textContent="已保存到本机浏览器";
     toast("已保存本地调整");
+    boardShotCache=null;
+    if(window.parent!==window) window.parent.postMessage("lab-board-saved","*");
+    if(/preview=1/.test(location.search)) publishBoardPreview();
   };
   document.getElementById("btnReset").onclick=()=>{
     if(!currentId) return;
@@ -622,23 +786,7 @@ function init(){
     applyOverrides(); selectRoom(currentId); renderLedger(); toast("已恢复台账原值");
   };
   document.getElementById("btnPrint").onclick=()=>window.print();
-  document.getElementById("btnExportJpg").onclick=async ()=>{
-    const r=rooms.find(x=>x.id===currentId); if(!r) return;
-    const el=document.getElementById("board");
-    if(typeof html2canvas!=="function"){ toast("缺少 html2canvas，请用同目录打开页面"); return; }
-    toast("正在生成 JPG…");
-    try{
-      const canvas=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
-      const a=document.createElement("a");
-      a.href=canvas.toDataURL("image/jpeg",0.92);
-      a.download=`${(r.sys_code||r.name).replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
-      a.click();
-      toast("JPG 已导出");
-    }catch(err){
-      console.error(err);
-      toast("导出失败，可改用打印");
-    }
-  };
+  document.getElementById("btnExportJpg").onclick=exportBoardJpg;
   document.getElementById("btnExportOne").onclick=()=>{
     const r=rooms.find(x=>x.id===currentId); if(!r) return;
     const a=document.createElement("a");
@@ -676,8 +824,17 @@ try{
   }
   const inFrame=window.self!==window.top;
   const embedMode=inFrame||/embed=1/.test(location.search);
+  const previewOnly=/preview=1/.test(location.search);
+  const editOnly=/edit=1/.test(location.search);
+  const boardOnly=/board=1/.test(location.search);
   if(embedMode){
     document.body.classList.add("embed");
+    if(previewOnly){
+      document.body.classList.add("embed-preview");
+      if(window.parent!==window) document.body.classList.add("embed-preview-in-parent");
+    }
+    else if(editOnly) document.body.classList.add("embed-edit");
+    else if(boardOnly) document.body.classList.add("embed-board");
     const fh=document.getElementById("fileHint");
     if(fh) fh.style.display="none";
   }else{
@@ -688,6 +845,12 @@ try{
     }
   }
   init();
+  setupPreviewBar();
+  const qid=new URLSearchParams(location.search).get("id");
+  if(qid && typeof rooms!=="undefined"){
+    const hit=rooms.find(r=>r.id===qid || r.sys_code===qid);
+    if(hit){ switchTab("board"); selectRoom(hit.id); setupPreviewBar(); }
+  }
 }catch(err){
   console.error(err);
   showBootError(err);

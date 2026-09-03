@@ -97,13 +97,14 @@ label.f{display:block;font-size:.75rem;color:var(--muted);margin:6px 0 3px}
 .slabel .cn{display:block;letter-spacing:.22em}
 .slabel .en{
   display:block;writing-mode:vertical-rl;text-orientation:mixed;
-  font-weight:600;letter-spacing:.08em;font-size:1.85mm;opacity:.92;margin-top:.2mm
+  font-weight:600;letter-spacing:.06em;font-size:2.3mm;opacity:1;margin-top:.2mm
 }
 .slabel.r{background:#c62828;color:#fff}
 .slabel.y{background:#f9a825;color:#1a1a1a}
 .slabel.b{background:#1565c0;color:#fff}
-.icons{display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;padding:2mm 2.2mm;align-content:center;background:transparent}
+.icons{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:1.6mm;padding:2mm 2.2mm;background:transparent}
 .ico{
+  width:27mm;flex:0 0 auto;
   border:1px solid rgba(0,0,0,.08);border-radius:1.2mm;background:rgba(255,255,255,.88);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:1.2mm .6mm .8mm;min-height:0;overflow:hidden
@@ -372,10 +373,7 @@ function iconFile(id){
   return m?.file || (`icons/${id}.png`);
 }
 function fillIcons(arr){
-  const a=[...(arr||[])];
-  while(a.length<6) a.push(null);
-  return a.slice(0,6).map(s=>{
-    if(!s) return `<div class="ico"><div style="height:16mm"></div><div class="cap" style="color:#ccc">—</div></div>`;
+  return [...(arr||[])].slice(0,6).map(s=>{
     const label=s.label||ICON_META[s.id]?.label||s.id;
     const src=s.file||iconFile(s.id);
     return `<div class="ico" title="${esc(label)}"><img src="${esc(src)}" alt="${esc(label)}"/><div class="cap">${esc(label)}</div></div>`;
@@ -630,7 +628,7 @@ function switchTab(name){
   if(name==="board" && !currentId && rooms[0]) selectRoom(rooms[0].id);
 }
 function boardFileName(r){
-  return `${(r?.sys_code||r?.name||"安全信息牌").replace(/[\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
+  return `${(r?.sys_code||r?.name||"安全信息牌").replace(/[\\\\/:*?"<>|]/g,"_")}_安全信息牌.jpg`;
 }
 async function captureBoardCanvas(){
   const el=document.getElementById("board");

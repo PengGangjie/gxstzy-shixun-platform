@@ -92,14 +92,15 @@ input[type=text],input[type=tel],select,textarea{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2mm;
   color:#fff;font-weight:900;font-size:3.1mm;letter-spacing:.22em;padding:2.2mm 0;line-height:1.2;text-align:center
 }
-.sign-label .en{display:block;font-weight:600;letter-spacing:.08em;font-size:1.85mm;opacity:.92}
+.sign-label .en{display:block;font-weight:600;letter-spacing:.06em;font-size:2.3mm;opacity:1}
 .sign-label.red{background:#c62828;color:#fff}
 .sign-label.yellow{background:#f9a825;color:#1a1a1a}
 .sign-label.blue{background:#1565c0;color:#fff}
 .sign-icons{
-  display:grid;grid-template-columns:repeat(6,1fr);gap:1.6mm;padding:2mm;align-content:center;background:transparent
+  display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:1.6mm;padding:2mm;background:transparent
 }
 .sign-icons .ico{
+  width:27mm;flex:0 0 auto;
   border:1px solid rgba(0,0,0,.08);border-radius:1.2mm;background:rgba(255,255,255,.88);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:1.2mm .6mm .8mm;min-height:0;overflow:hidden
@@ -564,9 +565,8 @@ function pickedSigns(kind){
 
 function fillIconRow(el, items){
   el.innerHTML="";
-  const list=items.length?items:[{label:"（待选）", source:"empty"}];
-  while(list.length<6) list.push({label:"", source:"empty"});
-  list.slice(0,6).forEach(s=>{
+  const list=(items.length?items:[{label:"（待选）", source:"empty"}]).slice(0,6);
+  list.forEach(s=>{
     const d=document.createElement("div");
     d.className="ico";
     if(s.source==="png" && s.file){

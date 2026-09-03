@@ -31,7 +31,7 @@
       "西校区": 283,
       "东校区": 71
     },
-    "updated_at": "2026-09-01 20:59",
+    "updated_at": "2026-09-03 22:11",
     "source": "c:\\00CS\\text\\output\\shixunshi-fenjifenlei-taizhang\\学校实训室分级分类管理台账-合并.xlsx",
     "tencent_url": "https://docs.qq.com/sheet/DR2JLZ2NFYVhVWFRv?tab=000005"
   },
@@ -183,7 +183,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -352,7 +352,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -521,7 +521,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -690,7 +690,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -859,7 +859,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1028,7 +1028,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1197,7 +1197,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1366,7 +1366,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1535,7 +1535,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1704,7 +1704,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -1873,7 +1873,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2042,7 +2042,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2211,7 +2211,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2380,7 +2380,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2549,7 +2549,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2718,7 +2718,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -2887,7 +2887,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3067,7 +3067,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3236,7 +3236,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3405,7 +3405,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3574,7 +3574,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3743,7 +3743,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -3923,7 +3923,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -4092,7 +4092,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -4261,7 +4261,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -4454,7 +4454,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用高压…",
+            "label": "严格按照要求使用高压设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -4634,7 +4634,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -4825,7 +4825,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5028,7 +5028,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5230,7 +5230,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5422,7 +5422,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5591,7 +5591,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5760,7 +5760,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -5929,7 +5929,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -6110,7 +6110,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -6303,7 +6303,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -6483,7 +6483,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -6674,7 +6674,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用高压…",
+            "label": "严格按照要求使用高压设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -6865,7 +6865,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用高压…",
+            "label": "严格按照要求使用高压设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -7034,7 +7034,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -7203,7 +7203,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -7372,7 +7372,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -17829,7 +17829,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -18010,7 +18010,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -18179,7 +18179,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -18339,7 +18339,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -24377,7 +24377,7 @@
         "mandatory": [
           {
             "id": "goggles",
-            "label": "集尘器，灭火器，护目…",
+            "label": "集尘器，灭火器，护目镜，防护耳罩，劳保鞋，医疗箱等",
             "kind": "mandatory",
             "tags": [
               "机械",
@@ -24608,7 +24608,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用玻璃…",
+            "label": "严格按照要求使用玻璃仪器。",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -24829,7 +24829,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用玻璃…",
+            "label": "严格按照要求使用玻璃仪器。",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -25228,7 +25228,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用玻璃…",
+            "label": "严格按照要求使用玻璃仪器。",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -25400,7 +25400,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -25567,7 +25567,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -25757,7 +25757,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -25970,7 +25970,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用玻璃…",
+            "label": "严格按照要求使用玻璃仪器。",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -30063,7 +30063,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -30250,7 +30250,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -30437,7 +30437,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自打…",
+            "label": "未经允许，严禁私自打开火源",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -31863,7 +31863,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -32054,7 +32054,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -32245,7 +32245,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -32436,7 +32436,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -32627,7 +32627,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -32818,7 +32818,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33009,7 +33009,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33200,7 +33200,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33391,7 +33391,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33582,7 +33582,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33773,7 +33773,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -33964,7 +33964,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -34155,7 +34155,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -34346,7 +34346,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -34537,7 +34537,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -34728,7 +34728,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -34919,7 +34919,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -35110,7 +35110,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -35301,7 +35301,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -35492,7 +35492,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -35683,7 +35683,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -35874,7 +35874,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -36065,7 +36065,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -36256,7 +36256,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -36447,7 +36447,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -36638,7 +36638,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -36829,7 +36829,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37020,7 +37020,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37211,7 +37211,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37402,7 +37402,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37593,7 +37593,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37784,7 +37784,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -37975,7 +37975,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -38166,7 +38166,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -38357,7 +38357,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -38548,7 +38548,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -38739,7 +38739,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -38930,7 +38930,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -39121,7 +39121,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -39312,7 +39312,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -39503,7 +39503,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -39694,7 +39694,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -39885,7 +39885,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -40076,7 +40076,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -40267,7 +40267,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -40458,7 +40458,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -40649,7 +40649,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -40840,7 +40840,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41031,7 +41031,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41222,7 +41222,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41413,7 +41413,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41604,7 +41604,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41795,7 +41795,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -41986,7 +41986,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -42177,7 +42177,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -42368,7 +42368,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -42559,7 +42559,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -42750,7 +42750,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -42941,7 +42941,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -43132,7 +43132,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -43323,7 +43323,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -43514,7 +43514,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -43705,7 +43705,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -43896,7 +43896,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -44087,7 +44087,7 @@
         "mandatory": [
           {
             "id": "rule",
-            "label": "未经允许，严禁私自上…",
+            "label": "未经允许，严禁私自上电操作设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -52095,7 +52095,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -52297,7 +52297,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -52499,7 +52499,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -52695,7 +52695,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -52882,7 +52882,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53052,7 +53052,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53221,7 +53221,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53412,7 +53412,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53592,7 +53592,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53761,7 +53761,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -53930,7 +53930,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -54099,7 +54099,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -54268,7 +54268,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -54459,7 +54459,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -54661,7 +54661,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -54841,7 +54841,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55010,7 +55010,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55179,7 +55179,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55370,7 +55370,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55572,7 +55572,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55752,7 +55752,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -55934,7 +55934,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56103,7 +56103,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56272,7 +56272,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56441,7 +56441,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56610,7 +56610,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56779,7 +56779,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
@@ -56948,7 +56948,7 @@
           },
           {
             "id": "rule",
-            "label": "严格按照要求使用用电…",
+            "label": "严格按照要求使用用电设备",
             "kind": "mandatory",
             "tags": [
               "用电",
