@@ -407,8 +407,15 @@
             <span class="hint" id="photo-status">拍照后自动压缩到约 100KB</span>
           </div>`
         : '';
+      // 无上传权限时给出明确引导，而不是无声隐藏入口
+      const guide = state.canWrite ? '' : ((state.me && state.me.authenticated)
+        ? `<p class="hint">当前角色「${state.me.role_label||'学生'}」无照片上传权限：需<strong>教师 / 实验员 / 学院管理员 / 教务处</strong>角色，请联系教务处在权限后台分配。</p>`
+        : `<div class="actions photo-actions">
+             <a class="btn sec" href="/sign-in?next=${encodeURIComponent(location.pathname+location.search)}">登录后拍照 / 上传</a>
+             <span class="hint">上传教室照片需教师及以上角色</span>
+           </div>`);
       if(!list.length){
-        return up + '<div class="photo-carousel empty"><p class="hint">暂无教室照片。手机拍照后会自动压缩再上传，不占多少云端空间。</p></div>';
+        return up + guide + '<div class="photo-carousel empty"><p class="hint">暂无教室照片。手机拍照后会自动压缩再上传，不占多少云端空间。</p></div>';
       }
       const slides = list.map((p, i) => `
         <figure class="carousel-slide${i===0?' active':''}">
@@ -421,7 +428,7 @@
            <button type="button" class="carousel-btn next" aria-label="下一张">›</button>
            <div class="carousel-dots">${dots}</div>`
         : '';
-      return up + `<div class="photo-carousel" id="photo-carousel">${slides}${nav}</div>`;
+      return up + guide + `<div class="photo-carousel" id="photo-carousel">${slides}${nav}</div>`;
     }
 
     function moduleBlock(title, inner){
