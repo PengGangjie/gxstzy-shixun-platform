@@ -8,13 +8,16 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
-from .db import turso_client
+from .db import turso_client, write_audit
 
 MAX_PHOTO_CHARS = 160_000  # 压缩后 data URL 上限约 120KB JPEG
 MAX_PHOTOS_PER_ROOM = 12
 MAX_EQUIP_ROWS = 500
+MAX_OVERRIDES_CHARS = 100_000  # 覆盖字段 JSON 文本上限，防撑爆 Turso 配额
 PHOTO_MAX_SIDE = 960
 PHOTO_TARGET_BYTES = 90_000
+# 设备字段截断长度
+EQUIP_FIELD_LIMITS = {"code": 64, "name": 200, "model": 200, "status": 50, "risk_note": 500}
 
 
 def _now() -> str:
@@ -229,6 +232,8 @@ def save_overrides(room_id: str, overrides: dict[str, Any], by: str | None) -> d
     rid = (room_id or "").strip()
     clean = {str(k): v for k, v in (overrides or {}).items() if str(k).strip()}
     payload = json.dumps(clean, ensure_ascii=False)
+    if len(payload) > MAX_OVERRIDES_CHARS:
+        raise ValueError("覆盖字段内容过大，请减少字段或分批保存")
     ts = _now()
     with turso_client() as client:
         ensure_room_tables(client)
@@ -243,6 +248,7 @@ def save_overrides(room_id: str, overrides: dict[str, Any], by: str | None) -> d
             """,
             [rid, payload, by, ts],
         )
+        write_audit(client, by, "room_save_overrides", f"room:{rid}", {"keys": sorted(clean)[:50], "chars": len(payload)})
     return {"room_id": rid, "overrides": clean, "updated_by": by, "updated_at": ts}
 
 
@@ -270,6 +276,7 @@ def add_photo(
             [rid, url, (caption or "").strip()[:120], by, ts],
         )
         row = client.execute("SELECT last_insert_rowid()").rows[0][0]
+        write_audit(client, by, "room_add_photo", f"room:{rid}", {"photo_id": int(row), "caption": (caption or "").strip()[:120]})
     return {
         "id": row,
         "room_id": rid,
@@ -280,7 +287,7 @@ def add_photo(
     }
 
 
-def delete_photo(room_id: str, photo_id: int) -> bool:
+def delete_photo(room_id: str, photo_id: int, by: str | None = None) -> bool:
     rid = (room_id or "").strip()
     with turso_client() as client:
         ensure_room_tables(client)
@@ -288,12 +295,14 @@ def delete_photo(room_id: str, photo_id: int) -> bool:
             "DELETE FROM room_photos WHERE room_id = ? AND id = ?",
             [rid, int(photo_id)],
         )
+        write_audit(client, by, "room_delete_photo", f"room:{rid}", {"photo_id": int(photo_id)})
     return True
 
 
 def replace_equipment(
     room_id: str,
     rows: list[dict[str, Any]],
+    by: str | None = None,
 ) -> list[dict[str, Any]]:
     rid = (room_id or "").strip()
     if len(rows) > MAX_EQUIP_ROWS:
@@ -310,7 +319,18 @@ def replace_equipment(
         risk = str(
             raw.get("risk_note") or raw.get("风险提示") or raw.get("风险") or ""
         ).strip()
-        cleaned.append((rid, code, name, model, status, risk, "{}", ts))
+        cleaned.append(
+            (
+                rid,
+                code[: EQUIP_FIELD_LIMITS["code"]],
+                name[: EQUIP_FIELD_LIMITS["name"]],
+                model[: EQUIP_FIELD_LIMITS["model"]],
+                status[: EQUIP_FIELD_LIMITS["status"]],
+                risk[: EQUIP_FIELD_LIMITS["risk_note"]],
+                "{}",
+                ts,
+            )
+        )
 
     with turso_client() as client:
         ensure_room_tables(client)
@@ -324,4 +344,5 @@ def replace_equipment(
                 """,
                 list(row),
             )
+        write_audit(client, by, "room_replace_equipment", f"room:{rid}", {"count": len(cleaned)})
     return get_room_state(rid)["equipment"]

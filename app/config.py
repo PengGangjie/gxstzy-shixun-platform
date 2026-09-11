@@ -41,6 +41,10 @@ def _parse_admin_emails(raw: str) -> frozenset[str]:
     return frozenset(e.strip().lower() for e in raw.split(",") if e.strip())
 
 
+# 已知默认值：被猜到即可伪造会话 Cookie，生产（AUTH_REQUIRED=true）绝不允许使用
+_INSECURE_SESSION_SECRETS = frozenset({"", "dev-change-me-in-production", "changeme", "secret"})
+
+
 @lru_cache
 def get_settings() -> Settings:
     static = ROOT / "static"
@@ -55,10 +59,20 @@ def get_settings() -> Settings:
     turso_url = os.getenv("TURSO_DATABASE_URL", "").strip()
     if turso_url.startswith("libsql://"):
         turso_url = turso_url.replace("libsql://", "https://", 1)
+    auth_required = os.getenv("AUTH_REQUIRED", "true").lower() in {"1", "true", "yes"}
+    session_secret = os.getenv("SESSION_SECRET", "").strip()
+    if auth_required and session_secret.lower() in _INSECURE_SESSION_SECRETS:
+        # fail closed：宁可拒绝启动，也不带着可预测的会话签名密钥上线
+        raise RuntimeError(
+            "SESSION_SECRET 未配置或使用了不安全的默认值——拒绝启动。"
+            "请在环境变量（本地为 secrets/shixun-platform/.env）设置至少 32 位随机值，"
+            "例如 python -c \"import secrets; print(secrets.token_urlsafe(48))\"。"
+            "仅本地无登录调试可设 AUTH_REQUIRED=false。"
+        )
     return Settings(
         app_name="gxstzy-shixun-platform",
-        session_secret=os.getenv("SESSION_SECRET", "dev-change-me-in-production"),
-        auth_required=os.getenv("AUTH_REQUIRED", "true").lower() in {"1", "true", "yes"},
+        session_secret=session_secret,
+        auth_required=auth_required,
         logto_endpoint=os.getenv("LOGTO_ENDPOINT", "").strip(),
         logto_app_id=os.getenv("LOGTO_APP_ID", "").strip(),
         logto_app_secret=os.getenv("LOGTO_APP_SECRET", "").strip(),

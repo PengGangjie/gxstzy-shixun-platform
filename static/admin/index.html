@@ -89,6 +89,12 @@ let ROLES = [];
 let COLLEGES = [];
 let USERS = [];
 
+// 用户资料（姓名/邮箱/手机来自 Logto 个人资料，属不可信输入）拼 HTML 前必须转义
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c =>
+    ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
 const $msg = document.getElementById("msg");
 const $who = document.getElementById("who");
 const $wrap = document.getElementById("table-wrap");
@@ -150,16 +156,16 @@ function renderTable() {
     <tbody>${rows.map(u => {
       const rooms = (u.lab_rooms || []).join(", ");
       const sub = u.sub || "";
-      return `<tr data-sub="${sub}">
+      return `<tr data-sub="${esc(sub)}">
         <td>
-          <div>${u.email || "—"}</div>
-          <div style="font-size:12px;color:#888">${u.phone || ""}</div>
+          <div>${esc(u.email || "—")}</div>
+          <div style="font-size:12px;color:#888">${esc(u.phone || "")}</div>
         </td>
-        <td>${u.name || "—"}</td>
-        <td><span class="badge ${u.role}">${u.role_label || u.role}</span></td>
+        <td>${esc(u.name || "—")}</td>
+        <td><span class="badge ${esc(u.role)}">${esc(u.role_label || u.role)}</span></td>
         <td><select class="role">${roleOptions(u.role)}</select></td>
         <td><select class="college">${collegeOptions(u.college || "", u.role)}</select></td>
-        <td><input class="cell rooms" value="${rooms.replace(/"/g, "&quot;")}" placeholder="如 西6-6205" /></td>
+        <td><input class="cell rooms" value="${esc(rooms)}" placeholder="如 西6-6205" /></td>
         <td><button type="button" class="btn save">保存</button></td>
       </tr>`;
     }).join("")}</tbody>
@@ -225,7 +231,7 @@ async function boot() {
     }
     $who.textContent = "加载失败";
     showMsg(e.message || String(e), false);
-    $wrap.innerHTML = `<div class="empty">${e.message || "错误"}</div>`;
+    $wrap.innerHTML = `<div class="empty">${esc(e.message || "错误")}</div>`;
   }
 }
 

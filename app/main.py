@@ -2,7 +2,10 @@
 """实训科管理平台 · FastAPI（Logto + Turso + 静态站点 + 教务处权限后台）。"""
 from __future__ import annotations
 
+import logging
 import os
+import time
+from collections import defaultdict, deque
 from typing import Any, Union
 
 from fastapi import FastAPI, File, Request, UploadFile
@@ -25,6 +28,46 @@ from .roles import (
 )
 from . import room_store
 
+logger = logging.getLogger("shixun")
+
+# 写操作限速：每用户 60 秒内最多 30 次（单实例内存窗口，防脚本刷写撑爆 Turso 配额）
+WRITE_RATE_MAX = 30
+WRITE_RATE_WINDOW = 60.0
+_write_hits: dict[str, deque[float]] = defaultdict(deque)
+
+# 台账导入上传体上限（xlsx 解压后按行数与字段截断，此处再限原始体积）
+MAX_IMPORT_BYTES = 3 * 1024 * 1024
+
+
+def _rate_limited(key: str) -> bool:
+    now = time.monotonic()
+    hits = _write_hits[key]
+    while hits and now - hits[0] > WRITE_RATE_WINDOW:
+        hits.popleft()
+    if len(hits) >= WRITE_RATE_MAX:
+        return True
+    hits.append(now)
+    if len(_write_hits) > 4096:
+        for k in [k for k, v in _write_hits.items() if not v or now - v[-1] > WRITE_RATE_WINDOW]:
+            _write_hits.pop(k, None)
+    return False
+
+
+def _write_limit_response(user: dict[str, Any] | None) -> JSONResponse | None:
+    key = (user or {}).get("logto_sub") or "anon"
+    if _rate_limited(f"w:{key}"):
+        return JSONResponse({"detail": "操作过于频繁，请稍后再试"}, status_code=429)
+    return None
+
+
+def _safe_next(nxt: str | None) -> str | None:
+    """登录后跳转目标仅允许站内路径；浏览器把 /\\ 开头视同 //，须一并拒绝。"""
+    if not nxt or not nxt.startswith("/"):
+        return None
+    if nxt.startswith("//") or nxt.startswith("/\\"):
+        return None
+    return nxt
+
 
 def _db_fail(prefix: str, exc: Exception) -> JSONResponse:
     raw = str(exc)
@@ -33,7 +76,9 @@ def _db_fail(prefix: str, exc: Exception) -> JSONResponse:
             {"detail": f"{prefix}云端数据库配额已满，请先删除部分教室照片后再试"},
             status_code=507,
         )
-    return JSONResponse({"detail": f"{prefix}{raw}"}, status_code=500)
+    # 原始异常可能含连接串/SQL 等内部信息，只进日志不回显
+    logger.exception("%s（内部错误）", prefix)
+    return JSONResponse({"detail": f"{prefix}服务内部错误，请稍后重试或联系管理员"}, status_code=500)
 
 PUBLIC_PREFIXES = (
     "/health",
@@ -148,6 +193,19 @@ def _unauth_response(request: Request, path: str):
 
 
 @app.middleware("http")
+async def security_headers(request: Request, call_next):
+    resp = await call_next(request)
+    resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+    resp.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    resp.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    resp.headers.setdefault("Permissions-Policy", "camera=(self), microphone=(), geolocation=(), payment=()")
+    # Koyeb 反代后 scheme 常为 http，须看 x-forwarded-proto
+    if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
+        resp.headers.setdefault("Strict-Transport-Security", "max-age=15552000")
+    return resp
+
+
+@app.middleware("http")
 async def require_auth(request: Request, call_next):
     if not settings.auth_required or not auth_configured():
         return await call_next(request)
@@ -171,7 +229,7 @@ async def require_auth(request: Request, call_next):
         return _unauth_response(request, path)
 
     # 教务处后台页：仅 jw_admin；管理 API：jw_admin 或学院管理员（本院）
-    if path.startswith("/admin"):
+    if path == "/admin" or path.startswith("/admin/"):
         user = load_db_user(request)
         if not user or "admin.panel" not in capabilities(user):
             return JSONResponse(
@@ -182,7 +240,7 @@ async def require_auth(request: Request, call_next):
                 },
                 status_code=403,
             )
-    elif path.startswith("/api/admin"):
+    elif path == "/api/admin" or path.startswith("/api/admin/"):
         user = load_db_user(request)
         caps = capabilities(user) if user else set()
         if "admin.panel" not in caps and "users.manage_college" not in caps:
@@ -204,11 +262,14 @@ app.add_middleware(
 
 @app.get("/health")
 async def health():
-    body = {"status": "ok", "app": settings.app_name}
+    body: dict[str, Any] = {"status": "ok", "app": settings.app_name}
     try:
         body["db_schema_version"] = ping_db()
-    except Exception as exc:  # noqa: BLE001
-        body["db_error"] = str(exc)
+    except Exception:  # noqa: BLE001
+        # /health 公开，数据库异常详情只进日志，避免泄漏连接信息
+        logger.exception("healthcheck: 数据库不可达")
+        body["status"] = "degraded"
+        body["db"] = "unreachable"
     return body
 
 
@@ -216,8 +277,8 @@ async def health():
 async def sign_in(request: Request):
     if not auth_configured():
         return RedirectResponse("/")
-    nxt = request.query_params.get("next") or ""
-    if nxt.startswith("/") and not nxt.startswith("//") and nxt not in {"/sign-in", "/callback"}:
+    nxt = _safe_next(request.query_params.get("next"))
+    if nxt and nxt not in {"/sign-in", "/callback"}:
         request.session["post_login_next"] = nxt
     client = logto_client(request)
     url = await client.signIn(redirectUri=settings.logto_redirect_uri)
@@ -233,11 +294,11 @@ async def callback(request: Request):
     try:
         await client.handleSignInCallback(str(request.url))
     except Exception as exc:  # noqa: BLE001
-        detail = str(exc)
+        logger.exception("登录回调失败（state/code 校验）")
         return JSONResponse(
             {
                 "detail": "登录回调失败",
-                "reason": detail,
+                "reason": f"OIDC 回调校验未通过（{type(exc).__name__}，详情见服务端日志）",
                 "hint": "请从平台首页重新登录。若出现 invalid_client，请在 Logto 控制台核对 App ID/Secret 后重新部署。",
                 "sign_in": "/sign-in",
             },
@@ -254,9 +315,8 @@ async def callback(request: Request):
             default_role="student",
             promote_to_jw_admin=_email_is_bootstrap_admin(email),
         )
-    nxt = request.session.pop("post_login_next", None) or "/"
-    if not (isinstance(nxt, str) and nxt.startswith("/") and not nxt.startswith("//")):
-        nxt = "/"
+    nxt = request.session.pop("post_login_next", None)
+    nxt = _safe_next(nxt) or "/"
     return RedirectResponse(nxt)
 
 @app.get("/sign-out")
@@ -334,6 +394,9 @@ async def admin_set_role(sub: str, body: SetRoleBody, request: Request):
     actor = load_db_user(request)
     if not actor:
         return JSONResponse({"detail": "未登录"}, status_code=401)
+    err = _write_limit_response(actor)
+    if err:
+        return err
     if "users.manage_all" not in capabilities(actor) and "users.manage_college" not in capabilities(
         actor
     ):
@@ -397,7 +460,12 @@ def _parse_equip_upload(filename: str, raw: bytes) -> list[dict[str, Any]]:
         from io import StringIO
 
         reader = csv.DictReader(StringIO("\n".join(lines)))
-        return [dict(row) for row in reader]
+        out: list[dict[str, Any]] = []
+        for row in reader:
+            out.append(dict(row))
+            if len(out) >= room_store.MAX_EQUIP_ROWS:
+                break
+        return out
     if name.endswith(".xlsx") or name.endswith(".xlsm"):
         from io import BytesIO
 
@@ -416,6 +484,9 @@ def _parse_equip_upload(filename: str, raw: bytes) -> list[dict[str, Any]]:
             }
             if any(item.values()):
                 out.append(item)
+            # 流式截断，防止超大工作簿撑爆内存
+            if len(out) >= room_store.MAX_EQUIP_ROWS:
+                break
         return out
     raise ValueError("请上传 .xlsx 或 .csv 文件")
 
@@ -437,8 +508,13 @@ async def room_save_overrides(room_id: str, body: RoomOverridesBody, request: Re
     err = require_capability(user, "rooms.write")
     if err:
         return err
+    err = _write_limit_response(user)
+    if err:
+        return err
     try:
         return room_store.save_overrides(room_id, body.overrides, _actor_label(user))
+    except ValueError as exc:
+        return JSONResponse({"detail": str(exc)}, status_code=400)
     except Exception as exc:  # noqa: BLE001
         return _db_fail("保存失败：", exc)
 
@@ -447,6 +523,9 @@ async def room_save_overrides(room_id: str, body: RoomOverridesBody, request: Re
 async def room_add_photo(room_id: str, body: RoomPhotoBody, request: Request):
     user = load_db_user(request)
     err = require_capability(user, "rooms.write")
+    if err:
+        return err
+    err = _write_limit_response(user)
     if err:
         return err
     try:
@@ -466,8 +545,11 @@ async def room_del_photo(room_id: str, photo_id: int, request: Request):
     err = require_capability(user, "rooms.write")
     if err:
         return err
+    err = _write_limit_response(user)
+    if err:
+        return err
     try:
-        room_store.delete_photo(room_id, photo_id)
+        room_store.delete_photo(room_id, photo_id, _actor_label(user))
         return {"ok": True}
     except Exception as exc:  # noqa: BLE001
         return _db_fail("删除失败：", exc)
@@ -479,8 +561,11 @@ async def room_set_equipment(room_id: str, body: RoomEquipImportBody, request: R
     err = require_capability(user, "rooms.write")
     if err:
         return err
+    err = _write_limit_response(user)
+    if err:
+        return err
     try:
-        equipment = room_store.replace_equipment(room_id, body.rows or [])
+        equipment = room_store.replace_equipment(room_id, body.rows or [], _actor_label(user))
         return {"ok": True, "count": len(equipment), "equipment": equipment}
     except ValueError as exc:
         return JSONResponse({"detail": str(exc)}, status_code=400)
@@ -494,10 +579,18 @@ async def room_import_equipment(room_id: str, request: Request, file: UploadFile
     err = require_capability(user, "rooms.write")
     if err:
         return err
+    err = _write_limit_response(user)
+    if err:
+        return err
     try:
         raw = await file.read()
+        if len(raw) > MAX_IMPORT_BYTES:
+            return JSONResponse(
+                {"detail": f"文件过大（上限 {MAX_IMPORT_BYTES // 1024 // 1024}MB）"},
+                status_code=413,
+            )
         rows = _parse_equip_upload(file.filename or "equip.csv", raw)
-        equipment = room_store.replace_equipment(room_id, rows)
+        equipment = room_store.replace_equipment(room_id, rows, _actor_label(user))
         return {"ok": True, "count": len(equipment), "equipment": equipment}
     except ValueError as exc:
         return JSONResponse({"detail": str(exc)}, status_code=400)

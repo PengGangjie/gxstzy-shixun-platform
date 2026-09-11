@@ -1,9 +1,10 @@
-fastapi>=0.115.0
-uvicorn[standard]>=0.32.0
-python-dotenv>=1.0.0
-logto>=0.2.0
-libsql-client>=0.3.0
-itsdangerous>=2.2.0
-python-multipart>=0.0.9
-openpyxl>=3.1.0
-pillow>=10.4.0
+# 版本锁定：与本地验证过的组合一致（pip install --no-cache-dir 部署可复现）
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+python-dotenv==1.2.2
+logto==0.2.1
+libsql-client==0.3.1
+itsdangerous==2.2.0
+python-multipart==0.0.32
+openpyxl==3.1.5
+pillow==12.2.0

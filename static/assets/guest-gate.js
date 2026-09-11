@@ -47,6 +47,12 @@
     document.head.appendChild(s);
   }
 
+  function escHtml(s) {
+    return String(s ?? "").replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   function mountAuthBar(me) {
     const web = document.querySelector(".link-top .web");
     if (!web || document.getElementById("guest-auth-bar")) return;
@@ -58,10 +64,10 @@
       const name = me.email || me.name || "";
       bar.innerHTML =
         '<span class="guest-user" title="' +
-        (name || label).replace(/"/g, "&quot;") +
+        escHtml(name || label) +
         '">' +
-        label +
-        (name ? " · " + name : "") +
+        escHtml(label) +
+        (name ? " · " + escHtml(name) : "") +
         "</span>" +
         (me.admin_panel
           ? '<a class="guest-btn" href="' + me.admin_panel + '">权限后台</a>'

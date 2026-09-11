@@ -36,6 +36,37 @@ def _ensure_schema(client) -> None:
         client.execute("ALTER TABLE users ADD COLUMN phone TEXT")
     if "lab_rooms" not in cols:
         client.execute("ALTER TABLE users ADD COLUMN lab_rooms TEXT")
+    ensure_audit_table(client)
+
+
+def ensure_audit_table(client) -> None:
+    """audit_log 建表保障（与 turso.schema.sql 定义一致，避免新环境缺表）。"""
+    client.execute(
+        """
+        CREATE TABLE IF NOT EXISTS audit_log (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          actor_sub TEXT,
+          action TEXT NOT NULL,
+          resource TEXT,
+          payload_json TEXT,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+        """
+    )
+
+
+def write_audit(client, actor: str | None, action: str, resource: str, payload: dict) -> None:
+    if not actor:
+        return
+    client.execute(
+        "INSERT INTO audit_log (actor_sub, action, resource, payload_json) VALUES (?, ?, ?, ?)",
+        [
+            actor,
+            action,
+            resource,
+            json.dumps(payload, ensure_ascii=False),
+        ],
+    )
 
 
 def _parse_lab_rooms(raw: Any) -> list[str]:
