@@ -36,6 +36,9 @@ def _ensure_schema(client) -> None:
         client.execute("ALTER TABLE users ADD COLUMN phone TEXT")
     if "lab_rooms" not in cols:
         client.execute("ALTER TABLE users ADD COLUMN lab_rooms TEXT")
+    # 工号/学号（统一身份认证 CAS 登录用户的主标识；Logto 用户为 NULL）
+    if "employee_no" not in cols:
+        client.execute("ALTER TABLE users ADD COLUMN employee_no TEXT")
     ensure_audit_table(client)
 
 
@@ -84,7 +87,7 @@ def _parse_lab_rooms(raw: Any) -> list[str]:
 
 
 def _row_to_user(row: Any) -> dict[str, Any]:
-    # id, logto_sub, email, name, phone, role, college, created_at, updated_at, lab_rooms?
+    # id, logto_sub, email, name, phone, role, college, created_at, updated_at, lab_rooms?, employee_no?
     keys = (
         "id",
         "logto_sub",
@@ -100,6 +103,7 @@ def _row_to_user(row: Any) -> dict[str, Any]:
     lab_raw = row[9] if len(row) > 9 else None
     data["role"] = normalize_role(data.get("role"))
     data["lab_rooms"] = _parse_lab_rooms(lab_raw)
+    data["employee_no"] = row[10] if len(row) > 10 else None
     return data
 
 
@@ -109,7 +113,7 @@ def get_user_by_sub(sub: str) -> dict[str, Any] | None:
         rows = client.execute(
             """
             SELECT id, logto_sub, email, name, phone, role, college,
-                   created_at, updated_at, lab_rooms
+                   created_at, updated_at, lab_rooms, employee_no
             FROM users WHERE logto_sub = ?
             """,
             [sub],
@@ -126,7 +130,7 @@ def list_users(*, college: str | None = None) -> list[dict[str, Any]]:
             rows = client.execute(
                 """
                 SELECT id, logto_sub, email, name, phone, role, college,
-                       created_at, updated_at, lab_rooms
+                       created_at, updated_at, lab_rooms, employee_no
                 FROM users WHERE college = ?
                 ORDER BY updated_at DESC
                 """,
@@ -136,7 +140,7 @@ def list_users(*, college: str | None = None) -> list[dict[str, Any]]:
             rows = client.execute(
                 """
                 SELECT id, logto_sub, email, name, phone, role, college,
-                       created_at, updated_at, lab_rooms
+                       created_at, updated_at, lab_rooms, employee_no
                 FROM users
                 ORDER BY updated_at DESC
                 """
@@ -150,6 +154,7 @@ def upsert_user(
     name: str | None,
     phone: str | None = None,
     *,
+    employee_no: str | None = None,
     default_role: str = "student",
     promote_to_jw_admin: bool = False,
 ) -> dict[str, Any]:
@@ -161,7 +166,7 @@ def upsert_user(
             [sub],
         ).rows
         if existing:
-            # 已存在：不覆盖 role/college；仅更新资料。若需引导升权且当前非 jw_admin
+            # 已存在：不覆盖 role/college；仅更新资料（工号/姓名一旦有值不回退）。若需引导升权且当前非 jw_admin
             if promote_to_jw_admin and normalize_role(existing[0][0]) != "jw_admin":
                 client.execute(
                     """
@@ -169,11 +174,12 @@ def upsert_user(
                       email = COALESCE(?, email),
                       name = COALESCE(?, name),
                       phone = COALESCE(?, phone),
+                      employee_no = COALESCE(?, employee_no),
                       role = 'jw_admin',
                       updated_at = datetime('now')
                     WHERE logto_sub = ?
                     """,
-                    [email, name, phone, sub],
+                    [email, name, phone, employee_no, sub],
                 )
             else:
                 client.execute(
@@ -182,18 +188,19 @@ def upsert_user(
                       email = COALESCE(?, email),
                       name = COALESCE(?, name),
                       phone = COALESCE(?, phone),
+                      employee_no = COALESCE(?, employee_no),
                       updated_at = datetime('now')
                     WHERE logto_sub = ?
                     """,
-                    [email, name, phone, sub],
+                    [email, name, phone, employee_no, sub],
                 )
         else:
             client.execute(
                 """
-                INSERT INTO users (id, logto_sub, email, name, phone, role)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO users (id, logto_sub, email, name, phone, role, employee_no)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
-                [sub, sub, email, name, phone, role],
+                [sub, sub, email, name, phone, role, employee_no],
             )
     user = get_user_by_sub(sub)
     assert user is not None

@@ -68,10 +68,11 @@ def fake_users(m):
     def get_user_by_sub(sub):
         return store.get(sub)
 
-    def upsert_user(sub, email, name, phone=None, *, default_role="student", promote_to_jw_admin=False):
+    def upsert_user(sub, email, name, phone=None, *, employee_no=None, default_role="student", promote_to_jw_admin=False):
         if sub not in store:
             store[sub] = {
                 "logto_sub": sub,
+                "employee_no": employee_no,
                 "email": email,
                 "name": name,
                 "phone": phone,
@@ -79,8 +80,11 @@ def fake_users(m):
                 "college": None,
                 "lab_rooms": [],
             }
-        elif promote_to_jw_admin:
-            store[sub]["role"] = "jw_admin"
+        else:
+            if promote_to_jw_admin:
+                store[sub]["role"] = "jw_admin"
+            if employee_no and not store[sub].get("employee_no"):
+                store[sub]["employee_no"] = employee_no
         return store[sub]
 
     m.get_user_by_sub = get_user_by_sub
@@ -129,12 +133,14 @@ def test_enabled_flow():
         r = client.get("/cas/callback?ticket=ST-OK", follow_redirects=False)
         check("验票成功 307 回首页", r.status_code == 307 and r.headers["location"] == "/")
         check("用户入库（cas:工号）", "cas:102627184" in store)
+        check("工号字段入库 employee_no", store["cas:102627184"].get("employee_no") == "102627184")
         check("ADMIN_CAS_ACCOUNTS 引导为 jw_admin", store["cas:102627184"]["role"] == "jw_admin")
 
         r = client.get("/api/me")
         body = r.json()
         check("会话已登录 source=cas", body.get("authenticated") is True and body.get("source") == "cas")
         check("sub=cas:102627184", body.get("sub") == "cas:102627184")
+        check("/api/me 返回工号", body.get("employee_no") == "102627184")
         check("管理员后台入口出现", body.get("admin_panel") == "/admin/")
 
         # 3) 登录墙对 CAS 会话放行

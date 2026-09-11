@@ -76,7 +76,7 @@ select,input.cell{padding:6px 8px;border:1px solid var(--border);border-radius:4
   <section class="card">
     <h2>用户列表</h2>
     <div class="toolbar">
-      <input type="search" id="q" placeholder="按邮箱 / 姓名 / 学院筛选" />
+      <input type="search" id="q" placeholder="按工号 / 邮箱 / 姓名 / 学院筛选" />
       <button type="button" class="secondary" id="btn-reload">刷新</button>
     </div>
     <div id="table-wrap"><div class="empty">加载中…</div></div>
@@ -139,7 +139,7 @@ function filteredUsers() {
   const kw = ($q.value || "").trim().toLowerCase();
   if (!kw) return USERS;
   return USERS.filter(u =>
-    [u.email, u.name, u.college, u.role_label, u.phone].join(" ").toLowerCase().includes(kw)
+    [u.employee_no, u.email, u.name, u.college, u.role_label, u.phone].join(" ").toLowerCase().includes(kw)
   );
 }
 
@@ -151,12 +151,13 @@ function renderTable() {
   }
   $wrap.innerHTML = `<table>
     <thead><tr>
-      <th>邮箱 / 手机</th><th>姓名</th><th>当前角色</th><th>角色</th><th>学院</th><th>负责房间</th><th></th>
+      <th>工号</th><th>邮箱 / 手机</th><th>姓名</th><th>当前角色</th><th>角色</th><th>学院</th><th>负责房间</th><th></th>
     </tr></thead>
     <tbody>${rows.map(u => {
       const rooms = (u.lab_rooms || []).join(", ");
       const sub = u.sub || "";
       return `<tr data-sub="${esc(sub)}">
+        <td>${esc(u.employee_no || "—")}</td>
         <td>
           <div>${esc(u.email || "—")}</div>
           <div style="font-size:12px;color:#888">${esc(u.phone || "")}</div>

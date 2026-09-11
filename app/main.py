@@ -400,6 +400,7 @@ async def cas_callback(request: Request):
         None,
         username,
         None,
+        employee_no=username,
         default_role="student",
         promote_to_jw_admin=username.strip().lower() in settings.admin_cas_accounts,
     )
@@ -425,6 +426,7 @@ async def me(request: Request):
             email,
             identity.get("name"),
             None,
+            employee_no=identity.get("username") if identity.get("source") == "cas" else None,
             default_role="student",
             promote_to_jw_admin=_email_is_bootstrap_admin(email)
             or (
@@ -438,6 +440,7 @@ async def me(request: Request):
         "sub": sub,
         "source": identity.get("source"),
         "username": identity.get("username"),
+        "employee_no": (user or {}).get("employee_no"),
         "email": identity.get("email"),
         "name": identity.get("name"),
         "cas_login": "/cas/login" if cas_auth.cas_enabled() else None,

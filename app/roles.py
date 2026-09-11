@@ -142,6 +142,7 @@ def public_user(user: dict[str, Any]) -> dict[str, Any]:
     role = normalize_role(user.get("role"))
     return {
         "sub": user.get("logto_sub") or user.get("id"),
+        "employee_no": user.get("employee_no"),
         "email": user.get("email"),
         "name": user.get("name"),
         "phone": user.get("phone"),
