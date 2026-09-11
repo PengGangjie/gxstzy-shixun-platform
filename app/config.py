@@ -33,6 +33,12 @@ class Settings:
     turso_database_url: str
     turso_auth_token: str
     admin_emails: frozenset[str]
+    # 学校统一身份认证（CAS）。cas_server 留空 = 未启用，行为与现在完全一致
+    cas_server: str
+    cas_service_url: str
+    cas_tls_verify: str
+    cas_tls_ca_b64: str
+    admin_cas_accounts: frozenset[str]
     static_dir: Path
     port: int
 
@@ -81,6 +87,11 @@ def get_settings() -> Settings:
         turso_database_url=turso_url,
         turso_auth_token=os.getenv("TURSO_AUTH_TOKEN", "").strip(),
         admin_emails=_parse_admin_emails(os.getenv("ADMIN_EMAILS", "")),
+        cas_server=os.getenv("CAS_SERVER", "").strip(),
+        cas_service_url=os.getenv("CAS_SERVICE_URL", "").strip(),
+        cas_tls_verify=os.getenv("CAS_TLS_VERIFY", "true").strip(),
+        cas_tls_ca_b64=os.getenv("CAS_TLS_CA_B64", "").strip(),
+        admin_cas_accounts=_parse_admin_emails(os.getenv("ADMIN_CAS_ACCOUNTS", "")),
         static_dir=static,
         port=int(os.getenv("PORT", "8000")),
     )

@@ -1,6 +1,14 @@
 /*! 实训科平台 · 游客门禁：首页可看，模块/搜索/驾驶舱明细需登录 */
 (function () {
   const SIGN_IN = "/sign-in";
+  // 学校统一身份认证（CAS）入口；boot 后由 /api/me 的 cas_login 字段决定是否展示
+  let CAS_LOGIN = null;
+
+  function signInHref(next) {
+    const n = next || "/";
+    const base = CAS_LOGIN || SIGN_IN;
+    return base + "?next=" + encodeURIComponent(n);
+  }
   const MODULE_RE =
     /(platform-\d+|实训室安全数据驾驶舱|实训室分级分类台账|lab-grade-boards|rooms\/)/i;
 
@@ -76,10 +84,17 @@
     } else {
       bar.innerHTML =
         '<a class="guest-btn primary" href="' +
-        SIGN_IN +
-        "?next=" +
-        encodeURIComponent(location.pathname || "/") +
-        '">登录</a>';
+        signInHref(location.pathname || "/") +
+        '">' +
+        (CAS_LOGIN ? "统一身份认证登录" : "登录") +
+        "</a>" +
+        (CAS_LOGIN
+          ? '<a class="guest-btn" href="' +
+            SIGN_IN +
+            "?next=" +
+            encodeURIComponent(location.pathname || "/") +
+            '">邮箱登录</a>'
+          : "");
     }
     web.appendChild(bar);
   }
@@ -94,9 +109,8 @@
       ban.innerHTML =
         '当前为<strong>游客浏览</strong>：可查看首页介绍。业务模块、全站搜索与驾驶舱明细需' +
         '<a href="' +
-        SIGN_IN +
-        "?next=/'" +
-        ">登录</a>" +
+        signInHref("/") +
+        '">登录</a>' +
         "后解锁。";
       intro.insertAdjacentElement("afterend", ban);
     }
@@ -158,8 +172,8 @@
       cockpit.innerHTML =
         '<div class="guest-cockpit-lock"><p>安全数据驾驶舱明细需登录后查看</p>' +
         '<a href="' +
-        SIGN_IN +
-        '?next=/">登录解锁</a></div>';
+        signInHref("/") +
+        '">登录解锁</a></div>';
     }
     ["lab-baseline-data", "lab-docs-stats-data"].forEach(function (id) {
       const el = document.getElementById(id);
@@ -174,6 +188,7 @@
       const res = await fetch("/api/me", { credentials: "same-origin" });
       me = await res.json();
     } catch (_) {}
+    CAS_LOGIN = (me && me.cas_login) || null;
     mountAuthBar(me);
     if (!me || !me.authenticated) lockGuestUi();
   }

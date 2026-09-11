@@ -26,6 +26,7 @@ from .roles import (
     normalize_role,
     public_user,
 )
+from . import cas_auth
 from . import room_store
 
 logger = logging.getLogger("shixun")
@@ -85,6 +86,8 @@ PUBLIC_PREFIXES = (
     "/sign-in",
     "/callback",
     "/sign-out",
+    "/cas/login",
+    "/cas/callback",
     "/assets/",
     "/brand/",
     "/icons/",
@@ -160,14 +163,35 @@ def _email_is_bootstrap_admin(email: str | None) -> bool:
     return email.strip().lower() in settings.admin_emails
 
 
+def current_identity(request: Request) -> dict[str, Any] | None:
+    """当前会话身份：CAS（本地会话）或 Logto（OIDC id_token）任一渠道已认证即有效。
+
+    返回 {sub, username, email, name, source}；sub 为数据库 users.logto_sub 主键
+    （CAS 用户为 cas:{工号}）。
+    """
+    cas = request.session.get("cas_user")
+    if isinstance(cas, dict) and cas.get("sub"):
+        return cas
+    if auth_configured():
+        client = logto_client(request)
+        if client.isAuthenticated():
+            claims = client.getIdTokenClaims()
+            if claims and claims.sub:
+                return {
+                    "sub": claims.sub,
+                    "username": None,
+                    "email": getattr(claims, "email", None),
+                    "name": getattr(claims, "name", None),
+                    "source": "logto",
+                }
+    return None
+
+
 def load_db_user(request: Request) -> dict[str, Any] | None:
-    client = logto_client(request)
-    if not client.isAuthenticated():
+    identity = current_identity(request)
+    if not identity:
         return None
-    claims = client.getIdTokenClaims()
-    if not claims or not claims.sub:
-        return None
-    return get_user_by_sub(claims.sub)
+    return get_user_by_sub(identity["sub"])
 
 
 def require_capability(user: dict[str, Any] | None, cap: str) -> JSONResponse | None:
@@ -213,8 +237,7 @@ async def require_auth(request: Request, call_next):
     if path.startswith(PUBLIC_PREFIXES):
         return await call_next(request)
 
-    client = logto_client(request)
-    authenticated = client.isAuthenticated()
+    authenticated = current_identity(request) is not None
 
     # 游客：首页外壳 + /api/me（返回未登录状态）
     if not authenticated and (path in GUEST_HOME_PATHS or path == "/api/me"):
@@ -321,37 +344,106 @@ async def callback(request: Request):
 
 @app.get("/sign-out")
 async def sign_out(request: Request):
+    was_cas = isinstance(request.session.get("cas_user"), dict)
+    if was_cas and cas_auth.cas_enabled():
+        # CAS 用户：清本地会话后引导认证平台注销 SSO 会话（公共机房防残留）
+        request.session.clear()
+        from urllib.parse import quote
+
+        base = settings.logto_redirect_uri.rsplit("/", 1)[0] + "/"
+        return RedirectResponse(f"{cas_auth.cas_logout_url()}?service={quote(base, safe='')}")
     client = logto_client(request)
     url = await client.signOut(postLogoutRedirectUri=settings.logto_post_logout_uri)
+    request.session.clear()
     return RedirectResponse(url)
+
+
+# ---- 学校统一身份认证（CAS）单点登录 ----
+
+
+@app.get("/cas/login")
+async def cas_login(request: Request):
+    if not cas_auth.cas_enabled():
+        return JSONResponse({"detail": "学校统一身份认证未配置（待信息中心提供认证地址）"}, status_code=404)
+    nxt = _safe_next(request.query_params.get("next"))
+    if nxt:
+        request.session["post_login_next"] = nxt
+    from urllib.parse import quote
+
+    return RedirectResponse(
+        f"{cas_auth.cas_login_url()}?service={quote(cas_auth.service_url(), safe='')}"
+    )
+
+
+@app.get("/cas/callback")
+async def cas_callback(request: Request):
+    if not cas_auth.cas_enabled():
+        return JSONResponse({"detail": "学校统一身份认证未配置"}, status_code=404)
+    ip = request.client.host if request.client else "?"
+    if _rate_limited(f"cas:{ip}"):
+        return JSONResponse({"detail": "尝试过于频繁，请稍后再试"}, status_code=429)
+    ticket = (request.query_params.get("ticket") or "").strip()
+    if not ticket:
+        return RedirectResponse("/cas/login")
+    username = cas_auth.validate_ticket(ticket)
+    if not username:
+        return JSONResponse(
+            {
+                "detail": "统一身份认证校验未通过。常见原因：① 应用回调地址尚未在认证平台注册；② 该账号未获访问授权；③ 票据已过期，请从首页重新登录。",
+                "home": "/",
+            },
+            status_code=401,
+        )
+    request.session["cas_user"] = cas_auth.build_session_user(username)
+    upsert_user(
+        f"cas:{username}",
+        None,
+        username,
+        None,
+        default_role="student",
+        promote_to_jw_admin=username.strip().lower() in settings.admin_cas_accounts,
+    )
+    nxt = _safe_next(request.session.pop("post_login_next", None)) or "/"
+    return RedirectResponse(nxt)
 
 
 @app.get("/api/me")
 async def me(request: Request):
-    client = logto_client(request)
-    if not client.isAuthenticated():
-        return {"authenticated": False}
-    claims = client.getIdTokenClaims()
-    sub = claims.sub if claims else None
-    user = get_user_by_sub(sub) if sub else None
-    if not user and claims and sub:
-        email = getattr(claims, "email", None)
+    identity = current_identity(request)
+    if not identity:
+        return {
+            "authenticated": False,
+            # 前端据此展示「统一身份认证登录」入口（未配置时不显示）
+            "cas_login": "/cas/login" if cas_auth.cas_enabled() else None,
+        }
+    sub = identity["sub"]
+    user = get_user_by_sub(sub)
+    if not user:
+        email = identity.get("email")
         user = upsert_user(
             sub,
             email,
-            getattr(claims, "name", None),
-            getattr(claims, "phone_number", None),
+            identity.get("name"),
+            None,
             default_role="student",
-            promote_to_jw_admin=_email_is_bootstrap_admin(email),
+            promote_to_jw_admin=_email_is_bootstrap_admin(email)
+            or (
+                identity.get("source") == "cas"
+                and str(identity.get("username") or "").strip().lower()
+                in settings.admin_cas_accounts
+            ),
         )
     body: dict[str, Any] = {
         "authenticated": True,
         "sub": sub,
-        "email": getattr(claims, "email", None) if claims else None,
-        "phone": getattr(claims, "phone_number", None) if claims else None,
-        "name": getattr(claims, "name", None) if claims else None,
+        "source": identity.get("source"),
+        "username": identity.get("username"),
+        "email": identity.get("email"),
+        "name": identity.get("name"),
+        "cas_login": "/cas/login" if cas_auth.cas_enabled() else None,
     }
     if user:
+        body["phone"] = user.get("phone")
         body.update(public_user(user))
         body["admin_panel"] = "/admin/" if "admin.panel" in capabilities(user) else None
     return body
