@@ -41,7 +41,9 @@ def check(name: str, cond: bool, extra: str = ""):
 
 def set_env(**kv):
     os.environ.update(BASE_ENV)
-    for k in ("CAS_SERVER", "CAS_SERVICE_URL", "ADMIN_CAS_ACCOUNTS"):
+    # 显式空串：secrets/.env 已配真实 CAS_SERVER，空串可挡住 load_dotenv 注入（override=False）
+    os.environ["CAS_SERVER"] = ""
+    for k in ("CAS_SERVICE_URL", "ADMIN_CAS_ACCOUNTS"):
         os.environ.pop(k, None)
     os.environ.update({k: v for k, v in kv.items() if v is not None})
     for k, v in kv.items():
@@ -183,6 +185,8 @@ def test_validate_ticket_unit():
 
     # 前一阶段把 validate_ticket mock 成了 lambda，reload 恢复原实现再测
     importlib.reload(cas_auth)
+    # 假域名会被 URL 安全校验的 DNS 检查拦下，单测只关心协议解析，跳过校验
+    cas_auth._assert_safe_url = lambda u: None
 
     class FakeResp:
         def __init__(self, status_code=200, text=""):
@@ -225,6 +229,20 @@ def test_validate_ticket_unit():
     evil = "<cas:user><script>alert(1)</script></cas:user>"
     out, _ = run_with(resp=FakeResp(text=evil))
     check("cas:user 含标签被拒绝", out is None)
+
+    # URL 安全校验（scheme/localhost/IP 分支不依赖外部 DNS）
+    cas_auth2 = importlib.reload(cas_auth)
+    for bad, why in [
+        ("http://cas.test.edu.cn/lyuapServer/serviceValidate", "http 拒绝"),
+        ("https://localhost/lyuapServer/serviceValidate", "localhost 拒绝"),
+        ("https://127.0.0.1/lyuapServer/serviceValidate", "环回 IP 拒绝"),
+        ("https://192.168.1.10/lyuapServer/serviceValidate", "私网 IP 拒绝"),
+    ]:
+        try:
+            cas_auth2._assert_safe_url(bad)
+            check(f"安全校验{why}", False, bad)
+        except ValueError:
+            check(f"安全校验{why}", True)
 
 
 if __name__ == "__main__":

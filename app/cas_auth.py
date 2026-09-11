@@ -12,11 +12,14 @@
 from __future__ import annotations
 
 import base64
+import ipaddress
 import logging
 import re
+import socket
 import tempfile
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import httpx
 
@@ -26,6 +29,26 @@ logger = logging.getLogger("shixun.cas")
 
 # 只提取 <cas:user> 文本，不引 XML 解析器（避免实体解析面）
 _CAS_USER_RE = re.compile(r"<cas:user>\s*([^<>&\"]{1,64})\s*</cas:user>")
+
+
+def _assert_safe_url(url: str) -> None:
+    """验票出网请求的安全校验：仅 https、域名须为公网地址（拒内网/环回/保留段）。"""
+    p = urlparse(url)
+    if p.scheme != "https":
+        raise ValueError(f"CAS 地址必须为 https：{url}")
+    host = p.hostname or ""
+    if not host:
+        raise ValueError(f"CAS 地址缺少主机名：{url}")
+    if host in {"localhost", "0.0.0.0", "::1"}:
+        raise ValueError(f"CAS 地址不允许内网/环回主机：{host}")
+    try:
+        infos = socket.getaddrinfo(host, p.port or 443, proto=socket.IPPROTO_TCP)
+    except socket.gaierror as exc:
+        raise ValueError(f"CAS 主机无法解析：{host}") from exc
+    for info in infos:
+        ip = ipaddress.ip_address(info[4][0])
+        if ip.is_private or ip.is_loopback or ip.is_reserved or ip.is_link_local:
+            raise ValueError(f"CAS 地址解析到内网/保留地址（{ip}），拒绝请求")
 
 
 def cas_enabled() -> bool:
@@ -83,9 +106,11 @@ def validate_ticket(ticket: str) -> str | None:
     ticket 一次性，由认证平台防重放；service 与登录时完全一致。
     """
     params = {"ticket": ticket[:128], "service": service_url()}
+    target = cas_validate_url()
     try:
+        _assert_safe_url(target)
         resp = httpx.get(
-            cas_validate_url(),
+            target,
             params=params,
             verify=_tls_verify(),
             timeout=10.0,
@@ -93,6 +118,9 @@ def validate_ticket(ticket: str) -> str | None:
         )
     except httpx.HTTPError:
         logger.exception("CAS 验票请求失败（应用服务器到认证平台不可达？）")
+        return None
+    except ValueError:
+        logger.error("CAS 地址安全校验未通过，拒绝验票请求")
         return None
     if resp.status_code != 200:
         logger.error("CAS 验票非 200：status=%s body=%.200s", resp.status_code, resp.text)
