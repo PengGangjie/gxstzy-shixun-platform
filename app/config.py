@@ -32,6 +32,9 @@ class Settings:
     logto_post_logout_uri: str
     turso_database_url: str
     turso_auth_token: str
+    # 本地部署可选：SQLite 单文件后端（libSQL 即 SQLite 方言，零 SQL 迁移；
+    # 设置 SQLITE_PATH 后不再访问 Turso）
+    sqlite_path: str
     admin_emails: frozenset[str]
     # 学校统一身份认证（CAS）。cas_server 留空 = 未启用，行为与现在完全一致
     cas_server: str
@@ -86,6 +89,7 @@ def get_settings() -> Settings:
         logto_post_logout_uri=post_logout,
         turso_database_url=turso_url,
         turso_auth_token=os.getenv("TURSO_AUTH_TOKEN", "").strip(),
+        sqlite_path=os.getenv("SQLITE_PATH", "").strip(),
         admin_emails=_parse_admin_emails(os.getenv("ADMIN_EMAILS", "")),
         cas_server=os.getenv("CAS_SERVER", "").strip(),
         cas_service_url=os.getenv("CAS_SERVICE_URL", "").strip(),

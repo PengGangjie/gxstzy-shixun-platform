@@ -1,4 +1,4 @@
-"""Turso 数据库访问。"""
+"""Turso 数据库访问（本地部署可设 SQLITE_PATH 走 libsql file: 单文件模式）。"""
 from __future__ import annotations
 
 import json
@@ -14,8 +14,22 @@ from .roles import normalize_role
 @contextmanager
 def turso_client() -> Iterator:
     settings = get_settings()
+    if settings.sqlite_path:
+        # 本地单文件后端（libSQL 即 SQLite 方言，业务 SQL 零改动；建表见 local_schema）
+        from pathlib import Path
+
+        from .local_schema import ensure_sqlite_schema
+
+        Path(settings.sqlite_path).parent.mkdir(parents=True, exist_ok=True)
+        client = create_client_sync(f"file:{settings.sqlite_path}")
+        try:
+            ensure_sqlite_schema(client)
+            yield client
+        finally:
+            client.close()
+        return
     if not settings.turso_database_url or not settings.turso_auth_token:
-        raise RuntimeError("Turso 未配置")
+        raise RuntimeError("数据库未配置（TURSO_DATABASE_URL 或 SQLITE_PATH）")
     client = create_client_sync(settings.turso_database_url, auth_token=settings.turso_auth_token)
     try:
         yield client
