@@ -442,7 +442,7 @@
       if(!boardCode){
         return '<p class="hint">本室尚未对齐实训编号，无法展示安全信息电子牌。请先在对齐表核对照。</p>';
       }
-      const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}&v=20260902b`;
+      const src = `../lab-grade-boards/home.html?embed=1&preview=1&id=${encodeURIComponent(boardCode)}&v=20260913a`;
       return `<div class="board-preview">
         <h3>安全信息电子牌</h3>
         <div class="board-viewport" id="board-viewport" title="点击放大查看">
@@ -505,18 +505,56 @@
         const meta = el.querySelector('#board-shot-meta');
         if(meta && w && h) meta.textContent = `高清成图 ${w}×${h}，与「安全信息」导出 JPG 同源`;
       };
-      const showBoardFail = (msg) => {
+      const showBoardFail = (msg, signIn) => {
         if(el._boardReady) return;
         el._boardReady = true;
         if(loading){
           loading.classList.remove('hidden');
-          loading.innerHTML = `${esc(msg||'信息牌成图失败')} <a href="../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}" target="_blank" rel="noopener">打开可编辑信息牌</a>`;
+          loading.innerHTML = signIn
+            ? `${esc(msg||'登录状态已失效')} <a href="/sign-in?next=${encodeURIComponent(location.pathname)}">重新登录</a>`
+            : `${esc(msg||'信息牌成图失败')} <a href="../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}" target="_blank" rel="noopener">打开可编辑信息牌</a>`;
+        }
+      };
+      const mountDomFallback = (msg) => {
+        const frame = el.querySelector('.board-render-frame');
+        if(!frame) return;
+        el._boardReady = true;
+        if(loading) loading.classList.add('hidden');
+        if(img) img.classList.add('hidden');
+        if(dl) dl.disabled = true;
+        if(printBtn) printBtn.disabled = true;
+        const meta = el.querySelector('#board-shot-meta');
+        if(meta) meta.textContent = '当前浏览器不支持图片成图，已改用网页版信息牌';
+        const w = Math.max(1, msg && msg.w || 1123);
+        const h = Math.max(1, msg && msg.h || 794);
+        if(viewport){
+          frame.classList.add('dom-fallback');
+          if(frame.parentElement !== viewport) viewport.appendChild(frame);
+          frame.style.height = Math.round(h * (viewport.clientWidth / w)) + 'px';
         }
       };
       el._boardShowShot = showShot;
       el._boardShowFail = showBoardFail;
-      window.setTimeout(() => showBoardFail('信息牌成图超时。'), 22000);
+      el._boardMountDom = mountDomFallback;
+      window.setTimeout(() => showBoardFail('信息牌成图超时，请检查网络后刷新重试。'), 22000);
       if(viewport) viewport.onclick = () => { if(img && img.src) openBoardLightbox(img.src); };
+      // iframe 加载完成即探测：同源读取文档，识别登录失效（401 JSON / 登录页），立即提示而非空等超时
+      const frame = el.querySelector('.board-render-frame');
+      if(frame) frame.addEventListener('load', () => {
+        if(el._boardReady) return;
+        window.setTimeout(() => {
+          if(el._boardReady) return;
+          try{
+            const doc = frame.contentDocument;
+            if(!doc) return;
+            const txt = ((doc.body && doc.body.textContent) || '').slice(0, 300);
+            const title = doc.title || '';
+            if(txt.indexOf('未登录') >= 0 || title.indexOf('登录') >= 0){
+              showBoardFail('登录状态已失效，请先重新登录。', true);
+            }
+          }catch(_){ /* 跨源等异常忽略 */ }
+        }, 1200);
+      });
       if(dl) dl.onclick = e => {
         e.stopPropagation();
         if(!img || !img.src) return;
@@ -607,7 +645,7 @@
       info: () => infoView(),
       safety: () => {
         if(!boardCode) return '<p class="hint">本教室尚未对齐实训安全台账。</p>';
-        const src = `../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}&v=20260902b`;
+        const src = `../lab-grade-boards/home.html?embed=1&edit=1&id=${encodeURIComponent(boardCode)}&v=20260913a`;
         return `<p class="hint">在此编辑信息牌字段（等级、类别、负责人、事故诱因、防护措施、灭火要点等）。保存后「基础信息」页将显示最新成图。</p>
           <iframe class="board-edit-frame" title="安全信息牌编辑" src="${esc(src)}" loading="lazy"></iframe>`;
       },
@@ -926,6 +964,14 @@
     if(data && data.type === 'lab-board-image-error'){
       const panel = document.querySelector('[data-panel="info"]');
       if(panel && panel._boardShowFail) panel._boardShowFail(data.message || '信息牌成图失败');
+    }
+    if(data && data.type === 'lab-board-dom-fallback'){
+      const panel = document.querySelector('[data-panel="info"]');
+      if(panel && panel._boardMountDom) panel._boardMountDom(data);
+    }
+    if(data && data.type === 'lab-board-boot-error'){
+      const panel = document.querySelector('[data-panel="info"]');
+      if(panel && panel._boardShowFail) panel._boardShowFail('信息牌数据加载失败：' + (data.message || ''), false);
     }
   });
 })();

@@ -186,6 +186,9 @@ body.embed-preview #tab-board{display:block!important}
 body.embed-preview .layout{display:block}
 body.embed-preview .board-wrap{padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;background:#ececec}
 body.embed-preview .board-wrap .board.a4-board{display:none}
+/* 成图失败时的 DOM 牌兜底显示（由 enableDomFallback 开启） */
+body.embed-preview .board-wrap.dom-fallback{overflow:hidden}
+body.embed-preview .board-wrap.dom-fallback .board.a4-board{display:grid;box-shadow:0 2px 10px rgba(0,0,0,.18);background:#fff}
 body.embed-preview .board-shot-img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#ececec}
 body.embed-preview .preview-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;border-top:1px solid #ddd}
 body.embed-preview .preview-bar .btn{min-height:40px}
@@ -334,9 +337,13 @@ function showBootError(err){
   const box=document.getElementById("bootError");
   if(!box){ alert(String(err)); return; }
   box.style.display="block";
-  box.textContent="页面加载失败：\\n"+String(err&&err.stack||err)+"\\n\\n请双击同目录 open.bat（不要直接打开 HTML）。";
+  box.textContent="页面加载失败：\n"+String(err&&err.stack||err)+"\n\n请双击同目录 open.bat（不要直接打开 HTML）。";
   const st=document.getElementById("statusline");
   if(st) st.textContent="加载失败";
+  // 嵌入模式下立即通知父页面失败原因，避免父页面空等 22 秒超时
+  if(window.parent!==window){
+    window.parent.postMessage({type:"lab-board-boot-error",message:String(err&&err.message||err)},"*");
+  }
 }
 function loadRawData(){
   if(typeof window.LAB_RAW==="object" && window.LAB_RAW && Array.isArray(window.LAB_RAW.rooms)){
@@ -646,7 +653,13 @@ async function captureBoardCanvas(){
   el.style.visibility="visible";
   el.style.margin="0";
   el.style.zIndex="-1";
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  // 移动端（iOS 低电量模式、微信 WebView 等）对不可见 iframe 会节流/暂停 rAF，
+  // 双 rAF 等待可能永不回调导致成图卡死；用 setTimeout 兜底竞速。
+  await new Promise(r=>{
+    let done=false; const fin=()=>{ if(!done){ done=true; r(); } };
+    requestAnimationFrame(()=>requestAnimationFrame(fin));
+    setTimeout(fin,180);
+  });
   const baseW=el.offsetWidth||Math.round(297*96/25.4);
   const baseH=el.offsetHeight||Math.round(210*96/25.4);
   const previewInParent=/preview=1/.test(location.search) && window.parent!==window;
@@ -722,7 +735,39 @@ async function publishBoardPreview(){
     if(window.parent!==window){
       window.parent.postMessage({type:"lab-board-image-error",id:currentId,message:String(err&&err.message||err)},"*");
     }
+    // 成图失败（移动端内存/canvas 限制等）：退回 DOM 牌直接展示，保证信息牌可见
+    enableDomFallback(String(err&&err.message||err));
   }
+}
+// 成图失败兜底：把真实 DOM 信息牌按容器宽度缩放显示在 iframe 内，并通知父页面挂载
+function enableDomFallback(reason){
+  const el=document.getElementById("board");
+  if(!el || el.dataset.domFallback==="1") return;
+  el.dataset.domFallback="1";
+  const wrap=el.closest(".board-wrap");
+  if(wrap){
+    wrap.classList.add("dom-fallback");
+    fitDomFallback();
+    window.addEventListener("resize",fitDomFallback);
+  }
+  if(window.parent!==window){
+    window.parent.postMessage({type:"lab-board-dom-fallback",id:currentId,message:String(reason||""),
+      w:el.offsetWidth||1123,h:el.offsetHeight||794},"*");
+  }
+}
+function fitDomFallback(){
+  const el=document.getElementById("board");
+  const wrap=el&&el.closest(".board-wrap");
+  if(!el||!wrap) return;
+  el.style.display="grid";
+  el.style.transform="none";
+  el.style.marginBottom="0";
+  const availW=Math.max(120,wrap.clientWidth-12);
+  const baseW=el.offsetWidth||1123, baseH=el.offsetHeight||794;
+  const s=Math.min(1,availW/baseW);
+  el.style.transform=`scale(${s})`;
+  el.style.transformOrigin="top left";
+  el.style.marginBottom=`-${(baseH*(1-s)).toFixed(1)}px`;
 }
 function setupPreviewBar(){
   if(!/preview=1/.test(location.search)) return;

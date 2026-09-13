@@ -107,6 +107,8 @@ input[type=text],input[type=number],textarea{
 .board-toolbar .hint{margin:0;font-size:12px}
 .board-toolbar .btn:disabled{opacity:.45;cursor:not-allowed}
 .board-render-frame{position:fixed;left:-10000px;top:0;width:1280px;height:960px;border:0;opacity:0;pointer-events:none}
+/* 成图失败时的 DOM 牌兜底：iframe 移入视口内直接展示网页版信息牌 */
+.board-render-frame.dom-fallback{position:static;left:auto;top:auto;opacity:1;pointer-events:auto;width:100%;background:#ececec;border-radius:8px}
 .hidden{display:none!important}
 .board-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
 .board-lightbox[hidden]{display:none!important}
